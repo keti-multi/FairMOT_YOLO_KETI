@@ -418,6 +418,7 @@ class JointDataset(LoadImagesAndLabels):  # for training
             max_index = -1
             for lp in label_paths:
                 lb = np.loadtxt(lp)
+
                 if len(lb) < 1:
                     continue
                 if len(lb.shape) < 2:
