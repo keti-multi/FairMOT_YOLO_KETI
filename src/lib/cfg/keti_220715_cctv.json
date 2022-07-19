@@ -1,0 +1,19 @@
+{
+    "data":"/media/syh/ssd2/data",
+    "root":"/home/syh/workspace/multi/FairMOT_YOLO_KETI",
+    "train":
+    {
+        "keti_220715_cctv":"./data/keti_220715_cctv.train",
+        "keti_220715_cctv_2":"./data/keti_220715_cctv_2.train"
+    },
+    "test_emb":
+    {
+        "keti_220715_cctv":"./data/keti_220715_cctv.train",
+        "keti_220715_cctv_2":"./data/keti_220715_cctv_2.train"
+    },
+    "test":
+    {
+        "keti_220715_cctv":"./data/keti_220715_cctv.train",
+        "keti_220715_cctv_2":"./data/keti_220715_cctv_2.train"
+    }
+}

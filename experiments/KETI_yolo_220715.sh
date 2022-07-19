@@ -26,7 +26,14 @@
 ## MOT16-04
 #python train.py mot --gpus 1 --exp_id all_yolov5s --data_cfg '../src/lib/cfg/mot16-04.json' --image-width 288 --image-height 160 --lr 5e-4 --batch_size 16 --num_epochs 1000 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64
 
-python ../src/train.py mot --gpus 1 --exp_id keti_220715_kiosk_yolov5s_160_288 --data_cfg '../src/lib/cfg/keti_220715_kiosk.json' --image-width 160 --image-height 288 --lr 5e-4 --batch_size 16 --num_epochs 1000 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64
+##keti yolo
+#python ../src/train.py mot --gpus 1 --exp_id keti_220715_kiosk_yolov5s_160_288 --data_cfg '../src/lib/cfg/keti_220715_kiosk.json' --image-width 160 --image-height 288 --lr 5e-4 --batch_size 16 --num_epochs 1000 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64
 
+#python ../src/train.py mot --gpus 1 --exp_id keti_220715_kiosk_yolov5s_160_288 --data_cfg '../src/lib/cfg/keti_220715_kiosk.json' --image-width 160 --image-height 288 --lr 5e-4 --batch_size 16 --num_epochs 1000 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64
+
+
+## keti cctv
+
+python ../src/train.py mot --gpus 0 --exp_id keti_220715_cctv_yolov5s_288_160 --data_cfg '../src/lib/cfg/keti_220715_cctv.json' --image-width 288 --image-height 160 --lr 5e-4 --batch_size 16 --num_epochs 200 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64
 
 #tensorboard --logdir=/home/syh/workspace/multi/FairMOT_YOLO_KETI/exp/mot/keti_220715_kiosk_yolov5s/logs_2022-07-15-22-10

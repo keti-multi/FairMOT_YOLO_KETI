@@ -31,7 +31,7 @@ class opts(object):
     self.parser.add_argument('--make-rknn', default='')
     self.parser.add_argument('--make-hybrid1', default='')
     self.parser.add_argument('--make-hybrid2', default='')
-    self.parser.add_argument('--run-rknn', default='/home/hjlee/old/FairMOT/models/yolov5.rknn')
+    self.parser.add_argument('--run-rknn', default='')
     # self.parser.add_argument('--run-rknn', default='')
 
     # system

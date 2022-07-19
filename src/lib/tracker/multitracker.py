@@ -23,7 +23,7 @@ from tracker import matching
 
 from .basetrack import BaseTrack, TrackState
 
-from rknn.api import RKNN
+#from rknn.api import RKNN
 import onnx
 import onnxruntime as ort
 import json
