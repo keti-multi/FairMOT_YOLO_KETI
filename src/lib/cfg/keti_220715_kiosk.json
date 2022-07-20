@@ -3,14 +3,14 @@
     "root":"/home/syh/workspace/multi/FairMOT_YOLO_KETI",
     "train":
     {
-        "mot16":"./data/keti_220715_kiosk.train"
+        "keti_220715_keti":"./data/keti_220715_kiosk.train"
     },
     "test_emb":
     {
-        "mot16":"./data/keti_220715_kiosk.train"
+        "keti_220715_keti":"./data/keti_220715_kiosk.train"
     },
     "test":
     {
-        "mot16":"./data/keti_220715_kiosk.train"
+        "keti_220715_keti":"./data/keti_220715_kiosk.train"
     }
 }

@@ -161,5 +161,12 @@
 #python demo.py mot --load_model ../models/model_200.pth --arch yolo --reid_dim 64 --conf_thres 0.4 --gpus -1 --image-width 288 --image-height 160 --input-format 'images' --input-image-dir '/media/syh/ssd2/data/keti_220715_cctv_2/images/train/keti_220715_cctv_2/img1' --output-root '/media/syh/ssd2/data/outputs' #--run-rknn ''#../models/yolov5.rknn
 #python demo.py mot --load_model /home/syh/workspace/multi/FairMOT_YOLO_KETI/exp/mot/keti_220715_cctv_yolov5s_288_160/model_5.pth --arch yolo --reid_dim 64 --conf_thres 0.1 --gpus -1 --image-width 288 --image-height 160 --input-format 'images' --input-image-dir '/media/syh/ssd2/data/keti_220715_cctv_2/images/train/keti_220715_cctv_2/img1' --output-root '/media/syh/ssd2/data/outputs' #--run-rknn ''#../models/yolov5.rknn
 
-python demo.py mot --load_model /media/syh/ssd2/checkpoints/exp/mot/keti_220715_kiosk_yolov5s/model_last.pth --arch yolo --reid_dim 64 --conf_thres 0.1 --gpus -1 --image-width 288 --image-height 160 --input-format 'images' --input-image-dir '/media/syh/ssd2/data/keti_220715_cctv_2/images/train/keti_220715_cctv_2/img1' --output-root '/media/syh/ssd2/data/outputs' #--run-rknn ''#../models/yolov5.rknn
+#python demo.py mot --load_model /media/syh/ssd2/checkpoints/exp/mot/keti_220715_kiosk_yolov5s/model_last.pth --arch yolo --reid_dim 64 --conf_thres 0.1 --gpus -1 --image-width 288 --image-height 160 --input-format 'images' --input-image-dir '/media/syh/ssd2/data/keti_220715_cctv_2/images/train/keti_220715_cctv_2/img1' --output-root '/media/syh/ssd2/data/outputs' #--run-rknn ''#../models/yolov5.rknn
+#python demo.py mot --load_model /media/syh/ssd2/checkpoints/exp/mot/keti_220715_kiosk_yolov5s/model_last.pth --arch yolo --reid_dim 64 --conf_thres 0.1 --gpus -1 --image-width 288 --image-height 160 --input-format 'images' --input-image-dir '/media/syh/ssd2/data/keti_220715_kiosk/images/train/keti_220715_kiosk/img1' --output-root '/media/syh/ssd2/data/outputs' #--run-rknn ''#../models/yolov5.rknn
+
+## 220720 kiosk labels_with_ids 수정후 재학
+python demo.py mot --load_model /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/keti_220715_kiosk_yolov5s_160_288/model_last.pth --arch yolo --reid_dim 64 --conf_thres 0.1 --gpus -1 --image-width 160 --image-height 288 --input-format 'images' --input-image-dir '/media/syh/ssd2/data/keti_220715_kiosk/images/train/keti_220715_kiosk/img1' --output-root '/media/syh/ssd2/data/outputs' #--run-rknn ''#../models/yolov5.rknn
+
+
+
 

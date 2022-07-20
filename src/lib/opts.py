@@ -96,6 +96,7 @@ class opts(object):
     self.parser.add_argument('--trainval', action='store_true',
                              help='include validation in training and '
                                   'test on test set')
+    self.parser.add_argument('--save_dir', type=str, default='', help='path to the directory model saved')
 
     # test
     self.parser.add_argument('--K', type=int, default=500,
@@ -220,7 +221,8 @@ class opts(object):
 
     opt.root_dir = os.path.join(os.path.dirname(__file__), '..', '..')
     opt.exp_dir = os.path.join(opt.root_dir, 'exp', opt.task)
-    opt.save_dir = os.path.join(opt.exp_dir, opt.exp_id)
+    if opt.save_dir == '':
+        opt.save_dir = os.path.join(opt.exp_dir, opt.exp_id)
     opt.debug_dir = os.path.join(opt.save_dir, 'debug')
     print('The output will be saved to ', opt.save_dir)
     

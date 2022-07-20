@@ -1,0 +1,1 @@
+python -W ignore ./train.py mot --gpus 0 --exp_id keti_220715_kiosk_yolov5s_160_288_test --data_cfg './lib/cfg/keti_220715_kiosk.json' --image-width 160 --image-height 288 --lr 5e-4 --batch_size 16 --num_epochs 1000 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64 --save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/keti_220715_kiosk_yolov5s_160_288_test
