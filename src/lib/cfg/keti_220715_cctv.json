@@ -13,7 +13,6 @@
     },
     "test":
     {
-        "keti_220715_cctv":"./data/keti_220715_cctv.train",
-        "keti_220715_cctv_2":"./data/keti_220715_cctv_2.train"
+        "keti_220715_cctv_3":"./data/keti_220715_cctv_3.test"
     }
 }

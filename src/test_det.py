@@ -209,7 +209,7 @@ def test_det(
     return mean_mAP, mean_R, mean_P
 
 if __name__ == '__main__':
-    os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+    #os.environ['CUDA_VISIBLE_DEVICES'] = '1'
     opt = opts().init()
     with torch.no_grad():
         map = test_det(opt, batch_size=4)
