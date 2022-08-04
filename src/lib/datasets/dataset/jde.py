@@ -417,8 +417,13 @@ class JointDataset(LoadImagesAndLabels):  # for training
         for ds, label_paths in self.label_files.items():
             max_index = -1
             for lp in label_paths:
+                # if os.path.exists(lp):
+                #     lb = np.loadtxt(lp)
+                # else:
+                #     with open(lp, "w") as f:
+                #         f.write("")
+                #     lb = np.loadtxt(lp)
                 lb = np.loadtxt(lp)
-
                 if len(lb) < 1:
                     continue
                 if len(lb.shape) < 2:
@@ -550,7 +555,14 @@ class DetDataset(LoadImagesAndLabels):  # for training
         for ds, label_paths in self.label_files.items():
             max_index = -1
             for lp in label_paths:
+                # if os.path.exists(lp):
+                #     lb = np.loadtxt(lp)
+                # else:
+                #     with open(lp, "w") as f:
+                #         f.write("")
+                #     lb = np.loadtxt(lp)
                 lb = np.loadtxt(lp)
+
                 if len(lb) < 1:
                     continue
                 if len(lb.shape) < 2:
