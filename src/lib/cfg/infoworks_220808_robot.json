@@ -1,0 +1,19 @@
+{
+    "data":"/media/syh/ssd2/data",
+    "root":"/home/syh/workspace/multi/FairMOT_YOLO_KETI",
+    "train":
+    {
+        "infoworks_220808_robot":"./data/infoworks_220808_robot.train",
+        "infoworks_220808_robot_2":"./data/infoworks_220808_robot_2.train"
+    },
+    "test_emb":
+    {
+        "infoworks_220725_cctv":"./data/infoworks_220725_cctv.train"
+    },
+    "test":
+    {
+        "infoworks_220808_robot":"./data/infoworks_220808_robot.test",
+        "infoworks_220808_robot_2":"./data/infoworks_220808_robot_2.test"
+
+    }
+}
