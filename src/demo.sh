@@ -165,7 +165,7 @@
 #python demo.py mot --load_model /media/syh/ssd2/checkpoints/exp/mot/keti_220715_kiosk_yolov5s/model_last.pth --arch yolo --reid_dim 64 --conf_thres 0.1 --gpus -1 --image-width 288 --image-height 160 --input-format 'images' --input-image-dir '/media/syh/ssd2/data/keti_220715_kiosk/images/train/keti_220715_kiosk/img1' --output-root '/media/syh/ssd2/data/outputs' #--run-rknn ''#../models/yolov5.rknn
 
 ## 220720 kiosk labels_with_ids 수정후 재학
-python demo.py mot --load_model /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/keti_220715_kiosk_yolov5s_160_288_re/model_last.pth --arch yolo --reid_dim 64 --conf_thres 0.1 --gpus -1 --image-width 160 --image-height 288 --input-format 'images' --input-image-dir '/media/syh/ssd2/data/keti_220715_kiosk/images/train/keti_220715_kiosk/img1' --output-root '/media/syh/ssd2/data/outputs' #--run-rknn ''#../models/yolov5.rknn
+#python demo.py mot --load_model /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/keti_220715_kiosk_yolov5s_160_288_re/model_last.pth --arch yolo --reid_dim 64 --conf_thres 0.1 --gpus -1 --image-width 160 --image-height 288 --input-format 'images' --input-image-dir '/media/syh/ssd2/data/keti_220715_kiosk/images/train/keti_220715_kiosk/img1' --output-root '/media/syh/ssd2/data/outputs' #--run-rknn ''#../models/yolov5.rknn
 
 
 ## 220720 cctv labels_with_ids 수정후 재학
@@ -174,6 +174,18 @@ python demo.py mot --load_model /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp
 
 
 
+
+# 220816
+#python demo.py mot --load_model '/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/infoworks_220808_robot_yolov5s_5ep_288_160_with_test/model_best_201.pth' \
+#--arch yolo --reid_dim 64 --conf_thres 0.1 --gpus -1 --image-width 160 --image-height 288 --input-format 'images' \
+#--input-image-dir '/media/syh/hdd/data/infoworks_220808_robot_2/images/train/20220808_infoworks_robot_2/img1' \
+#--output-root '/media/syh/hdd/data/infoworks_220808_robot_2/output' #--run-rknn ''#../models/yolov5.rknn
+
+# 220816
+python demo.py mot --load_model '/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/infoworks_220725_cctv_yolov5s_5ep_288_160_with_testc/model_best_44.pth' \
+--arch yolo --reid_dim 64 --conf_thres 0.1 --gpus 0 --image-width 160 --image-height 288 --input-format 'images' \
+--input-image-dir '/media/syh/hdd/data/infoworks_220725_cctv/images/train/infoworks_220725_cctv/img1' \
+--output-root '/media/syh/hdd/data/infoworks_220725_cctv/output' #--run-rknn ''#../models/yolov5.rknn
 
 
 

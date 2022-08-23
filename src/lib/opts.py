@@ -256,7 +256,7 @@ class opts(object):
       if opt.reg_offset:
         opt.heads.update({'reg': 2})
       opt.nID = dataset.nID
-      opt.img_size = (1088, 608)
+      #opt.img_size = (1088, 608)
       opt.img_size = (opt.image_width, opt.image_height)
       #opt.img_size = (1088, 608)
       # opt.img_size = (864, 480)

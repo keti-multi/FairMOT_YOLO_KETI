@@ -265,6 +265,7 @@ def main(opt):
     test_path = data_cfg_dict_test['test']
     dataset_root = data_cfg_dict_test['root']
     test_transforms = T.Compose([T.ToTensor()])
+
     dataset = DetDataset(dataset_root, test_path, img_size, augment=False, transforms=test_transforms)
     test_loader = torch.utils.data.DataLoader(dataset, batch_size=4, shuffle=False,
                                              num_workers=8, drop_last=False, collate_fn=collate_fn)

@@ -194,6 +194,7 @@ class JDETracker(object):
         self.model = self.model.to(opt.device)
         self.model.eval()
 
+
         if opt.make_onnx != '':
             self.Convert_ONNX(self.model)
             exit(-1)
@@ -415,6 +416,18 @@ class JDETracker(object):
 
     def update(self, im_blob, img0):
         self.frame_id += 1
+
+        # print(self.model)
+        # from torchsummary import summary
+        from pytorch_model_summary import summary
+
+        # print(im_blob.shape)
+        #
+        summary(self.model, im_blob, batch_size=-1, show_input=False, show_hierarchical=False, print_summary=True,
+                max_depth=1, show_parent_layers=False)
+        # summary(,,input_size=(3,288,160))
+        raise KeyboardInterrupt
+
         activated_starcks = []
         refind_stracks = []
         lost_stracks = []

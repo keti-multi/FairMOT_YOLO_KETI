@@ -75,11 +75,16 @@ def test_det(
     #model = torch.nn.DataParallel(model)
     model = model.to(opt.device)
     model.eval()
+    # from torchinfo import summary
+    #
+    # summary(model)
 
     # Get dataloader
     transforms = T.Compose([T.ToTensor()])
 
     dataset = DetDataset(dataset_root, test_path, img_size, augment=False, transforms=transforms)
+    dataset = Dataset(opt, dataset_root, trainset_paths, trainset_root, img_size, augment=False, transforms=transforms)
+
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=False,
                                              num_workers=8, drop_last=False, collate_fn=collate_fn)
 
@@ -180,7 +185,8 @@ def test_det(
                         detected.append(best_i)
                     else:
                         correct.append(0)
-
+            print("dets : ",dets)
+            print("target_cls : ",target_cls)
             # Compute Average Precision (AP) per class
             AP, AP_class, R, P = ap_per_class(tp=correct,
                                               conf=dets[:, 4],

@@ -16,7 +16,7 @@ import copy
 
 from torch.utils.data import Dataset
 from torchvision.transforms import transforms as T
-from cython_bbox import bbox_overlaps as bbox_ious
+#from cython_bbox import bbox_overlaps as bbox_ious
 from opts import opts
 from utils.image import gaussian_radius, draw_umich_gaussian, draw_msra_gaussian
 from utils.utils import xyxy2xywh, generate_anchors, xywh2xyxy, encode_delta
@@ -417,12 +417,6 @@ class JointDataset(LoadImagesAndLabels):  # for training
         for ds, label_paths in self.label_files.items():
             max_index = -1
             for lp in label_paths:
-                # if os.path.exists(lp):
-                #     lb = np.loadtxt(lp)
-                # else:
-                #     with open(lp, "w") as f:
-                #         f.write("")
-                #     lb = np.loadtxt(lp)
                 lb = np.loadtxt(lp)
                 if len(lb) < 1:
                     continue
@@ -555,14 +549,7 @@ class DetDataset(LoadImagesAndLabels):  # for training
         for ds, label_paths in self.label_files.items():
             max_index = -1
             for lp in label_paths:
-                # if os.path.exists(lp):
-                #     lb = np.loadtxt(lp)
-                # else:
-                #     with open(lp, "w") as f:
-                #         f.write("")
-                #     lb = np.loadtxt(lp)
                 lb = np.loadtxt(lp)
-
                 if len(lb) < 1:
                     continue
                 if len(lb.shape) < 2:
