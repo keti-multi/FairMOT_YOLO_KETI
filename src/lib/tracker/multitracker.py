@@ -421,12 +421,14 @@ class JDETracker(object):
         # from torchsummary import summary
         from pytorch_model_summary import summary
 
+
+        ## 220824 KETI_MUF syh check model param storage
         # print(im_blob.shape)
         #
-        summary(self.model, im_blob, batch_size=-1, show_input=False, show_hierarchical=False, print_summary=True,
-                max_depth=1, show_parent_layers=False)
+        # summary(self.model, im_blob, batch_size=-1, show_input=False, show_hierarchical=False, print_summary=True,
+        #         max_depth=1, show_parent_layers=False)
         # summary(,,input_size=(3,288,160))
-        raise KeyboardInterrupt
+        # raise KeyboardInterrupt
 
         activated_starcks = []
         refind_stracks = []
@@ -565,16 +567,16 @@ class JDETracker(object):
         id_feature = id_feature[remain_inds]
 
         # vis0
-        '''
-        for i in range(0, dets.shape[0]):
-            bbox = dets[i][0:4]
-            cv2.rectangle(img0, (bbox[0], bbox[1]),
-                          (bbox[2], bbox[3]),
-                          (0, 255, 0), 2)
-        cv2.imshow('dets', img0)
-        cv2.waitKey(0)
-        id0 = id0-1
-        '''
+
+        # for i in range(0, dets.shape[0]):
+        #     bbox = dets[i][0:4]
+        #     cv2.rectangle(img0, (bbox[0], bbox[1]),
+        #                   (bbox[2], bbox[3]),
+        #                   (0, 255, 0), 2)
+        # cv2.imshow('dets', img0)
+        # cv2.waitKey(0)
+        #id0 = id0-1
+
 
 
         if len(dets) > 0:
