@@ -97,7 +97,6 @@ class Evaluator(object):
 
         return self.acc
 
-
     @staticmethod
     def get_summary(accs, names, metrics=('mota', 'num_switches', 'idp', 'idr', 'idf1', 'precision', 'recall')):
         names = copy.deepcopy(names)

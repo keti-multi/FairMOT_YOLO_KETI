@@ -17,7 +17,7 @@ from tracker.multitracker import JDETracker
 from tracking_utils import visualization as vis
 from tracking_utils.log import logger
 from tracking_utils.timer import Timer
-from tracking_utils.evaluation_MUF import Evaluator
+from tracking_utils.evaluation import Evaluator
 import datasets.dataset.jde as datasets
 
 from tracking_utils.utils import mkdir_if_missing
@@ -68,7 +68,7 @@ def write_results_score(filename, results, data_type):
     logger.info('save results to {}'.format(filename))
 
 
-def eval_seq(opt, dataloader, data_type, result_filename, save_dir=None, show_image=True, frame_rate=30, use_cuda=True):
+def eval_seq(opt, x, dataloader, data_type, result_filename, save_dir=None, show_image=True, frame_rate=30, use_cuda=True):
     if save_dir:
         mkdir_if_missing(save_dir)
     tracker = JDETracker(opt, frame_rate=frame_rate)
@@ -89,10 +89,9 @@ def eval_seq(opt, dataloader, data_type, result_filename, save_dir=None, show_im
         # if frame_id == 500:
         #     logger.info('Processing frame {} ({:.2f} fps)'.format(frame_id, 1. / max(1e-5, timer.average_time)))
         #     break
-
-        # if opt.seqs == 0:
-        #     if i == 100 * x:
-        #         break
+        if opt.seqs == 0:
+            if i == 100 * x:
+                break
 
         # run tracking
         timer.tic()
@@ -147,75 +146,51 @@ def main(opt, data_root='/data/MOT16/train', det_root=None, seqs=('MOT16-05',), 
         accs = []
         n_frame = 0
         timer_avgs, timer_calls = [], []
-
-        ## 영상 목록 for
         for seq in seqs:
             result_root = os.path.join(data_root, '..', 'results', exp_name)  # exp_name -> seqs
             dir = os.listdir(osp.join(data_root, seq, 'img1'))
-            print("range(1, int(len(dir) / 100)+1) : ", range(1, int(len(dir) / 100)+1))
-            #raise KeyboardInterrupt
-            #for x in range(1, int(len(dir) / 100)+1):
-            accs = []
-            n_frame = 0
-            timer_avgs, timer_calls = [], []
-            output_dir = os.path.join(data_root, '..', 'outputs', exp_name, seq) if save_images or save_videos else None
-            logger.info('start seq: {}'.format(seq))
+            for x in range(1, int(len(dir) / 100)+1):
+                accs = []
+                n_frame = 0
+                timer_avgs, timer_calls = [], []
+                output_dir = os.path.join(data_root, '..', 'outputs', exp_name, seq) if save_images or save_videos else None
+                logger.info('start seq: {}'.format(seq))
+                dataloader = datasets.LoadImages(osp.join(data_root, seq, 'img1'), opt.img_size)
+                result_filename = os.path.join(result_root, '{}.txt'.format(seq))
+                meta_info = open(os.path.join(data_root, seq, 'seqinfo.ini')).read()
+                frame_rate = int(meta_info[meta_info.find('frameRate') + 10:meta_info.find('\nseqLength')])
+                nf, ta, tc = eval_seq(opt, x, dataloader, data_type, result_filename,
+                                    save_dir=output_dir, show_image=show_image, frame_rate=frame_rate)
+                n_frame += nf
+                timer_avgs.append(ta)
+                timer_calls.append(tc)
 
+                # eval
+                logger.info('Evaluate seq: {}'.format(seq))
+                evaluator = Evaluator(data_root, seq, data_type)
+                accs.append(evaluator.eval_file(result_filename))
+                if save_videos:
+                    output_video_path = osp.join(output_dir, '{}.mp4'.format(seq))
+                    cmd_str = 'ffmpeg -f image2 -i {}/%05d.jpg -c:v copy {}'.format(output_dir, output_video_path)
+                    os.system(cmd_str)
 
+                timer_avgs = np.asarray(timer_avgs)
+                timer_calls = np.asarray(timer_calls)
+                all_time = np.dot(timer_avgs, timer_calls)
+                avg_time = all_time / np.sum(timer_calls)
+                logger.info('Time elapsed: {:.2f} seconds, FPS: {:.2f}'.format(all_time, 1.0 / avg_time))
 
-
-            dataloader = datasets.LoadImages(osp.join(data_root, seq, 'img1'), opt.img_size)
-            result_filename = os.path.join(result_root, '{}.txt'.format(seq))
-            meta_info = open(os.path.join(data_root, seq, 'seqinfo.ini')).read()
-            frame_rate = int(meta_info[meta_info.find('frameRate') + 10:meta_info.find('\nseqLength')])
-
-
-
-
-
-            nf, ta, tc = eval_seq(opt, dataloader, data_type, result_filename,
-                                save_dir=output_dir, show_image=show_image, frame_rate=frame_rate)
-
-
-            n_frame += nf
-            timer_avgs.append(ta)
-            timer_calls.append(tc)
-
-            # eval
-            logger.info('Evaluate seq: {}'.format(seq))
-            evaluator = Evaluator(data_root, seq, data_type)
-            accs.append(evaluator.eval_file(result_filename))
-
-
-
-
-
-            if save_videos:
-                output_video_path = osp.join(output_dir, '{}.mp4'.format(seq))
-                cmd_str = 'ffmpeg -f image2 -i {}/%05d.jpg -c:v copy {}'.format(output_dir, output_video_path)
-                os.system(cmd_str)
-
-            timer_avgs = np.asarray(timer_avgs)
-            timer_calls = np.asarray(timer_calls)
-            all_time = np.dot(timer_avgs, timer_calls)
-            avg_time = all_time / np.sum(timer_calls)
-            logger.info('Time elapsed: {:.2f} seconds, FPS: {:.2f}'.format(all_time, 1.0 / avg_time))
-
-            # get summary
-
-
-
-
-            metrics = mm.metrics.motchallenge_metrics
-            mh = mm.metrics.create()
-            summary = Evaluator.get_summary(accs, seqs, metrics)
-            strsummary = mm.io.render_summary(
-                summary,
-                formatters=mh.formatters,
-                namemap=mm.io.motchallenge_metric_names
-            )
-            print(strsummary)
-            Evaluator.save_summary(summary, os.path.join(result_root, 'summary_{}_{}.xlsx'.format(exp_name, n_frame)))
+                # get summary
+                metrics = mm.metrics.motchallenge_metrics
+                mh = mm.metrics.create()
+                summary = Evaluator.get_summary(accs, seqs, metrics)
+                strsummary = mm.io.render_summary(
+                    summary,
+                    formatters=mh.formatters,
+                    namemap=mm.io.motchallenge_metric_names
+                )
+                print(strsummary)
+                Evaluator.save_summary(summary, os.path.join(result_root, 'summary_{}_{}.xlsx'.format(exp_name, n_frame)))
 
     if opt.seqs == 1:
         logger.setLevel(logging.INFO)
@@ -364,15 +339,18 @@ if __name__ == '__main__':
                       '''
         data_root = os.path.join(opt.data_dir, 'MOT20/images/test')
     if opt.test_muf:
-        seqs_str = '''infoworks_220725_cctv
+        seqs_str = '''MOT20-04
+                      MOT20-06
+                      MOT20-07
+                      MOT20-08
                       '''
-        data_root = os.path.join(opt.data_dir, 'infoworks_220725_cctv/images/train')
+        data_root = os.path.join(opt.data_dir, 'MOT20/images/test')
     seqs = [seq.strip() for seq in seqs_str.split()]
 
     main(opt,
          data_root=data_root,
          seqs=seqs,
-         exp_name='MUF_train_yolov5_{}_{}'.format(opt.image_width, opt.image_height),
-         show_image=True,
+         exp_name='MOT16_train_yolov5_{}_{}'.format(opt.image_width, opt.image_height),
+         show_image=False,
          save_images=False,
          save_videos=False)
