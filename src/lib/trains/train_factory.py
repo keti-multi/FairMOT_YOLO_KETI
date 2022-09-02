@@ -7,4 +7,5 @@ from .mot import MotTrainer
 
 train_factory = {
   'mot': MotTrainer,
+  'mot_att': MotAttTrainer
 }
