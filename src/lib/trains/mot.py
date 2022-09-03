@@ -110,17 +110,42 @@ class MotAttLoss(torch.nn.Module):
         self.emb_dim = opt.reid_dim
         self.nID = opt.nID
         self.classifier = nn.Linear(self.emb_dim, self.nID)
+
+
+
         if opt.id_loss == 'focal':
             torch.nn.init.normal_(self.classifier.weight, std=0.01)
             prior_prob = 0.01
             bias_value = -math.log((1 - prior_prob) / prior_prob)
             torch.nn.init.constant_(self.classifier.bias, bias_value)
         self.IDLoss = nn.CrossEntropyLoss(ignore_index=-1)
+
+        self.classifier = nn.Linear(self.emb_dim, self.nID)
+
+
+        # # Hair_style
+        # self.classifier_att1 = nn.Linear(self.emb_dim, 16)
+        # # Hair_color
+        # self.classifier_att2 = nn.Linear(self.emb_dim, 16)
+        # # Top_style
+        # self.classifier_att3 = nn.Linear(self.emb_dim, 6)
+        # # Top_Color
+        # self.classifier_att4 = nn.Linear(self.emb_dim, 16)
+        # # Bottom_style
+        # self.classifier_att5 = nn.Linear(self.emb_dim, 6)
+        # # Bottom_Color
+        # self.classifier_att6 = nn.Linear(self.emb_dim, 16)
+
+
         self.emb_scale = math.sqrt(2) * math.log(self.nID - 1)
         self.s_det = nn.Parameter(-1.85 * torch.ones(1))
         self.s_id = nn.Parameter(-1.05 * torch.ones(1))
 
     def forward(self, outputs, batch):
+        # opt.heads = {'hm': opt.num_classes,
+        #              'wh': 2 if not opt.ltrb else 4,
+        #              'id': opt.reid_dim,
+        #              'att': opt.num_att}
         opt = self.opt
         hm_loss, wh_loss, off_loss, id_loss = 0, 0, 0, 0
         for s in range(opt.num_stacks):
@@ -145,6 +170,33 @@ class MotAttLoss(torch.nn.Module):
                 id_target = batch['ids'][batch['reg_mask'] > 0]
 
                 id_output = self.classifier(id_head).contiguous()
+                if self.opt.id_loss == 'focal':
+                    id_target_one_hot = id_output.new_zeros((id_head.size(0), self.nID)).scatter_(1,
+                                                                                                  id_target.long().view(
+                                                                                                      -1, 1), 1)
+                    id_loss += sigmoid_focal_loss_jit(id_output, id_target_one_hot,
+                                                      alpha=0.25, gamma=2.0, reduction="sum"
+                                                      ) / id_output.size(0)
+                else:
+                    id_loss += self.IDLoss(id_output, id_target)
+                    # if len(id_target)>0 and len(id_output)>0:
+                    #     id_loss += self.IDLoss(id_output, id_target)
+                    #     print("\nid_output.shape : ", id_output.shape )
+                    #     print("id_target : ", id_target.shape )
+                    #     print("\n\n\nself.IDLoss(id_output, id_target) : ", self.IDLoss(id_output, id_target))
+                    # else :
+                    #     print ("\n######\n\nself.IDLoss(id_output, id_target) : ",self.IDLoss(id_output, id_target))
+                    #     print("id_output : ", id_output.shape )
+                    #     print("id_target : ", id_target.shape )
+                    #     id_loss += torch.Tensor(0.0001).cuda()
+            if opt.att_weight > 0:
+                att_head = _tranpose_and_gather_feat(output['att'], batch['ind'])
+
+                att_head = att_head[batch['reg_mask'] > 0].contiguous()
+                att_head = self.emb_scale * F.normalize(att_head)
+                att_target = batch['ids'][batch['reg_mask'] > 0]
+
+                att_output = self.classifier(att_head).contiguous()
                 if self.opt.id_loss == 'focal':
                     id_target_one_hot = id_output.new_zeros((id_head.size(0), self.nID)).scatter_(1,
                                                                                                   id_target.long().view(
