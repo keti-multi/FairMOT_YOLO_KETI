@@ -182,11 +182,17 @@
 #--output-root '/media/syh/hdd/data/infoworks_220808_robot_2/output' #--run-rknn ''#../models/yolov5.rknn
 
 # 220816
-python demo.py mot --load_model '/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/infoworks_220725_cctv_yolov5s_5ep_288_160_with_testc/model_best_44.pth' \
+#python demo.py mot --load_model '/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/infoworks_220725_cctv_yolov5s_5ep_288_160_with_testc/model_best_44.pth' \
+#--arch yolo --reid_dim 64 --conf_thres 0.1 --gpus 0 --image-width 160 --image-height 288 --input-format 'images' \
+#--input-image-dir '/media/syh/hdd/data/infoworks_220725_cctv/images/train/infoworks_220725_cctv/img1' \
+#--output-root '/media/syh/hdd/data/infoworks_220725_cctv/output' #--run-rknn ''#../models/yolov5.rknn
+
+
+# 220906 backbone 아웃풋 체크
+python demo.py mot_att --load_model '/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/infoworks_220725_cctv_yolov5s_5ep_288_160_with_testc/model_best_44.pth' \
 --arch yolo --reid_dim 64 --conf_thres 0.1 --gpus 0 --image-width 160 --image-height 288 --input-format 'images' \
 --input-image-dir '/media/syh/hdd/data/infoworks_220725_cctv/images/train/infoworks_220725_cctv/img1' \
---output-root '/media/syh/hdd/data/infoworks_220725_cctv/output' #--run-rknn ''#../models/yolov5.rknn
-
+--output-root '/media/syh/hdd/data/dummy/output' #--run-rknn ''#../models/yolov5.rknn
 
 
 

@@ -419,14 +419,14 @@ class JDETracker(object):
 
         # print(self.model)
         # from torchsummary import summary
-        from pytorch_model_summary import summary
-
-        # print(im_blob.shape)
+        # from pytorch_model_summary import summary
         #
-        summary(self.model, im_blob, batch_size=-1, show_input=False, show_hierarchical=False, print_summary=True,
-                max_depth=1, show_parent_layers=False)
+        # # print(im_blob.shape)
+        # #
+        # summary(self.model, im_blob, batch_size=-1, show_input=False, show_hierarchical=False, print_summary=True,
+        #         max_depth=1, show_parent_layers=False)
         # summary(,,input_size=(3,288,160))
-        raise KeyboardInterrupt
+        # raise KeyboardInterrupt
 
         activated_starcks = []
         refind_stracks = []
@@ -543,10 +543,18 @@ class JDETracker(object):
 
             else:
                 output = self.model(im_blob)[-1]
+                print("output.keys():",output.keys())
+                print("output['hm'].shape()':", output['hm'].shape)
+                print("output['wh'].shape():", output['wh'].shape)
+                print("output['id'].shape():", output['id'].shape)
+                print("output['reg'].shape():", output['reg'].shape)
+                raise(KeyboardInterrupt)
                 hm = output['hm'].sigmoid_()
                 wh = output['wh']
+
                 id_feature = output['id']
                 id_feature = F.normalize(id_feature, dim=1)
+
                 reg = output['reg'] if self.opt.reg_offset else None
 
             dets, inds = mot_decode(hm, wh, reg=reg, ltrb=self.opt.ltrb, K=self.opt.K)

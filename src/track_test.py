@@ -338,7 +338,7 @@ if __name__ == '__main__':
                       MOT20-08
                       '''
         data_root = os.path.join(opt.data_dir, 'MOT20/images/test')
-    if opt.test_muf:
+    if opt.test_muf: ##################################################### ToDo 테스트 코드 작업해야함
         seqs_str = '''MOT20-04
                       MOT20-06
                       MOT20-07

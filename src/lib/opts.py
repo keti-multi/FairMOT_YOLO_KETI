@@ -188,6 +188,21 @@ class opts(object):
         ######## 220903 SYH
         self.parser.add_argument('--num_att', type=int, default=6,
                                  help='feature dim for reid')
+
+        self.parser.add_argument('--num_att1', type=int, default=31,
+                                 help='feature dim for reid')
+        self.parser.add_argument('--num_att2', type=int, default=16,
+                                 help='feature dim for reid')
+        self.parser.add_argument('--num_att3', type=int, default=6,
+                                 help='feature dim for reid')
+        self.parser.add_argument('--num_att4', type=int, default=16,
+                                 help='feature dim for reid')
+        self.parser.add_argument('--num_att5', type=int, default=6,
+                                 help='feature dim for reid')
+        self.parser.add_argument('--num_att5', type=int, default=16,
+                                 help='feature dim for reid')
+
+
         self.parser.add_argument('--att_weight', type=float, default=1,
                                  help='loss weight for id')
 
@@ -285,10 +300,16 @@ class opts(object):
             # opt.img_size = (288, 160)
             # opt.img_size = (256, 128)
         elif opt.task == 'mot_att':
+
             opt.heads = {'hm': opt.num_classes,
                          'wh': 2 if not opt.ltrb else 4,
                          'id': opt.reid_dim,
-                         'att': opt.num_att}
+                         'att1': opt.num_att1,
+                         'att2': opt.num_att2,
+                         'att3': opt.num_att3,
+                         'att4': opt.num_att4,
+                         'att5': opt.num_att5,
+                         'att6': opt.num_att6}
             if opt.reg_offset:
                 opt.heads.update({'reg': 2})
             opt.nID = dataset.nID

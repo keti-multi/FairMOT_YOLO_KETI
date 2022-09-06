@@ -381,7 +381,7 @@ def collate_fn(batch):
 
     return imgs, filled_labels, paths, sizes, labels_len.unsqueeze(1)
 
-
+## 220906 ToDo attributes 레이블 로드 추가
 class JointDataset(LoadImagesAndLabels):  # for training
     # default_resolution = [1088, 608]
     # default_resolution = [864, 480]
@@ -440,6 +440,18 @@ class JointDataset(LoadImagesAndLabels):  # for training
         self.width = img_size[0]
         self.height = img_size[1]
         self.max_objs = opt.K
+
+        self.max_att1 = opt.num_att1
+        self.max_att2 = opt.num_att2
+        self.max_att3 = opt.num_att3
+        self.max_att4 = opt.num_att4
+        self.max_att5 = opt.num_att5
+        self.max_att6 = opt.num_att6
+
+
+
+
+
         self.augment = augment
         self.transforms = transforms
 
@@ -479,17 +491,30 @@ class JointDataset(LoadImagesAndLabels):  # for training
         ind = np.zeros((self.max_objs, ), dtype=np.int64)
         reg_mask = np.zeros((self.max_objs, ), dtype=np.uint8)
         ids = np.zeros((self.max_objs, ), dtype=np.int64)
+
+        ## 220906 ToDo attribute label 초기화
+
+        att1 = np.zeros((self.max_objs, ), dtype=np.int64)
+        att2 = np.zeros((self.max_objs,), dtype=np.int64)
+        att3 = np.zeros((self.max_objs,), dtype=np.int64)
+        att4 = np.zeros((self.max_objs,), dtype=np.int64)
+        att5 = np.zeros((self.max_objs,), dtype=np.int64)
+        att6 = np.zeros((self.max_objs,), dtype=np.int64)
+
+
         bbox_xys = np.zeros((self.max_objs, 4), dtype=np.float32)
 
         draw_gaussian = draw_msra_gaussian if self.opt.mse_loss else draw_umich_gaussian
         for k in range(min(num_objs, self.max_objs)):
             label = labels[k]
-            bbox = label[2:]
+            ########################## 220906 ToDo attribute label load 코드 추가
+            # 220906 attributes 추가에 따른, txt 파일 내의 bbox 영역
+            bbox = label[2:6]
+
+
             cls_id = int(label[0])
             bbox[[0, 2]] = bbox[[0, 2]] * output_w
             bbox[[1, 3]] = bbox[[1, 3]] * output_h
-            # bbox == xywh
-            # bbox_amodal == ltrb
             bbox_amodal = copy.deepcopy(bbox)
             bbox_amodal[0] = bbox_amodal[0] - bbox_amodal[2] / 2.
             bbox_amodal[1] = bbox_amodal[1] - bbox_amodal[3] / 2.
@@ -516,7 +541,7 @@ class JointDataset(LoadImagesAndLabels):  # for training
                 ct_int = ct.astype(np.int32)
                 draw_gaussian(hm[cls_id], ct_int, radius)
 
-                # 220906 understanding wh == x-l, y-t, r-x, b-y
+                # 220906 understanding wh : 
                 if self.opt.ltrb:
                     wh[k] = ct[0] - bbox_amodal[0], ct[1] - bbox_amodal[1], \
                             bbox_amodal[2] - ct[0], bbox_amodal[3] - ct[1]
@@ -527,9 +552,18 @@ class JointDataset(LoadImagesAndLabels):  # for training
                 reg[k] = ct - ct_int
                 reg_mask[k] = 1
                 ids[k] = label[1]
+
+                #### 220906 ToDo should be tested
+                att1[k] = label[6]
+                att2[k] = label[7]
+                att3[k] = label[8]
+                att4[k] = label[9]
+                att5[k] = label[10]
+                att6[k] = label[11]
+
                 bbox_xys[k] = bbox_xy
 
-        ret = {'input': imgs, 'hm': hm, 'reg_mask': reg_mask, 'ind': ind, 'wh': wh, 'reg': reg, 'ids': ids, 'bbox': bbox_xys}
+        ret = {'input': imgs, 'hm': hm, 'reg_mask': reg_mask, 'ind': ind, 'wh': wh, 'reg': reg, 'ids': ids, 'att1': att1,'att2': att2,'att3': att3,'att4': att4,'att5': att5,'att6': att6, 'bbox': bbox_xys}
         return ret
 
 

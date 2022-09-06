@@ -17,6 +17,7 @@ from models.data_parallel import DataParallel
 
 # for test
 from datasets.dataset.jde import DetDataset, collate_fn
+
 from models.decode import mot_decode
 from utils.post_process import ctdet_post_process
 from utils.utils import xywh2xyxy, ap_per_class, bbox_iou
@@ -231,6 +232,7 @@ def main(opt):
     dataset_root = data_config['data']
     f.close()
     transforms = T.Compose([T.ToTensor()])
+    ## if task==jde_attribute Dataset == JointDataset from jde_attribute.py
     dataset = Dataset(opt, dataset_root, trainset_paths, trainset_root, (opt.image_width, opt.image_height), augment=True, transforms=transforms)
     opt = opts().update_dataset_info_and_set_heads(opt, dataset)
     print(opt)
@@ -265,6 +267,7 @@ def main(opt):
     test_path = data_cfg_dict_test['test']
     dataset_root = data_cfg_dict_test['root']
     test_transforms = T.Compose([T.ToTensor()])
+    ## 220906 ToDo det dataset check
 
     dataset = DetDataset(dataset_root, test_path, img_size, augment=False, transforms=test_transforms)
     test_loader = torch.utils.data.DataLoader(dataset, batch_size=4, shuffle=False,
