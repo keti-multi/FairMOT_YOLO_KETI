@@ -199,7 +199,7 @@ class opts(object):
                                  help='feature dim for reid')
         self.parser.add_argument('--num_att5', type=int, default=6,
                                  help='feature dim for reid')
-        self.parser.add_argument('--num_att5', type=int, default=16,
+        self.parser.add_argument('--num_att6', type=int, default=16,
                                  help='feature dim for reid')
 
 

@@ -382,7 +382,7 @@ def collate_fn(batch):
     return imgs, filled_labels, paths, sizes, labels_len.unsqueeze(1)
 
 ## 220906 ToDo attributes 레이블 로드 추가
-class JointDataset(LoadImagesAndLabels):  # for training
+class AttJointDataset(LoadImagesAndLabels):  # for training
     # default_resolution = [1088, 608]
     # default_resolution = [864, 480]
     # default_resolution = [576, 320]
@@ -409,15 +409,25 @@ class JointDataset(LoadImagesAndLabels):  # for training
                 self.img_files[ds] = file.readlines()
                 self.img_files[ds] = [osp.join(data_root, x.strip()) for x in self.img_files[ds]]
                 self.img_files[ds] = list(filter(lambda x: len(x) > 0, self.img_files[ds]))
-
             self.label_files[ds] = [
-                x.replace('images', 'labels_with_ids').replace('.png', '.txt').replace('.jpg', '.txt')
+                x.replace('images', 'labels_with_ids_att').replace('.png', '.txt').replace('.jpg', '.txt')
                 for x in self.img_files[ds]]
 
         for ds, label_paths in self.label_files.items():
             max_index = -1
             for lp in label_paths:
-                lb = np.loadtxt(lp)
+                try:
+                    lb = np.loadtxt(lp)
+                except:
+                    print("there's no labelfile : ",lp)
+                    self.label_files[ds].remove(lp)
+                    # print("lp : ",lp)
+                    lpi=lp.replace('labels_with_ids_att','images').replace('.txt','.jpg').replace( '.txt','.png')
+                    # print("lpi : ",lpi)
+                    # print("self.img_files[ds] :",self.img_files[ds])
+                    self.img_files[ds].remove(lpi)
+                    #
+                    continue
                 if len(lb) < 1:
                     continue
                 if len(lb.shape) < 2:
@@ -426,13 +436,14 @@ class JointDataset(LoadImagesAndLabels):  # for training
                     img_max = np.max(lb[:, 1])
                 if img_max > max_index:
                     max_index = img_max
+                # print("lb:",lb)
             self.tid_num[ds] = max_index + 1
 
         last_index = 0
         for i, (k, v) in enumerate(self.tid_num.items()):
             self.tid_start_index[k] = last_index
             last_index += v
-
+        print("int(last_index + 1) : ",int(last_index + 1))
         self.nID = int(last_index + 1)
         self.nds = [len(x) for x in self.img_files.values()]
         self.cds = [sum(self.nds[:i]) for i in range(len(self.nds))]
