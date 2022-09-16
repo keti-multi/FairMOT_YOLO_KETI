@@ -565,6 +565,8 @@ class AttJointDataset(LoadImagesAndLabels):  # for training
                 ids[k] = label[1]
 
                 #### 220906 ToDo should be tested
+                print("label : ",label)
+                raise KeyboardInterrupt
                 att1[k] = label[6]
                 att2[k] = label[7]
                 att3[k] = label[8]
