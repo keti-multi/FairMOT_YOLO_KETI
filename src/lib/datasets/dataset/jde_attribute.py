@@ -419,7 +419,7 @@ class AttJointDataset(LoadImagesAndLabels):  # for training
                 try:
                     lb = np.loadtxt(lp)
                 except:
-                    print("there's no labelfile : ",lp)
+                    # print("there's no labelfile : ",lp)
                     self.label_files[ds].remove(lp)
                     # print("lp : ",lp)
                     lpi=lp.replace('labels_with_ids_att','images').replace('.txt','.jpg').replace( '.txt','.png')

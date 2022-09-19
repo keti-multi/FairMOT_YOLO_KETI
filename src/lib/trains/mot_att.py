@@ -31,6 +31,14 @@ class MotAttLoss(torch.nn.Module):
         self.opt = opt
         self.emb_dim = opt.reid_dim
         self.nID = opt.nID
+
+        self.nAtt1=opt.num_att1
+        self.nAtt2=opt.num_att2
+        self.nAtt3=opt.num_att3
+        self.nAtt4=opt.num_att4
+        self.nAtt5=opt.num_att5
+        self.nAtt6=opt.num_att6
+
         self.classifier = nn.Linear(self.emb_dim, self.nID)
 
 
@@ -77,7 +85,7 @@ class MotAttLoss(torch.nn.Module):
         #              'id': opt.reid_dim,
         #              'att': opt.num_att}
         opt = self.opt
-        hm_loss, wh_loss, off_loss, id_loss = 0, 0, 0, 0
+        hm_loss, wh_loss, off_loss, id_loss,att1_loss,att2_loss,att3_loss,att4_loss,att5_loss,att6_loss = 0, 0, 0, 0, 0,0,0,0,0,0
         for s in range(opt.num_stacks):
             output = outputs[s]
             if not opt.mse_loss:
@@ -121,32 +129,61 @@ class MotAttLoss(torch.nn.Module):
                     #     id_loss += torch.Tensor(0.0001).cuda()
             if opt.att_weight > 0:
                 att1_head = _tranpose_and_gather_feat(output['att1'], batch['ind'])
+                att2_head = _tranpose_and_gather_feat(output['att2'], batch['ind'])
+                att3_head = _tranpose_and_gather_feat(output['att3'], batch['ind'])
+                att4_head = _tranpose_and_gather_feat(output['att4'], batch['ind'])
+                att5_head = _tranpose_and_gather_feat(output['att5'], batch['ind'])
+                att6_head = _tranpose_and_gather_feat(output['att6'], batch['ind'])
+
                 att1_head = att1_head[batch['reg_mask'] > 0].contiguous()
+                att2_head = att2_head[batch['reg_mask'] > 0].contiguous()
+                att3_head = att3_head[batch['reg_mask'] > 0].contiguous()
+                att4_head = att4_head[batch['reg_mask'] > 0].contiguous()
+                att5_head = att5_head[batch['reg_mask'] > 0].contiguous()
+                att6_head = att6_head[batch['reg_mask'] > 0].contiguous()
+
                 att1_head = self.emb_scale * F.normalize(att1_head)
+                att2_head = self.emb_scale * F.normalize(att2_head)
+                att3_head = self.emb_scale * F.normalize(att3_head)
+                att4_head = self.emb_scale * F.normalize(att4_head)
+                att5_head = self.emb_scale * F.normalize(att5_head)
+                att6_head = self.emb_scale * F.normalize(att6_head)
+
                 att1_target = batch['att1'][batch['reg_mask'] > 0]
+                att2_target = batch['att2'][batch['reg_mask'] > 0]
+                att3_target = batch['att3'][batch['reg_mask'] > 0]
+                att4_target = batch['att4'][batch['reg_mask'] > 0]
+                att5_target = batch['att5'][batch['reg_mask'] > 0]
+                att6_target = batch['att6'][batch['reg_mask'] > 0]
 
-                att_output = self.classifier(att_head).contiguous()
+                att1_output = self.classifier(att1_head).contiguous()
+                att2_output = self.classifier(att2_head).contiguous()
+                att3_output = self.classifier(att3_head).contiguous()
+                att4_output = self.classifier(att4_head).contiguous()
+                att5_output = self.classifier(att5_head).contiguous()
+                att6_output = self.classifier(att6_head).contiguous()
+
+
+
+
                 if self.opt.id_loss == 'focal':
-                    id_target_one_hot = id_output.new_zeros((id_head.size(0), self.nID)).scatter_(1,
-                                                                                                  id_target.long().view(
+                    att1_target_one_hot = att1_output.new_zeros((att1_head.size(0), self.nAtt1)).scatter_(1,
+                                                                                                  att1_target.long().view(
                                                                                                       -1, 1), 1)
-                    id_loss += sigmoid_focal_loss_jit(id_output, id_target_one_hot,
+                    att1_loss += sigmoid_focal_loss_jit(att1_output, att1_target_one_hot,
                                                       alpha=0.25, gamma=2.0, reduction="sum"
-                                                      ) / id_output.size(0)
+                                                      ) / att1_output.size(0)
                 else:
-                    id_loss += self.IDLoss(id_output, id_target)
-                    # if len(id_target)>0 and len(id_output)>0:
-                    #     id_loss += self.IDLoss(id_output, id_target)
-                    #     print("\nid_output.shape : ", id_output.shape )
-                    #     print("id_target : ", id_target.shape )
-                    #     print("\n\n\nself.IDLoss(id_output, id_target) : ", self.IDLoss(id_output, id_target))
-                    # else :
-                    #     print ("\n######\n\nself.IDLoss(id_output, id_target) : ",self.IDLoss(id_output, id_target))
-                    #     print("id_output : ", id_output.shape )
-                    #     print("id_target : ", id_target.shape )
-                    #     id_loss += torch.Tensor(0.0001).cuda()
+                    att1_loss += self.att1loss(att1_output, att1_target)
+                    att2_loss += self.att1loss(att2_output, att2_target)
+                    att3_loss += self.att1loss(att3_output, att3_target)
+                    att4_loss += self.att1loss(att4_output, att4_target)
+                    att5_loss += self.att1loss(att5_output, att5_target)
+                    att6_loss += self.att1loss(att6_output, att6_target)
 
-        det_loss = opt.hm_weight * hm_loss + opt.wh_weight * wh_loss + opt.off_weight * off_loss
+
+        det_loss = opt.hm_weight * hm_loss + opt.wh_weight * wh_loss + opt.off_weight * off_loss \
+        + opt.att_weight *(att1_loss+att2_loss+att3_loss+att4_loss+att5_loss+att6_loss)
         if opt.multi_loss == 'uncertainty':
             loss = torch.exp(-self.s_det) * det_loss + torch.exp(-self.s_id) * id_loss + (self.s_det + self.s_id)
             loss *= 0.5

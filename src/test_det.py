@@ -77,7 +77,7 @@ def test_det(
     model.eval()
     # from torchinfo import summary
     #
-    # summary(model)
+    summary(model)
 
     # Get dataloader
     transforms = T.Compose([T.ToTensor()])
