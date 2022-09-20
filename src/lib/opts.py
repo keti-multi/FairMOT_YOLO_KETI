@@ -326,6 +326,9 @@ class opts(object):
             'mot': {'default_resolution': [608, 1088], 'num_classes': 1,
                     'mean': [0.408, 0.447, 0.470], 'std': [0.289, 0.274, 0.278],
                     'dataset': 'jde', 'nID': 14455},
+            'mot_att': {'default_resolution': [608, 1088], 'num_classes': 1,
+                    'mean': [0.408, 0.447, 0.470], 'std': [0.289, 0.274, 0.278],
+                    'dataset': 'jde', 'nID': 14455},
         }
 
         class Struct:

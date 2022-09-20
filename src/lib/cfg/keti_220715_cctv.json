@@ -3,16 +3,17 @@
     "root":"/home/syh/workspace/multi/FairMOT_YOLO_KETI",
     "train":
     {
-        "keti_220715_cctv":"./data/keti_220715_cctv.train",
-        "keti_220715_cctv_2":"./data/keti_220715_cctv_2.train"
+        "keti_220715_cctv_1":"./data/keti_cctv_att/keti_220715_cctv_1_att.all",
+        "keti_220715_cctv_2":"./data/keti_cctv_att/keti_220715_cctv_2_att.train"
     },
     "test_emb":
     {
-        "keti_220715_cctv":"./data/keti_220715_cctv.train",
-        "keti_220715_cctv_2":"./data/keti_220715_cctv_2.train"
+        "keti_220715_cctv_1":"./data/keti_cctv_att/keti_220715_cctv.train",
+        "keti_220715_cctv_2":"./data/keti_cctv_att/keti_220715_cctv_2.train"
     },
     "test":
     {
-        "keti_220715_cctv_3":"./data/keti_220715_cctv_3.test"
+        "keti_220715_cctv_2_test":"./data/keti_cctv_att/keti_220715_cctv_2_att.test",
+        "keti_220715_cctv_2_test":"./data/keti_cctv_att/keti_220715_cctv_3_att.test"
     }
 }

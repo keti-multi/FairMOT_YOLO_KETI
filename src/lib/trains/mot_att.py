@@ -74,8 +74,20 @@ class MotAttLoss(torch.nn.Module):
         # Bottom_Color
         self.classifier_att6 = nn.Linear(self.emb_dim, opt.num_att6)
 
-
+        print("self.nID : ",self.nID)
         self.emb_scale = math.sqrt(2) * math.log(self.nID - 1)
+
+        self.emb_scale1 = math.sqrt(2) * math.log(opt.num_att1 - 1)
+        self.emb_scale2 = math.sqrt(2) * math.log(opt.num_att2 - 1)
+        self.emb_scale3 = math.sqrt(2) * math.log(opt.num_att3 - 1)
+        self.emb_scale4 = math.sqrt(2) * math.log(opt.num_att4 - 1)
+        self.emb_scale5 = math.sqrt(2) * math.log(opt.num_att5 - 1)
+        self.emb_scale6 = math.sqrt(2) * math.log(opt.num_att6 - 1)
+
+
+
+
+
         self.s_det = nn.Parameter(-1.85 * torch.ones(1))
         self.s_id = nn.Parameter(-1.05 * torch.ones(1))
 
@@ -182,12 +194,12 @@ class MotAttLoss(torch.nn.Module):
                     att6_loss += self.att1loss(att6_output, att6_target)
 
 
-        det_loss = opt.hm_weight * hm_loss + opt.wh_weight * wh_loss + opt.off_weight * off_loss \
-        + opt.att_weight *(att1_loss+att2_loss+att3_loss+att4_loss+att5_loss+att6_loss)
+        det_loss = opt.hm_weight * hm_loss + opt.wh_weight * wh_loss + opt.off_weight * off_loss
+        att_loss=att1_loss+att2_loss+att3_loss+att4_loss+att5_loss+att6_loss
         if opt.multi_loss == 'uncertainty':
             loss = torch.exp(-self.s_det) * det_loss + torch.exp(-self.s_id) * id_loss + (self.s_det + self.s_id)
             loss *= 0.5
-        elif oopt.att_weight > 0:
+        elif opt.att_weight > 0: ##ToDo att_loss hyperparameter tuning
             loss = det_loss + 0.1 * id_loss + 0.1 *att_loss
         else:
             loss = det_loss + 0.1 * id_loss

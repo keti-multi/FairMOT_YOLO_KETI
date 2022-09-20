@@ -75,7 +75,7 @@ def test_det(
     #model = torch.nn.DataParallel(model)
     model = model.to(opt.device)
     model.eval()
-    # from torchinfo import summary
+    from torchinfo import summary
     #
     summary(model)
 
