@@ -16,7 +16,9 @@ from models.data_parallel import DataParallel
 
 
 # for test
-from datasets.dataset.jde import DetDataset, collate_fn
+from datasets.dataset.jde_attribute import AttDetDataset, collate_fn
+
+
 
 from models.decode import mot_decode
 from utils.post_process import ctdet_post_process
@@ -72,6 +74,7 @@ def test_det(
     #f = open(data_cfg)
     #data_cfg_dict = json.load(f)
     #f.close()
+    # nC = 50
     nC = 1
     #test_path = data_cfg_dict['test']
     #dataset_root = data_cfg_dict['root']
@@ -97,8 +100,9 @@ def test_det(
         [], [], [], [], [], [], [], [], []
     AP_accum, AP_accum_count = np.zeros(nC), np.zeros(nC)
     for batch_i, (imgs, targets, paths, shapes, targets_len) in enumerate(dataloader):
+        # print("targets : ",targets)
         t = time.time()
-        #seen += batch_size
+        seen += batch_size
 
         output = model(imgs.cuda())[-1]
         origin_shape = shapes[0]
@@ -119,6 +123,7 @@ def test_det(
         # Compute average precision for each sample
         targets = [targets[i][:int(l)] for i, l in enumerate(targets_len)]
         for si, labels in enumerate(targets):
+            # print("labels : ",labels)
             seen += 1
             #path = paths[si]
             #img0 = cv2.imread(path)
@@ -188,12 +193,15 @@ def test_det(
                         correct.append(0)
 
             # Compute Average Precision (AP) per class
+
+
             AP, AP_class, R, P = ap_per_class(tp=correct,
                                               conf=dets[:, 4],
                                               pred_cls=np.zeros_like(dets[:, 4]),  # detections[:, 6]
                                               target_cls=target_cls)
 
             # Accumulate AP per class
+
             AP_accum_count += np.bincount(AP_class, minlength=nC)
             AP_accum += np.bincount(AP_class, minlength=nC, weights=AP)
 
@@ -224,6 +232,7 @@ def main(opt):
     torch.backends.cudnn.benchmark = not opt.not_cuda_benchmark and not opt.test
 
     print('Setting up data...')
+    print(" Task : ",opt.task)
     Dataset = get_dataset(opt.dataset, opt.task)
     f = open(opt.data_cfg)
     data_config = json.load(f)
@@ -269,8 +278,8 @@ def main(opt):
     test_transforms = T.Compose([T.ToTensor()])
     ## 220906 ToDo det dataset check
 
-    dataset = DetDataset(dataset_root, test_path, img_size, augment=False, transforms=test_transforms)
-    test_loader = torch.utils.data.DataLoader(dataset, batch_size=4, shuffle=False,
+    dataset = AttDetDataset(dataset_root, test_path, img_size, augment=False, transforms=test_transforms)
+    test_loader = torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False,
                                              num_workers=8, drop_last=False, collate_fn=collate_fn)
 
     # test_loader = torch.utils.data.DataLoader(
@@ -300,7 +309,7 @@ def main(opt):
 
         ## test code
 
-        map,_,_=test_det(opt=opt,batch_size=4,model = model,img_size=img_size, dataloader=test_loader)
+        map,_,_=test_det(opt=opt,batch_size=1,model = model,img_size=img_size, dataloader=test_loader)
         #print(map)
         #raise(KeyboardInterrupt)
         logger.write('epoch: {} |'.format(epoch))
@@ -335,7 +344,8 @@ def main(opt):
                        epoch, model, optimizer)
     logger.close()
 
-
+os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 if __name__ == '__main__':
     opt = opts().parse()
     main(opt)

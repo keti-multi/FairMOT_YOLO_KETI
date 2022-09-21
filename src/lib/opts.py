@@ -304,12 +304,12 @@ class opts(object):
             opt.heads = {'hm': opt.num_classes,
                          'wh': 2 if not opt.ltrb else 4,
                          'id': opt.reid_dim,
-                         'att1': opt.num_att1,
-                         'att2': opt.num_att2,
-                         'att3': opt.num_att3,
-                         'att4': opt.num_att4,
-                         'att5': opt.num_att5,
-                         'att6': opt.num_att6}
+                         'att1': opt.reid_dim,
+                         'att2': opt.reid_dim,
+                         'att3': opt.reid_dim,
+                         'att4': opt.reid_dim,
+                         'att5': opt.reid_dim,
+                         'att6': opt.reid_dim}
             if opt.reg_offset:
                 opt.heads.update({'reg': 2})
             opt.nID = dataset.nID

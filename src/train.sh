@@ -75,6 +75,12 @@ python -W ignore ./train_test.py mot_att --gpus 0 --exp_id ${EXP_NAME} --data_cf
 --save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
 --load_model /media/syh/ssd2/SynologyDrive/03_FairMOT/FairMOT-master/exp/mot/all_yolov5s_MOT16_288160_bs16_ep500/model_5.pth \
 --dataset jde_attribute  \
+--num_att1 32 \
+--num_att2 17 \
+--num_att3 7 \
+--num_att4 17 \
+--num_att5 7 \
+--num_att6 17 \
 --num_att 6
 ###########
 ###########

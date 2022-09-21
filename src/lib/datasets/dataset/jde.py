@@ -532,7 +532,6 @@ class JointDataset(LoadImagesAndLabels):  # for training
         ret = {'input': imgs, 'hm': hm, 'reg_mask': reg_mask, 'ind': ind, 'wh': wh, 'reg': reg, 'ids': ids, 'bbox': bbox_xys}
         return ret
 
-
 class DetDataset(LoadImagesAndLabels):  # for training
     def __init__(self, root, paths, img_size=(1088, 608), augment=False, transforms=None):
 

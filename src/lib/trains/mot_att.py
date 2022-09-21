@@ -57,10 +57,6 @@ class MotAttLoss(torch.nn.Module):
         self.att5loss = nn.CrossEntropyLoss(ignore_index=-1)
         self.att6loss = nn.CrossEntropyLoss(ignore_index=-1)
 
-
-        self.classifier = nn.Linear(self.emb_dim, self.nID)
-
-
         # Hair_style
         self.classifier_att1 = nn.Linear(self.emb_dim, opt.num_att1)
         # Hair_color
@@ -117,6 +113,8 @@ class MotAttLoss(torch.nn.Module):
                 id_head = _tranpose_and_gather_feat(output['id'], batch['ind'])
                 id_head = id_head[batch['reg_mask'] > 0].contiguous()
                 id_head = self.emb_scale * F.normalize(id_head)
+
+
                 id_target = batch['ids'][batch['reg_mask'] > 0]
 
                 id_output = self.classifier(id_head).contiguous()
@@ -154,12 +152,12 @@ class MotAttLoss(torch.nn.Module):
                 att5_head = att5_head[batch['reg_mask'] > 0].contiguous()
                 att6_head = att6_head[batch['reg_mask'] > 0].contiguous()
 
-                att1_head = self.emb_scale * F.normalize(att1_head)
-                att2_head = self.emb_scale * F.normalize(att2_head)
-                att3_head = self.emb_scale * F.normalize(att3_head)
-                att4_head = self.emb_scale * F.normalize(att4_head)
-                att5_head = self.emb_scale * F.normalize(att5_head)
-                att6_head = self.emb_scale * F.normalize(att6_head)
+                att1_head = self.emb_scale1 * F.normalize(att1_head)
+                att2_head = self.emb_scale2 * F.normalize(att2_head)
+                att3_head = self.emb_scale3 * F.normalize(att3_head)
+                att4_head = self.emb_scale4 * F.normalize(att4_head)
+                att5_head = self.emb_scale5 * F.normalize(att5_head)
+                att6_head = self.emb_scale6 * F.normalize(att6_head)
 
                 att1_target = batch['att1'][batch['reg_mask'] > 0]
                 att2_target = batch['att2'][batch['reg_mask'] > 0]
@@ -167,13 +165,13 @@ class MotAttLoss(torch.nn.Module):
                 att4_target = batch['att4'][batch['reg_mask'] > 0]
                 att5_target = batch['att5'][batch['reg_mask'] > 0]
                 att6_target = batch['att6'][batch['reg_mask'] > 0]
-
-                att1_output = self.classifier(att1_head).contiguous()
-                att2_output = self.classifier(att2_head).contiguous()
-                att3_output = self.classifier(att3_head).contiguous()
-                att4_output = self.classifier(att4_head).contiguous()
-                att5_output = self.classifier(att5_head).contiguous()
-                att6_output = self.classifier(att6_head).contiguous()
+                # print("att1_head shape : ", att1_head.shape)
+                att1_output = self.classifier_att1(att1_head).contiguous()
+                att2_output = self.classifier_att2(att2_head).contiguous()
+                att3_output = self.classifier_att3(att3_head).contiguous()
+                att4_output = self.classifier_att4(att4_head).contiguous()
+                att5_output = self.classifier_att5(att5_head).contiguous()
+                att6_output = self.classifier_att6(att6_head).contiguous()
 
 
 
@@ -187,25 +185,25 @@ class MotAttLoss(torch.nn.Module):
                                                       ) / att1_output.size(0)
                 else:
                     att1_loss += self.att1loss(att1_output, att1_target)
-                    att2_loss += self.att1loss(att2_output, att2_target)
-                    att3_loss += self.att1loss(att3_output, att3_target)
-                    att4_loss += self.att1loss(att4_output, att4_target)
-                    att5_loss += self.att1loss(att5_output, att5_target)
-                    att6_loss += self.att1loss(att6_output, att6_target)
+                    att2_loss += self.att2loss(att2_output, att2_target)
+                    att3_loss += self.att3loss(att3_output, att3_target)
+                    att4_loss += self.att4loss(att4_output, att4_target)
+                    att5_loss += self.att5loss(att5_output, att5_target)
+                    att6_loss += self.att6loss(att6_output, att6_target)
 
 
         det_loss = opt.hm_weight * hm_loss + opt.wh_weight * wh_loss + opt.off_weight * off_loss
-        att_loss=att1_loss+att2_loss+att3_loss+att4_loss+att5_loss+att6_loss
+        att_loss = att1_loss + att2_loss + att3_loss + att4_loss + att5_loss + att6_loss
         if opt.multi_loss == 'uncertainty':
             loss = torch.exp(-self.s_det) * det_loss + torch.exp(-self.s_id) * id_loss + (self.s_det + self.s_id)
             loss *= 0.5
         elif opt.att_weight > 0: ##ToDo att_loss hyperparameter tuning
-            loss = det_loss + 0.1 * id_loss + 0.1 *att_loss
+            loss = det_loss + 0.1 * id_loss + 0.1 * att_loss
         else:
             loss = det_loss + 0.1 * id_loss
 
         loss_stats = {'loss': loss, 'hm_loss': hm_loss,
-                      'wh_loss': wh_loss, 'off_loss': off_loss, 'id_loss': id_loss}
+                      'wh_loss': wh_loss, 'off_loss': off_loss, 'id_loss': id_loss, 'att1_loss': att1_loss,'att2_loss': att2_loss,'att3_loss': att3_loss,'att4_loss': att4_loss,'att5_loss': att5_loss,'att6_loss': att6_loss}
         return loss, loss_stats
 
 class MotAttTrainer(BaseTrainer):
@@ -213,7 +211,7 @@ class MotAttTrainer(BaseTrainer):
         super(MotAttTrainer, self).__init__(opt, model, optimizer=optimizer)
 
     def _get_losses(self, opt):
-        loss_states = ['loss', 'hm_loss', 'wh_loss', 'off_loss', 'id_loss', 'att_loss']
+        loss_states = ['loss', 'hm_loss', 'wh_loss', 'off_loss', 'id_loss', 'att1_loss', 'att2_loss', 'att3_loss', 'att4_loss', 'att5_loss', 'att6_loss']
         loss = MotAttLoss(opt)
         return loss_states, loss
 
