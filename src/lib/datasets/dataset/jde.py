@@ -216,7 +216,10 @@ class LoadImagesAndLabels:  # for training
 
         # Load labels
         if os.path.isfile(label_path):
-            labels0 = np.loadtxt(label_path, dtype=np.float32).reshape(-1, 6)
+            ## ToDo 220928 syh 데이터세트에 att 레이블 추가하여서 n*12 형태로 되어있음 수정 필요
+            #labels0 = np.loadtxt(label_path, dtype=np.float32).reshape(-1, 6)
+
+            labels0 = np.loadtxt(label_path, dtype=np.float32).reshape(-1, 12)
 
             # Normalized xywh to pixel xyxy format
             labels = labels0.copy()

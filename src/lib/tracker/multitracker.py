@@ -35,7 +35,7 @@ def to_numpy(tensor):
 
 class STrack(BaseTrack):
     shared_kalman = KalmanFilter()
-    def __init__(self, tlwh, score, temp_feat, buffer_size=30):
+    def __init__(self, tlwh, score, temp_feat,buffer_size=30, att1=None,att2=None,att3=None,att4=None,att5=None,att6=None):
 
         # wait activate
         self._tlwh = np.asarray(tlwh, dtype=np.float)
@@ -49,8 +49,10 @@ class STrack(BaseTrack):
         self.smooth_feat = None
         # print(temp_feat)
         self.update_features(temp_feat)
+
         self.features = deque([], maxlen=buffer_size)
         self.alpha = 0.9
+
 
     def update_features(self, feat):
         feat /= np.linalg.norm(feat)
@@ -109,6 +111,33 @@ class STrack(BaseTrack):
         if new_id:
             self.track_id = self.next_id()
 
+    def update_att(self, new_track, frame_id, att1,att2,att3,att4,att5,att6,update_feature=True): ##
+        """
+        Update a matched track
+        :type new_track: STrack
+        :type frame_id: int
+        :type update_feature: bool
+        :return:
+        """
+        self.frame_id = frame_id
+        self.tracklet_len += 1
+        self.att1 =att1
+        self.att2 = att2
+        self.att3 = att3
+        self.att4 = att4
+        self.att5 = att5
+        self.att6 = att6
+
+
+        new_tlwh = new_track.tlwh
+        self.mean, self.covariance = self.kalman_filter.update(
+            self.mean, self.covariance, self.tlwh_to_xyah(new_tlwh))
+        self.state = TrackState.Tracked
+        self.is_activated = True
+
+        self.score = new_track.score
+        if update_feature:
+            self.update_features(new_track.curr_feat)
     def update(self, new_track, frame_id, update_feature=True): ##
         """
         Update a matched track
@@ -187,7 +216,7 @@ class JDETracker(object):
             opt.device = torch.device('cuda')
         else:
             opt.device = torch.device('cpu')
-
+        self.task = opt.task
         print('Creating model...')
         self.model = create_model(opt.arch, opt.heads, opt.head_conv)
         self.model = load_model(self.model, opt.load_model)
@@ -543,24 +572,59 @@ class JDETracker(object):
 
             else:
                 output = self.model(im_blob)[-1]
-                print("output.keys():",output.keys())
-                print("output['hm'].shape()':", output['hm'].shape)
-                print("output['wh'].shape():", output['wh'].shape)
-                print("output['id'].shape():", output['id'].shape)
-                print("output['reg'].shape():", output['reg'].shape)
-                raise(KeyboardInterrupt)
                 hm = output['hm'].sigmoid_()
                 wh = output['wh']
 
                 id_feature = output['id']
                 id_feature = F.normalize(id_feature, dim=1)
+                if self.task == "mot_att":
+                    # ToDo att output 해석
+                    att1_feature = output['att1']
+                    att1_feature = F.normalize(att1_feature, dim=1)
+                    att2_feature = output['att2']
+                    att2_feature = F.normalize(att2_feature, dim=1)
+                    att3_feature = output['att3']
+                    att3_feature = F.normalize(att3_feature, dim=1)
+                    att4_feature = output['att4']
+                    att4_feature = F.normalize(att4_feature, dim=1)
+                    att5_feature = output['att5']
+                    att5_feature = F.normalize(att5_feature, dim=1)
+                    att6_feature = output['att6']
+                    att6_feature = F.normalize(att6_feature, dim=1)
 
+
+
+                raise(KeyboardInterrupt)
                 reg = output['reg'] if self.opt.reg_offset else None
 
             dets, inds = mot_decode(hm, wh, reg=reg, ltrb=self.opt.ltrb, K=self.opt.K)
             id_feature = _tranpose_and_gather_feat(id_feature, inds)
             id_feature = id_feature.squeeze(0)
             id_feature = id_feature.cpu().numpy()
+
+            att1_feature = _tranpose_and_gather_feat(att1_feature, inds)
+            att1_feature = att1_feature.squeeze(0)
+            att1_feature = att1_feature.cpu().numpy()
+
+            att2_feature = _tranpose_and_gather_feat(att2_feature, inds)
+            att2_feature = att2_feature.squeeze(0)
+            att2_feature = att2_feature.cpu().numpy()
+
+            att3_feature = _tranpose_and_gather_feat(att3_feature, inds)
+            att3_feature = att3_feature.squeeze(0)
+            att3_feature = att3_feature.cpu().numpy()
+
+            att4_feature = _tranpose_and_gather_feat(att4_feature, inds)
+            att4_feature = att4_feature.squeeze(0)
+            att4_feature = att4_feature.cpu().numpy()
+
+            att5_feature = _tranpose_and_gather_feat(att5_feature, inds)
+            att5_feature = att5_feature.squeeze(0)
+            att5_feature = att5_feature.cpu().numpy()
+
+            att6_feature = _tranpose_and_gather_feat(att6_feature, inds)
+            att6_feature = att6_feature.squeeze(0)
+            att6_feature = att6_feature.cpu().numpy()
 
         # self.rknn.eval_perf()
         # self.rknn.release()
@@ -571,6 +635,13 @@ class JDETracker(object):
         remain_inds = dets[:, 4] > self.opt.conf_thres
         dets = dets[remain_inds]
         id_feature = id_feature[remain_inds]
+
+        att1_feature = att1_feature[remain_inds]
+        att2_feature = att2_feature[remain_inds]
+        att3_feature = att3_feature[remain_inds]
+        att4_feature = att4_feature[remain_inds]
+        att5_feature = att5_feature[remain_inds]
+        att6_feature = att6_feature[remain_inds]
 
         # vis0
         '''
@@ -587,8 +658,7 @@ class JDETracker(object):
 
         if len(dets) > 0:
             '''Detections'''
-            detections = [STrack(STrack.tlbr_to_tlwh(tlbrs[:4]), tlbrs[4], f, 30) for
-                          (tlbrs, f) in zip(dets[:, :5], id_feature)]
+            detections = [STrack(STrack.tlbr_to_tlwh(tlbrs[:4]), tlbrs[4], f, 30) for (tlbrs, f, att1,att2,att3,att4,att5,att6) in zip(dets[:, :5], id_feature,att1_feature,att2_feature,att3_feature,att4_feature,att5_feature,att6_feature)]
             
         else:
             detections = []

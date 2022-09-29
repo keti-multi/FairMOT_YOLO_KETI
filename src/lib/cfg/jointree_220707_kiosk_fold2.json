@@ -1,0 +1,19 @@
+{
+    "data":"/media/syh/ssd2/data",
+    "root":"/home/syh/workspace/multi/FairMOT_YOLO_KETI",
+    "train":
+    {
+        "jointree_220707_kiosk_1":"./data/keti_cctv_att/keti_220715_cctv_1_att.all",
+        "jointree_220707_kiosk_2":"./data/keti_cctv_att/keti_220715_cctv_2_att.train"
+    },
+    "test_emb":
+    {
+        "jointree_220707_kiosk_1":"./data/keti_cctv_att/keti_220715_cctv.train",
+        "jointree_220707_kiosk_2":"./data/keti_cctv_att/keti_220715_cctv_2.train"
+    },
+    "test":
+    {
+        "jointree_220707_kiosk_1":"./data/keti_cctv_att/keti_220715_cctv_2_att.test",
+        "jointree_220707_kiosk_2":"./data/keti_cctv_att/keti_220715_cctv_3_att.test"
+    }
+}
