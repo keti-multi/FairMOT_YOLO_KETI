@@ -4,7 +4,8 @@
     "train":
     {
         "keti_220715_cctv_1":"./data/keti_220715_cctv.train",
-        "keti_220715_cctv_2_train":"./data/keti_220715_cctv_2.train"
+        "keti_220715_cctv_2_train":"./data/keti_220715_cctv_2.train",
+        "infoworks_220725_cctv":"./data/infoworks_220725_cctv.train"
     },
     "test_emb":
     {

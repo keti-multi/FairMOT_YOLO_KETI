@@ -16,7 +16,9 @@ from models.data_parallel import DataParallel
 
 
 # for test
-from datasets.dataset.jde_attribute import AttDetDataset, collate_fn
+#from datasets.dataset.jde_attribute import AttDetDataset, collate_fn
+
+from datasets.dataset.jde import DetDataset, collate_fn
 
 
 
@@ -194,7 +196,7 @@ def test_det(
 
             # Compute Average Precision (AP) per class
 
-
+            # print("target_cls : ",target_cls)
             AP, AP_class, R, P = ap_per_class(tp=correct,
                                               conf=dets[:, 4],
                                               pred_cls=np.zeros_like(dets[:, 4]),  # detections[:, 6]
@@ -278,7 +280,10 @@ def main(opt):
     test_transforms = T.Compose([T.ToTensor()])
     ## 220906 ToDo det dataset check
 
-    dataset = AttDetDataset(dataset_root, test_path, img_size, augment=False, transforms=test_transforms)
+    # dataset = AttDetDataset(dataset_root, test_path, img_size, augment=False, transforms=test_transforms)
+    # test_loader = torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False,
+    #                                          num_workers=8, drop_last=False, collate_fn=collate_fn)
+    dataset = DetDataset(dataset_root, test_path, img_size, augment=False, transforms=test_transforms)
     test_loader = torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False,
                                              num_workers=8, drop_last=False, collate_fn=collate_fn)
 

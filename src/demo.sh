@@ -196,14 +196,61 @@
 #
 
 # 220926 att 추가 학습본 아웃풋 체크
-python demo.py mot_att --load_model '/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/keti_220715_cctv_yolov5s_att_5ep_288_160_with_test/model_best_1.pth' \
---arch yolo --reid_dim 64 --conf_thres 0.1 --gpus 0 --image-width 160 --image-height 288 --input-format 'images' \
---input-image-dir '/media/syh/hdd/data/infoworks_220725_cctv/images/train/infoworks_220725_cctv/img1' \
---output-root '/media/syh/hdd/data/dummy/output' \
---num_att1 32 \
---num_att2 17 \
---num_att3 7 \
---num_att4 17 \
---num_att5 7 \
---num_att6 17 \
---num_att 6
+#python demo.py mot_att --load_model '/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/keti_220715_cctv_yolov5s_att_5ep_288_160_with_test/model_best_1.pth' \
+#--arch yolo --reid_dim 64 --conf_thres 0.1 --gpus 0 --image-width 160 --image-height 288 --input-format 'images' \
+#--input-image-dir '/media/syh/hdd/data/infoworks_220725_cctv/images/train/infoworks_220725_cctv/img1' \
+#--output-root '/media/syh/hdd/data/dummy/output' \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+# 220928 jointree 체크
+## 너무 구림
+#python demo.py mot --load_model '/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/jointree_220707_cctv_yolov5s_att_5ep_288_160_with_tests/model_best_1.pth' \
+#--arch yolo --reid_dim 64 --conf_thres 0.1 --gpus 0 --image-width 160 --image-height 288 --input-format 'images' \
+#--input-image-dir '/media/syh/ssd2/data/jointree_220707_kiosk_3/images/train/jointree_220707_kiosk_3_att/img1' \
+#--output-root '/media/syh/hdd/data/dummy/output'
+#\
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+
+# 220928 jointree 체크 2 학습시에 width height 가 달랐음
+# vid3
+#python demo.py mot --load_model '/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/jointree_220707_cctv_yolov5s_att_5ep_160_288_with_tests/model_best_1.pth' \
+#--arch yolo --reid_dim 64 --conf_thres 0.4 --gpus 0 --image-width 160 --image-height 288 --input-format 'images' \
+#--input-image-dir '/media/syh/ssd2/data/jointree_220707_kiosk_3/images/train/jointree_220707_kiosk_3_att/img1' \
+#--output-root '/media/syh/hdd/data/dummy/output_jointree_fold1_epoch1_width_height'
+##\
+# vid2
+#python demo.py mot --load_model '/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/jointree_220707_cctv_yolov5s_att_5ep_160_288_with_tests/model_best_1.pth' \
+#--arch yolo --reid_dim 64 --conf_thres 0.4 --gpus 0 --image-width 160 --image-height 288 --input-format 'images' \
+#--input-image-dir '/media/syh/ssd2/data/jointree_220707_kiosk_2/images/train/jointree_220707_kiosk_2_att/img1' \
+#--output-root '/media/syh/hdd/data/dummy/output_jointree_fold1_epoch1_width_height_vid_2'
+##\
+# epoch 10
+#python demo.py mot --load_model '/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/jointree_220707_cctv_yolov5s_att_5ep_160_288_with_tests/model_10.pth' \
+#--arch yolo --reid_dim 64 --conf_thres 0.6 --gpus 0 --image-width 160 --image-height 288 --input-format 'images' \
+#--input-image-dir '/media/syh/ssd2/data/jointree_220707_kiosk_1/images/train/jointree_220707_kiosk_1_att/img1' \
+#--output-root '/media/syh/hdd/data/dummy/output_jointree_fold1_epochs1_width_height_vid_1'
+#
+# 평가 방법 수정 epoch 5
+#python demo.py mot --load_model '/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/jointree_220707_cctv_yolov5s_att_5ep_160_288_with_tests/model_5.pth' \
+#--arch yolo --reid_dim 64 --conf_thres 0.6 --gpus 0 --image-width 160 --image-height 288 --input-format 'images' \
+#--input-image-dir '/media/syh/ssd2/data/jointree_220707_kiosk_2/images/train/jointree_220707_kiosk_2_att/img1' \
+#--output-root '/media/syh/hdd/data/dummy/output_jointree_fold1_epochs5_width_height_vid_2'
+
+
+python demo.py mot --load_model '/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/keti_220715_cctv_fold1_yolov5s_att_5ep_288_160_with_test/model_last.pth' \
+--arch yolo --reid_dim 64 --conf_thres 0.25 --gpus 0 --image-width 288 --image-height 160 --input-format 'images' \
+--input-image-dir '/media/syh/ssd2/data/keti_220715_cctv/images/train/keti_220715_cctv/img1' \
+--output-root '/media/syh/hdd/data/dummy/output_keti_fold1_epochs2_vid_1'

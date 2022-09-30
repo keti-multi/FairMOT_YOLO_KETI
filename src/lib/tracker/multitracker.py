@@ -594,37 +594,37 @@ class JDETracker(object):
 
 
 
-                raise(KeyboardInterrupt)
+                # raise(KeyboardInterrupt)
                 reg = output['reg'] if self.opt.reg_offset else None
 
             dets, inds = mot_decode(hm, wh, reg=reg, ltrb=self.opt.ltrb, K=self.opt.K)
             id_feature = _tranpose_and_gather_feat(id_feature, inds)
             id_feature = id_feature.squeeze(0)
             id_feature = id_feature.cpu().numpy()
+            if self.task == "mot_att":
+                att1_feature = _tranpose_and_gather_feat(att1_feature, inds)
+                att1_feature = att1_feature.squeeze(0)
+                att1_feature = att1_feature.cpu().numpy()
 
-            att1_feature = _tranpose_and_gather_feat(att1_feature, inds)
-            att1_feature = att1_feature.squeeze(0)
-            att1_feature = att1_feature.cpu().numpy()
+                att2_feature = _tranpose_and_gather_feat(att2_feature, inds)
+                att2_feature = att2_feature.squeeze(0)
+                att2_feature = att2_feature.cpu().numpy()
 
-            att2_feature = _tranpose_and_gather_feat(att2_feature, inds)
-            att2_feature = att2_feature.squeeze(0)
-            att2_feature = att2_feature.cpu().numpy()
+                att3_feature = _tranpose_and_gather_feat(att3_feature, inds)
+                att3_feature = att3_feature.squeeze(0)
+                att3_feature = att3_feature.cpu().numpy()
 
-            att3_feature = _tranpose_and_gather_feat(att3_feature, inds)
-            att3_feature = att3_feature.squeeze(0)
-            att3_feature = att3_feature.cpu().numpy()
+                att4_feature = _tranpose_and_gather_feat(att4_feature, inds)
+                att4_feature = att4_feature.squeeze(0)
+                att4_feature = att4_feature.cpu().numpy()
 
-            att4_feature = _tranpose_and_gather_feat(att4_feature, inds)
-            att4_feature = att4_feature.squeeze(0)
-            att4_feature = att4_feature.cpu().numpy()
+                att5_feature = _tranpose_and_gather_feat(att5_feature, inds)
+                att5_feature = att5_feature.squeeze(0)
+                att5_feature = att5_feature.cpu().numpy()
 
-            att5_feature = _tranpose_and_gather_feat(att5_feature, inds)
-            att5_feature = att5_feature.squeeze(0)
-            att5_feature = att5_feature.cpu().numpy()
-
-            att6_feature = _tranpose_and_gather_feat(att6_feature, inds)
-            att6_feature = att6_feature.squeeze(0)
-            att6_feature = att6_feature.cpu().numpy()
+                att6_feature = _tranpose_and_gather_feat(att6_feature, inds)
+                att6_feature = att6_feature.squeeze(0)
+                att6_feature = att6_feature.cpu().numpy()
 
         # self.rknn.eval_perf()
         # self.rknn.release()
@@ -635,13 +635,13 @@ class JDETracker(object):
         remain_inds = dets[:, 4] > self.opt.conf_thres
         dets = dets[remain_inds]
         id_feature = id_feature[remain_inds]
-
-        att1_feature = att1_feature[remain_inds]
-        att2_feature = att2_feature[remain_inds]
-        att3_feature = att3_feature[remain_inds]
-        att4_feature = att4_feature[remain_inds]
-        att5_feature = att5_feature[remain_inds]
-        att6_feature = att6_feature[remain_inds]
+        if self.task == "mot_att":
+            att1_feature = att1_feature[remain_inds]
+            att2_feature = att2_feature[remain_inds]
+            att3_feature = att3_feature[remain_inds]
+            att4_feature = att4_feature[remain_inds]
+            att5_feature = att5_feature[remain_inds]
+            att6_feature = att6_feature[remain_inds]
 
         # vis0
         '''
@@ -658,8 +658,11 @@ class JDETracker(object):
 
         if len(dets) > 0:
             '''Detections'''
-            detections = [STrack(STrack.tlbr_to_tlwh(tlbrs[:4]), tlbrs[4], f, 30) for (tlbrs, f, att1,att2,att3,att4,att5,att6) in zip(dets[:, :5], id_feature,att1_feature,att2_feature,att3_feature,att4_feature,att5_feature,att6_feature)]
-            
+            if self.task == "mot_att":
+                detections = [STrack(STrack.tlbr_to_tlwh(tlbrs[:4]), tlbrs[4], f, 30) for (tlbrs, f, att1,att2,att3,att4,att5,att6) in zip(dets[:, :5], id_feature,att1_feature,att2_feature,att3_feature,att4_feature,att5_feature,att6_feature)]
+            else:
+                detections = [STrack(STrack.tlbr_to_tlwh(tlbrs[:4]), tlbrs[4], f, 30) for (tlbrs, f) in zip(dets[:, :5], id_feature)]
+
         else:
             detections = []
 

@@ -218,8 +218,10 @@ class LoadImagesAndLabels:  # for training
         if os.path.isfile(label_path):
             ## ToDo 220928 syh 데이터세트에 att 레이블 추가하여서 n*12 형태로 되어있음 수정 필요
             #labels0 = np.loadtxt(label_path, dtype=np.float32).reshape(-1, 6)
-
-            labels0 = np.loadtxt(label_path, dtype=np.float32).reshape(-1, 12)
+            try:
+                labels0 = np.loadtxt(label_path, dtype=np.float32).reshape(-1, 12)
+            except:
+                labels0 = np.loadtxt(label_path, dtype=np.float32).reshape(-1, 6)
 
             # Normalized xywh to pixel xyxy format
             labels = labels0.copy()
@@ -376,9 +378,12 @@ def collate_fn(batch):
     filled_labels = torch.zeros(batch_size, max_box_len, 6)
     labels_len = torch.zeros(batch_size)
 
+
     for i in range(batch_size):
         isize = labels[i].shape[0]
         if len(labels[i]) > 0:
+            # print("isize : ",isize)
+            # print("labels[i]:",labels[i].shape)
             filled_labels[i, :isize, :] = labels[i]
         labels_len[i] = isize
 
@@ -487,7 +492,7 @@ class JointDataset(LoadImagesAndLabels):  # for training
         draw_gaussian = draw_msra_gaussian if self.opt.mse_loss else draw_umich_gaussian
         for k in range(min(num_objs, self.max_objs)):
             label = labels[k]
-            bbox = label[2:]
+            bbox = label[2:6]
             cls_id = int(label[0])
             bbox[[0, 2]] = bbox[[0, 2]] * output_w
             bbox[[1, 3]] = bbox[[1, 3]] * output_h
@@ -599,7 +604,12 @@ class DetDataset(LoadImagesAndLabels):  # for training
         img_path = self.img_files[ds][files_index - start_index]
         label_path = self.label_files[ds][files_index - start_index]
         if os.path.isfile(label_path):
-            labels0 = np.loadtxt(label_path, dtype=np.float32).reshape(-1, 6)
+            # labels0 = np.loadtxt(label_path, dtype=np.float32).reshape(-1, 6)
+            try:
+                labels0 = np.loadtxt(label_path, dtype=np.float32).reshape(-1, 12)
+            except:
+                labels0 = np.loadtxt(label_path, dtype=np.float32).reshape(-1, 6)
+            labels0 = labels0[:,:6]
 
         imgs, labels, img_path, (h, w) = self.get_data(img_path, label_path)
         for i, _ in enumerate(labels):
