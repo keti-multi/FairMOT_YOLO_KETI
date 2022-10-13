@@ -1,0 +1,20 @@
+{
+    "data":"/media/syh/ssd2/data",
+    "root":"/home/syh/workspace/multi/FairMOT_YOLO_KETI",
+    "train":
+    {
+        "keti_220715_gate":"./data/keti_220715_gate.train",
+       
+        "jointree_221004_gate_1_train_fold1":"./data/jointree_gate/jointree_221004_gate_without_negative.train"
+    },
+    "test_emb":
+    {
+        "keti_220715_gate":"./data/keti_220715_gate.train",
+        "jointree_221004_gate_1_test_fold1":"./data/jointree_gate/jointree_221004_gate_without_negative.test"
+    },
+    "test":
+    {
+        "keti_220715_gate":"./data/keti_220715_gate.test",
+        "jointree_221004_gate_1_test_fold1":"./data/jointree_gate/jointree_221004_gate_without_negative.test"
+    }
+}
