@@ -190,6 +190,20 @@ def get_pose_net(num_layers, heads, head_conv):
     initialize_weights(model, pretrained)
     return model
 
+def get_pose_net_v5n(num_layers, heads, head_conv):
+    config_file = os.path.join(
+        os.path.dirname(__file__),
+        # 'networks/config/yolov5s.yaml'
+        'networks/config/yolov5n.yaml'
+    )
+    pretrained = os.path.join(
+        os.path.dirname(__file__),
+        '../../../models/yolov5s.pt'
+        # '../../../models/yolov5n.pt'
+    )
+    model = PoseYOLOv5s(heads, config_file)
+    initialize_weights(model, pretrained)
+    return model
 
 def intersect_dicts(da, db, exclude=()):
     # Dictionary intersection of matching keys and shapes, omitting 'exclude' keys, using da values

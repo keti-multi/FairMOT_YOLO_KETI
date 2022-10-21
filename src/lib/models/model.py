@@ -14,6 +14,7 @@ from .networks.dlav0 import get_pose_net as get_dlav0
 from .networks.pose_hrnet import get_pose_net as get_pose_net_hrnet
 # from .networks.pose_dla_conv import get_pose_net as get_dla_conv
 from .yolo import get_pose_net as get_pose_net_yolo
+from .yolo import get_pose_net_v5n as get_pose_net_yolo_v5n
 
 _model_factory = {
   'dla': get_dlav0, # default DLAup
@@ -22,9 +23,10 @@ _model_factory = {
   # 'resdcn': get_pose_net_dcn,
   # 'resfpndcn': get_pose_net_fpn_dcn,
   'hrnet': get_pose_net_hrnet,
-  'yolo': get_pose_net_yolo
+  'yolo': get_pose_net_yolo,
+  'yolov5n': get_pose_net_yolo_v5n
 }
-
+# (opt.arch, opt.heads, opt.head_conv)
 def create_model(arch, heads, head_conv):
   num_layers = int(arch[arch.find('_') + 1:]) if '_' in arch else 0
   arch = arch[:arch.find('_')] if '_' in arch else arch
