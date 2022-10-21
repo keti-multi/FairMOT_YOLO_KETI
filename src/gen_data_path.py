@@ -67,7 +67,44 @@ def gen_data_path_mot17_emb(root_path):
                 print(image[22:], file=f)
     f.close()
 
+def gen_data_path_mot16(root_path):
+    mot_path = 'MOT16/images/train'
+    real_path = os.path.join(root_path, mot_path)
+    seq_names = [s for s in sorted(os.listdir(real_path))]
+    with open('/home/syh/workspace/multi/FairMOT_YOLO_KETI/src/data/mot16.all', 'w') as f:
+        for seq_name in seq_names:
+            seq_path = os.path.join(real_path, seq_name)
+            seq_path = os.path.join(seq_path, 'img1')
+            images = sorted(glob.glob(seq_path + '/*.jpg'))
+            len_all = len(images)
+            for i in range(len_all):
+                image = images[i]
+                print(image, file=f)
+            # len_half = int(len_all / 2)
+            # for i in range(len_half, len_all, 3):
+            #     image = images[i]
+            #     print(image[22:], file=f)
+    f.close()
+
+def gen_data_path_mot16_test(root_path):
+    mot_path = 'MOT16/images/test'
+    real_path = os.path.join(root_path, mot_path)
+    seq_names = [s for s in sorted(os.listdir(real_path))]
+    with open('/home/syh/workspace/multi/FairMOT_YOLO_KETI/src/data/mot16.test', 'w') as f:
+        for seq_name in seq_names:
+            seq_path = os.path.join(real_path, seq_name)
+            seq_path = os.path.join(seq_path, 'img1')
+            images = sorted(glob.glob(seq_path + '/*.jpg'))
+            len_all = len(images)
+            for i in range(len_all):
+                image = images[i]
+                print(image, file=f)
+            # len_half = int(len_all / 2)
+            # for i in range(len_half, len_all, 3):
+            #     image = images[i]
+            #     print(image[22:], file=f)
+    f.close()
 
 if __name__ == '__main__':
-    root = '/home/keti/FairMOT'
-    gen_caltech_path(root)
+    root = '/media/syh/ssd2/data'
+    gen_data_path_mot16(root)

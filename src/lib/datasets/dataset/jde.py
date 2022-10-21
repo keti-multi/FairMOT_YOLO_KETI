@@ -442,7 +442,9 @@ class JointDataset(LoadImagesAndLabels):  # for training
             last_index += v
 
         self.nID = int(last_index + 1)
-        self.nds = [len(x) for x in self.img_files.values()]
+        # self.nds = [len(x) for x in self.img_files.values()]
+
+        self.nds = [len(x) for x in self.label_files.values()]
         self.cds = [sum(self.nds[:i]) for i in range(len(self.nds))]
         self.nF = sum(self.nds)
         self.width = img_size[0]
@@ -465,7 +467,8 @@ class JointDataset(LoadImagesAndLabels):  # for training
             if files_index >= c:
                 ds = list(self.label_files.keys())[i]
                 start_index = c
-
+        print("start_index :",start_index)
+        print("files_index : ",files_index)
         img_path = self.img_files[ds][files_index - start_index]
         label_path = self.label_files[ds][files_index - start_index]
 
@@ -578,7 +581,10 @@ class DetDataset(LoadImagesAndLabels):  # for training
             last_index += v
 
         self.nID = int(last_index + 1)
-        self.nds = [len(x) for x in self.img_files.values()]
+        # ToDo gt label 밀림 현상 디버깅
+        # self.nds = [len(x) for x in self.img_files.values()]
+        self.nds = [len(x) for x in self.label_files.values()]
+
         self.cds = [sum(self.nds[:i]) for i in range(len(self.nds))]
         self.nF = sum(self.nds)
         self.width = img_size[0]
@@ -600,7 +606,6 @@ class DetDataset(LoadImagesAndLabels):  # for training
             if files_index >= c:
                 ds = list(self.label_files.keys())[i]
                 start_index = c
-
         img_path = self.img_files[ds][files_index - start_index]
         label_path = self.label_files[ds][files_index - start_index]
         if os.path.isfile(label_path):

@@ -194,9 +194,59 @@
 # --num_att 6
 
 
-EXP_NAME=jointree_221004_gate_1_keti_plus_yolov5s_att_5ep_288_160_with_tests
-python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/jointree_221004_gate_keti_plus.json' \
---image-width 288 --image-height 160 --lr 5e-4 --batch_size 16 --num_epochs 1000 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64 \
+#EXP_NAME=jointree_221004_gate_1_keti_plus_yolov5s_att_5ep_288_160_with_tests
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/jointree_221004_gate_keti_plus.json' \
+#--image-width 288 --image-height 160 --lr 5e-4 --batch_size 16 --num_epochs 1000 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--load_model /media/syh/ssd2/SynologyDrive/03_FairMOT/FairMOT-master/exp/mot/all_yolov5s_MOT16_288160_bs16_ep500/model_5.pth \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+# 221020 size-wise
+
+WIDTH=576
+HEIGHT=320
+EXP_NAME=jointree_221004_cctv_all_keti_plus_yolov5s_att_5ep_${WIDTH}_${HEIGHT}_with_tests
+python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all.json' \
+--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs 500 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64 \
+--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+--load_model /media/syh/ssd2/SynologyDrive/03_FairMOT/FairMOT-master/exp/mot/all_yolov5s_MOT16_288160_bs16_ep500/model_5.pth \
+--dataset jde \
+--num_att1 32 \
+--num_att2 17 \
+--num_att3 7 \
+--num_att4 17 \
+--num_att5 7 \
+--num_att6 17 \
+--num_att 6
+
+WIDTH=720
+HEIGHT=400
+EXP_NAME=jointree_221004_cctv_all_keti_plus_yolov5s_att_5ep_${WIDTH}_${HEIGHT}_with_tests
+python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all.json' \
+--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs 500 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64 \
+--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+--load_model /media/syh/ssd2/SynologyDrive/03_FairMOT/FairMOT-master/exp/mot/all_yolov5s_MOT16_288160_bs16_ep500/model_5.pth \
+--dataset jde  \
+--num_att1 32 \
+--num_att2 17 \
+--num_att3 7 \
+--num_att4 17 \
+--num_att5 7 \
+--num_att6 17 \
+--num_att 6
+
+WIDTH=430
+HEIGHT=240
+EXP_NAME=jointree_221004_cctv_all_keti_plus_yolov5s_att_5ep_${WIDTH}_${HEIGHT}_with_tests
+python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all.json' \
+--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs 500 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64 \
 --save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
 --load_model /media/syh/ssd2/SynologyDrive/03_FairMOT/FairMOT-master/exp/mot/all_yolov5s_MOT16_288160_bs16_ep500/model_5.pth \
 --dataset jde  \

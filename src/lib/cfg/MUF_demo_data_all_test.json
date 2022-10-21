@@ -1,0 +1,28 @@
+{
+    "data":"/media/syh/ssd2/data",
+    "root":"/home/syh/workspace/multi/FairMOT_YOLO_KETI",
+    "train":
+    {
+        "keti_220715_cctv_1":"./data/keti_220715_cctv.train",
+        "keti_220715_cctv_2_train":"./data/keti_220715_cctv_2.train",
+        "infoworks_220725_cctv":"./data/infoworks_220725_cctv.train",
+        "jointree_220707_cctv_2_train":"./data/jointree_cctv/jointree_220707_cctv_2_without_negative.train",
+        "jointree_220707_cctv_1_train":"./data/jointree_cctv/jointree_220707_cctv_1_without_negative.train",
+        "mot16":"./data/mot16.all"
+    },
+    "test_emb":
+    {
+        "keti_220715_cctv_2_test":"./data/keti_220715_cctv_2.test",
+        "keti_220715_cctv_3_test":"./data/keti_220715_cctv_3.test",
+        "jointree_220707_cctv_2_test":"./data/jointree_cctv/jointree_220707_cctv_2_without_negative.test",
+        "jointree_220707_cctv_1_test":"./data/jointree_cctv/jointree_220707_cctv_1_without_negative.test"
+    },
+    "test":
+    {
+                "jointree_220707_cctv_1_train":"./data/jointree_cctv/jointree_220707_cctv_1_without_negative.train",
+       "keti_220715_cctv_2_test":"./data/keti_220715_cctv_2.test",
+        "keti_220715_cctv_3_test":"./data/keti_220715_cctv_3.test",
+        "jointree_220707_cctv_2_test":"./data/jointree_cctv/jointree_220707_cctv_2_without_negative.test",
+        "jointree_220707_cctv_1_test":"./data/jointree_cctv/jointree_220707_cctv_1_without_negative.test"
+    }
+}

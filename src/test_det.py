@@ -15,8 +15,8 @@ from scipy import interpolate
 import numpy as np
 from torchvision.transforms import transforms as T
 from models.model import create_model, load_model
-from datasets.dataset.jde import DetDataset#, collate_fn
-from datasets.dataset.jde_attribute import AttDetDataset, collate_fn
+from datasets.dataset.jde import DetDataset, collate_fn
+# from datasets.dataset.jde_attribute import AttDetDataset, collate_fn
 
 
 from utils.utils import xywh2xyxy, ap_per_class, bbox_iou
@@ -85,8 +85,8 @@ def test_det(
     # Get dataloader
     transforms = T.Compose([T.ToTensor()])
 
-    # dataset = DetDataset(dataset_root, test_path, img_size, augment=False, transforms=transforms)
-    dataset = AttDetDataset(dataset_root, test_path, img_size, augment=False, transforms=transforms)
+    dataset = DetDataset(dataset_root, test_path, img_size, augment=False, transforms=transforms)
+    # dataset = AttDetDataset(dataset_root, test_path, img_size, augment=False, transforms=transforms)
 
     # dataset = Dataset(opt, dataset_root, trainset_paths, trainset_root, img_size, augment=False, transforms=transforms)
 

@@ -346,7 +346,8 @@ if __name__ == '__main__':
                       '''
         data_root = os.path.join(opt.data_dir, 'MOT20/images/test')
     seqs = [seq.strip() for seq in seqs_str.split()]
-
+    print("seqs : ",seqs)
+    raise KeyboardInterrupt
     main(opt,
          data_root=data_root,
          seqs=seqs,
