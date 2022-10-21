@@ -40,17 +40,35 @@
 # --det_thres 0.3
 
 
- ## 221021
+# ## 221021
+#WIDTH=576
+#HEIGHT=320
+#EXP_NAME=jointree_221004_cctv_all_keti_plus_yolov5s_att_5ep_${WIDTH}_${HEIGHT}_only_test
+#LOAD_EXP=jointree_221004_cctv_all_keti_plus_yolov5s_att_5ep_${WIDTH}_${HEIGHT}_with_tests
+#TEST_EPOCH=12
+#DATASET=./lib/cfg/MUF_demo_data_all_test.json
+#
+#python -W ignore ./test_det.py mot --gpus 0 --exp_id ${EXP_NAME} \
+#--data_cfg ${DATASET} \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs 1000 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+# --load_model /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${LOAD_EXP}/model_best_${TEST_EPOCH}.pth\
+# --det_thres 0.3
+
 WIDTH=576
 HEIGHT=320
-EXP_NAME=jointree_221004_cctv_all_keti_plus_yolov5s_att_5ep_${WIDTH}_${HEIGHT}_only_test
-LOAD_EXP=jointree_221004_cctv_all_keti_plus_yolov5s_att_5ep_${WIDTH}_${HEIGHT}_with_tests
-TEST_EPOCH=12
+## WARNING /home/syh/workspace/multi/FairMOT_YOLO_KETI/src/lib/models/yolo.py 참조하여 config 변경
+## yolo == yolov5s, yolov5n==yolov5n
+BACKBONE=yolov5n
+LOAD_EXP=MUF_cctv_all_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_with_tests
+EXP_NAME=MUF_cctv_all_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_only_test
+
+TEST_EPOCH=1
 DATASET=./lib/cfg/MUF_demo_data_all_test.json
 
 python -W ignore ./test_det.py mot --gpus 0 --exp_id ${EXP_NAME} \
 --data_cfg ${DATASET} \
---image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs 1000 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64 \
+--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs 1000 --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 64 \
 --save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
  --load_model /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${LOAD_EXP}/model_best_${TEST_EPOCH}.pth\
  --det_thres 0.3

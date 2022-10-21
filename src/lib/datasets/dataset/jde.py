@@ -467,8 +467,6 @@ class JointDataset(LoadImagesAndLabels):  # for training
             if files_index >= c:
                 ds = list(self.label_files.keys())[i]
                 start_index = c
-        print("start_index :",start_index)
-        print("files_index : ",files_index)
         img_path = self.img_files[ds][files_index - start_index]
         label_path = self.label_files[ds][files_index - start_index]
 

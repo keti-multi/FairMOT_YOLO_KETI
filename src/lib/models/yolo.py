@@ -173,7 +173,29 @@ class PoseYOLOv5s(nn.Module):
         for head in self.heads:
             ret[head] = self.__getattr__(head)(x)
         return [ret]
+class PoseYOLOv5n(nn.Module):
+    def __init__(self, heads, config_file):
+        self.heads = heads
+        super(PoseYOLOv5n, self).__init__()
+        self.backbone = Model(config_file)
+        for head in sorted(self.heads):
+            num_output = self.heads[head]
+            fc = nn.Sequential(
+                nn.Conv2d(32, 32, kernel_size=3, padding=1, bias=True),
+                nn.SiLU(),
+                nn.Conv2d(32, num_output, kernel_size=1, stride=1, padding=0))
+            self.__setattr__(head, fc)
+            if 'hm' in head:
+                fc[-1].bias.data.fill_(-2.19)
+            else:
+                fill_fc_weights(fc)
 
+    def forward(self, x):
+        x = self.backbone(x)
+        ret = {}
+        for head in self.heads:
+            ret[head] = self.__getattr__(head)(x)
+        return [ret]
 
 def get_pose_net(num_layers, heads, head_conv):
     config_file = os.path.join(
@@ -198,10 +220,10 @@ def get_pose_net_v5n(num_layers, heads, head_conv):
     )
     pretrained = os.path.join(
         os.path.dirname(__file__),
-        '../../../models/yolov5s.pt'
-        # '../../../models/yolov5n.pt'
+        # '../../../models/yolov5s.pt'
+        '../../../models/yolov5n.pt'
     )
-    model = PoseYOLOv5s(heads, config_file)
+    model = PoseYOLOv5n(heads, config_file)
     initialize_weights(model, pretrained)
     return model
 

@@ -17,7 +17,7 @@ class opts(object):
         self.parser.add_argument('--test', action='store_true')
         # self.parser.add_argument('--load_model', default='../models/ctdet_coco_dla_2x.pth',
         # help='path to pretrained model')
-        self.parser.add_argument('--load_model', default='/media/syh/ssd2/checkpoints/fairmot_yolov5s.pth',
+        self.parser.add_argument('--load_model', default='',
                                  help='path to pretrained model')
         self.parser.add_argument('--resume', action='store_true',
                                  help='resume an experiment. '
