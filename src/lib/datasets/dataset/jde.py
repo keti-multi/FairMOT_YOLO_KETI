@@ -579,7 +579,7 @@ class DetDataset(LoadImagesAndLabels):  # for training
             last_index += v
 
         self.nID = int(last_index + 1)
-        # ToDo gt label 밀림 현상 디버깅
+        #
         # self.nds = [len(x) for x in self.img_files.values()]
         self.nds = [len(x) for x in self.label_files.values()]
 

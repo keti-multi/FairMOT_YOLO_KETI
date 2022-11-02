@@ -1,0 +1,36 @@
+{
+    "data":"/media/syh/ssd2/data",
+    "root":"/home/syh/workspace/multi/FairMOT_YOLO_KETI",
+    "train":
+    {
+        "keti_220715_cctv_1":"./data/keti_220715_cctv.train"
+    },
+    "test_emb":
+    {
+        "keti_220715_cctv_2_test":"./data/keti_220715_cctv_2.test"
+
+    },
+    "test":
+    {
+        "infoworks_220811_gate_1": "./data/info_gate/infoworks_220811_gate_1.all",
+        "infoworks_220811_gate_2": "./data/info_gate/infoworks_220811_gate_2.all",
+        "infoworks_220811_gate_3": "./data/info_gate/infoworks_220811_gate_3.all",
+        "infoworks_220811_gate_4": "./data/info_gate/infoworks_220811_gate_4.all",
+        "infoworks_220811_gate_5": "./data/info_gate/infoworks_220811_gate_5.all",
+        "infoworks_220811_gate_6": "./data/info_gate/infoworks_220811_gate_6.all",
+        "infoworks_220811_gate_7": "./data/info_gate/infoworks_220811_gate_7.all",
+        "infoworks_220811_gate_8": "./data/info_gate/infoworks_220811_gate_8.all",
+        "infoworks_220817_gate_1": "./data/info_gate/infoworks_220817_gate_1.all",
+        "infoworks_220817_gate_2": "./data/info_gate/infoworks_220817_gate_2.all",
+        "infoworks_220817_gate_3": "./data/info_gate/infoworks_220817_gate_3.all",
+        "infoworks_220817_gate_4": "./data/info_gate/infoworks_220817_gate_4.all",
+        "infoworks_220817_gate_5": "./data/info_gate/infoworks_220817_gate_5.all",
+        "infoworks_220817_gate_6": "./data/info_gate/infoworks_220817_gate_6.all",
+        "infoworks_220817_gate_7": "./data/info_gate/infoworks_220817_gate_7.all",
+        "infoworks_220817_gate_8": "./data/info_gate/infoworks_220817_gate_8.all",
+        "infoworks_220817_gate_9": "./data/info_gate/infoworks_220817_gate_9.all",
+        "infoworks_220817_gate_10": "./data/info_gate/infoworks_220817_gate_10.all",
+        "infoworks_220811_gate_9": "./data/info_gate/infoworks_220811_gate_9.all",
+        "infoworks_220811_gate_10": "./data/info_gate/infoworks_220811_gate_10.all"
+    }
+}

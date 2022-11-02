@@ -117,7 +117,7 @@ def test_det(
         hm = output['hm'].sigmoid_()
         wh = output['wh']
         reg = output['reg'] if opt.reg_offset else None
-        opt.K = 5
+        opt.K = 100
         detections, inds = mot_decode(hm, wh, reg=reg, ltrb=opt.ltrb, K=opt.K)
         # Compute average precision for each sample
         targets = [targets[i][:int(l)] for i, l in enumerate(targets_len)]
@@ -126,11 +126,16 @@ def test_det(
             #path = paths[si]
             #img0 = cv2.imread(path)
             dets = detections[si]
+            # print(dets.shape)
             dets = dets.unsqueeze(0)
+            # print(dets.shape)
             dets = post_process(opt, dets, meta)
+            # print(dets)
             dets = merge_outputs(opt, [dets])[1]
-
+            # print(dets)
             remain_inds = dets[:, 4] > opt.det_thres
+            # print("#"*80)
+            # print(remain_inds)
             dets = dets[remain_inds]
             if dets is None:
                 # If there are labels but no detections mark as zero AP
@@ -156,6 +161,7 @@ def test_det(
 
 
                 path = paths[si]
+                # print("path : ",path.split('/')[-3])
                 img0 = cv2.imread(path)
                 img1 = cv2.imread(path)
                 for t in range(len(target_boxes)):
@@ -165,14 +171,22 @@ def test_det(
                     y2 = int(target_boxes[t, 3].cpu().data)
                     # cv2.rectangle(img0, (x1, y1), (x2, y2), (0, 255, 0), 4)
                     cv2.rectangle(img0, (x1, y1), (x2, y2), (0, 255, 0), 4)
-                cv2.imwrite(os.path.join(opt.save_dir,'gt',path.split('/')[-1].split('.')[0]+'.jpg'), img0)
+                if os.path.exists(os.path.join(opt.save_dir,'gt',path.split('/')[-3])):
+                    pass
+                else :
+                    os.makedirs(os.path.join(opt.save_dir,'gt',path.split('/')[-3]))
+                cv2.imwrite(os.path.join(opt.save_dir,'gt',path.split('/')[-3],path.split('/')[-1].split('.')[0]+'.jpg'), img0)
                 for t in range(len(dets)):
                     x1 = int(float(dets[t, 0]))
                     y1 = int(float(dets[t, 1]))
                     x2 = int(float(dets[t, 2]))
                     y2 = int(float(dets[t, 3]))
                     cv2.rectangle(img1, (x1, y1), (x2, y2), (0, 255, 0), 4)
-                cv2.imwrite(os.path.join(opt.save_dir,'pred',path.split('/')[-1].split('.')[0]+'.jpg'), img1)
+                if os.path.exists(os.path.join(opt.save_dir, 'pred', path.split('/')[-3])):
+                    pass
+                else:
+                    os.makedirs(os.path.join(opt.save_dir, 'pred', path.split('/')[-3]))
+                cv2.imwrite(os.path.join(opt.save_dir,'pred',path.split('/')[-3],path.split('/')[-1].split('.')[0]+'.jpg'), img1)
                 #abc = ace
 
 

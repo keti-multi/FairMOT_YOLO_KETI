@@ -1,16 +1,16 @@
 {
     "data":"/data/Dataset",
-    "root":"/home/hjlee/FairMOT",
+    "root":"/media/syh/ssd2/data/FairMOT",
     "train":
     {
-        "mot16":"./data/mot16.train"
+        "mot16":"./data/mot16.all"
     },
     "test_emb":
     {
-        "mot16":"./data/mot16.train"
+        "mot16":"./data/mot16.all"
     },
     "test":
     {
-        "mot16":"./data/mot16.train"
+        "mot16":"./data/mot16.all"
     }
 }

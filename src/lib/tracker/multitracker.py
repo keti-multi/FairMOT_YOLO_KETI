@@ -764,6 +764,9 @@ class JDETracker(object):
 
         return output_stracks
 
+class MUF_JDETracker(JDETracker):
+    def __init__(self, opt, frame_rate=30):
+        pass
 
 def joint_stracks(tlista, tlistb): ##
     exists = {}
