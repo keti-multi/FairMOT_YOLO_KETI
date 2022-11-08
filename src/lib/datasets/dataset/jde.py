@@ -621,4 +621,83 @@ class DetDataset(LoadImagesAndLabels):  # for training
 
         return imgs, labels0, img_path, (h, w)
 
+class DetEvalDataset(LoadImagesAndLabels):  # for training
+    def __init__(self, root, paths, img_size=(1088, 608), augment=False, transforms=None):
+
+        dataset_names = paths.keys()
+        self.img_files = OrderedDict()
+        self.label_files = OrderedDict()
+        self.tid_num = OrderedDict()
+        self.tid_start_index = OrderedDict()
+        for ds, path in paths.items():
+            with open(path, 'r') as file:
+                self.img_files[ds] = file.readlines()
+                self.img_files[ds] = [osp.join(root, x.strip()) for x in self.img_files[ds]]
+                self.img_files[ds] = list(filter(lambda x: len(x) > 0, self.img_files[ds]))
+
+            self.label_files[ds] = [
+                x.replace('images', 'labels_with_ids').replace('.png', '.txt').replace('.jpg', '.txt')
+                for x in self.img_files[ds]]
+
+        for ds, label_paths in self.label_files.items():
+            max_index = -1
+            for lp in label_paths:
+                lb = np.loadtxt(lp)
+                if len(lb) < 1:
+                    continue
+                if len(lb.shape) < 2:
+                    img_max = lb[1]
+                else:
+                    img_max = np.max(lb[:, 1])
+                if img_max > max_index:
+                    max_index = img_max
+            self.tid_num[ds] = max_index + 1
+
+        last_index = 0
+        for i, (k, v) in enumerate(self.tid_num.items()):
+            self.tid_start_index[k] = last_index
+            last_index += v
+
+        self.nID = int(last_index + 1)
+        #
+        # self.nds = [len(x) for x in self.img_files.values()]
+        self.nds = [len(x) for x in self.label_files.values()]
+
+        self.cds = [sum(self.nds[:i]) for i in range(len(self.nds))]
+        self.nF = sum(self.nds)
+        self.width = img_size[0]
+        self.height = img_size[1]
+        self.augment = augment
+        self.transforms = transforms
+
+        print('=' * 80)
+        print('dataset summary')
+        print(self.tid_num)
+        print('total # identities:', self.nID)
+        print('start index')
+        print(self.tid_start_index)
+        print('=' * 80)
+
+    def __getitem__(self, files_index):
+
+        for i, c in enumerate(self.cds):
+            if files_index >= c:
+                ds = list(self.label_files.keys())[i]
+                start_index = c
+        img_path = self.img_files[ds][files_index - start_index]
+        label_path = self.label_files[ds][files_index - start_index]
+        if os.path.isfile(label_path):
+            # labels0 = np.loadtxt(label_path, dtype=np.float32).reshape(-1, 6)
+            try:
+                labels0 = np.loadtxt(label_path, dtype=np.float32).reshape(-1, 12)
+            except:
+                labels0 = np.loadtxt(label_path, dtype=np.float32).reshape(-1, 6)
+            labels0 = labels0[:,:6]
+
+        imgs, labels, img_path, (h, w) = self.get_data(img_path, label_path)
+        for i, _ in enumerate(labels):
+            if labels[i, 1] > -1:
+                labels[i, 1] += self.tid_start_index[ds]
+
+        return imgs, labels0, img_path, (h, w)
 

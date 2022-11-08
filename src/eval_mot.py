@@ -184,10 +184,13 @@ Run the function by pointing to the ground truth and your generated results as f
 #                               '/media/syh/hdd/data/infoworks_220725_cctv/images/results/MUF_train_yolov5_288_160/infoworks_220725_cctv.txt')
 
 # import cv2
+# gts = open('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/gt.txt', 'r')
+# dets = open(
+#     '/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/Edge Device Result/288_160_16_yolov5n_linear_31/conf_thres0.2/result.txt',
+#     'r')
 
-
-motMetricsEnhancedCalculator('/media/syh/ssd2/SynologyDrive/01_AnnotationTool/05_Project/20220729_infoworks_cctv/gt.txt', \
-                              '/media/syh/hdd/data/infoworks_220725_cctv/images/results/MUF_train_yolov5_288_160/infoworks_220725_cctv.txt')
+motMetricsEnhancedCalculator('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/gt.txt', \
+                              '/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/Edge Device Result/288_160_16_yolov5n_linear_31/conf_thres0.2/result.txt')
 
 """
    num_frames  IDF1       IDP       IDR      Rcll      Prcn   GT  MT  PT  ML  FP  FN  IDsw  FM      MOTA      MOTP

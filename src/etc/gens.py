@@ -43,7 +43,7 @@ test_len=100 # 100 으로 될 자리
 # 검증용
 box_color_RGBA  = (0,255,0,255)
 fill_color_RGBA = (0,255,0,50)
-
+out_gt_sum = open("/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/gt.txt", "w")
 for i in range(test_len):
     out_gt = open(os.path.join("/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/gt","%06d.txt"%(i+1)), "w")
     #test_img="%06d.jpg" % (i+1)
@@ -101,10 +101,10 @@ for i in range(test_len):
             cy /=1080
             ww = right-left
             ww /=1920
-            hh = top-bottom
+            hh = bottom-top
             hh /=1080
-            out_gt.write("0 %s %s %s %s %s\n"%(str(f_id),str(cx),str(cy),str(ww),str(hh)))
-
+            out_gt.write("0 %s %f %f %f %f\n"%(str(f_id),cx,cy,ww,hh))
+            out_gt_sum.write("%d %s %f %f %f %f\n"%(i+1,str(f_id),cx,cy,ww,hh))
 
             # draw = ImageDraw.Draw(new_image, 'RGBA') # RGBA
             # draw.rectangle((left/2,top/2,right/2,bottom/2), outline=box_color_RGBA, fill=fill_color_RGBA, width = 3)
@@ -143,9 +143,11 @@ for i in range(test_len):
             cy /=1080
             ww = right-left
             ww /=1920
-            hh = top-bottom
+            hh = bottom-top
             hh /=1080
-            out_gt.write("0 %s %s %s %s %s\n"%(str(f_id),str(cx),str(cy),str(ww),str(hh)))
+            out_gt.write("0 %s %f %f %f %f\n"%(str(f_id),cx,cy,ww,hh))
+            out_gt_sum.write("%d %s %f %f %f %f\n"%(i+1,str(f_id),cx,cy,ww,hh))
+
 
             # draw = ImageDraw.Draw(new_image, 'RGBA') # RGBA
             # draw.rectangle((left/2 + 960,top/2,right/2 + 960,bottom/2), outline=box_color_RGBA, fill=fill_color_RGBA, width = 3)
@@ -182,9 +184,11 @@ for i in range(test_len):
             cy /=1080
             ww = right-left
             ww /=1920
-            hh = top-bottom
+            hh = bottom-top
             hh /=1080
-            out_gt.write("0 %s %s %s %s %s\n"%(str(f_id),str(cx),str(cy),str(ww),str(hh)))
+            out_gt.write("0 %s %f %f %f %f\n"%(str(f_id),cx,cy,ww,hh))
+            out_gt_sum.write("%d %s %f %f %f %f\n"%(i+1,str(f_id),cx,cy,ww,hh))
+
 
             # draw = ImageDraw.Draw(new_image, 'RGBA') # RGBA
             # draw.rectangle((left/2,top/2+540,right/2,bottom/2+540), outline=box_color_RGBA, fill=fill_color_RGBA, width = 3)
@@ -220,14 +224,16 @@ for i in range(test_len):
             cy /=1080
             ww = right-left
             ww /=1920
-            hh = top-bottom
+            hh = bottom-top
             hh /=1080
-            out_gt.write("0 %s %s %s %s %s\n"%(str(f_id),str(cx),str(cy),str(ww),str(hh)))
+            out_gt.write("0 %s %f %f %f %f\n"%(str(f_id),cx,cy,ww,hh))
+            out_gt_sum.write("%d %s %f %f %f %f\n"%(i+1,str(f_id),cx,cy,ww,hh))
+
             # draw = ImageDraw.Draw(new_image, 'RGBA') # RGBA
             # draw.rectangle((left/2+960,top/2+540,right/2+960,bottom/2+540), outline=box_color_RGBA, fill=fill_color_RGBA, width = 3)
         file.close()
     except:
         pass
     out_gt.close()
-    new_image.save(os.path.join(out_dir,"%06d.jpg" % (i+1)),"JPEG")
+    # new_image.save(os.path.join(out_dir,"%06d.jpg" % (i+1)),"JPEG")
     # new_image.show()

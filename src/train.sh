@@ -455,19 +455,88 @@
 #--num_att6 17 \
 #--num_att 6
 
+## reiddim 32 w576 h320
+## reid dimension to 16
+#WIDTH=288
+#HEIGHT=160
+#BACKBONE=yolov5n
+#EXP_NAME=MUF_gate_all_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_reiddim_16_with_tests
+#EPOCH=100
+#
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all_gate.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 16 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+#
+
+### 221108 anonymous data fitting
+## reiddim 32 w576 h320
+## reid dimension to 16
+#WIDTH=288
+#HEIGHT=160
+#BACKBONE=yolov5n
+#EXP_NAME=MUF_anonymous_accred_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_reiddim_16_with_tests
+#EPOCH=100
+#
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all_anonymous_four.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 16 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+#
+### 221108 anonymous data fitting power fitting
+## reiddim 32 w576 h320
+## reid dimension to 16
+#WIDTH=288
+#HEIGHT=160
+#BACKBONE=yolov5n
+#EXP_NAME=MUF_anonymous_only_accred_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_reiddim_16_with_tests
+#EPOCH=100
+#
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all_anonymous_four_only.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 16 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+## 221108 anonymous data fitting power fitting
 # reiddim 32 w576 h320
 # reid dimension to 16
 WIDTH=288
 HEIGHT=160
 BACKBONE=yolov5n
-EXP_NAME=MUF_gate_all_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_reiddim_16_with_tests
+EXP_NAME=MUF_anonymous_only_accred_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_reiddim_16_with_tests_retraining
 EPOCH=100
+ETC=_reiddim_${REID_DIM}
+LOAD_EXP=MUF_cctv_all_MOT_plus_yolov5n_288_160_reiddim_16_with_tests
 
-
-python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all_gate.json' \
---image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 16 \
+python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all_anonymous_four_only_only.json' \
+--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 1 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 16 \
 --save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
---dataset jde  \
+--load_model /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${LOAD_EXP}/model_best_4.pth \
+--dataset jde \
 --num_att1 32 \
 --num_att2 17 \
 --num_att3 7 \

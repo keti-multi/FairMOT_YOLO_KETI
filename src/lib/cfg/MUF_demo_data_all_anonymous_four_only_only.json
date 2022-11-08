@@ -1,0 +1,16 @@
+{
+    "data":"/media/syh/ssd2/data",
+    "root":"/home/syh/workspace/multi/FairMOT_YOLO_KETI",
+    "train":
+    {
+        "anonymous_221108_cctv_1": "./data/anonymous_cctv/anonymous_221108_cctv_1.all"
+    },
+    "test_emb":
+    {
+       "anonymous_221108_cctv_1": "./data/anonymous_cctv/anonymous_221108_cctv_1.all"
+    },
+    "test":
+    {
+       "anonymous_221108_cctv_1": "./data/anonymous_cctv/anonymous_221108_cctv_1.all"
+    }
+}
