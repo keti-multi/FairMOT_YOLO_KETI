@@ -261,8 +261,15 @@
 # --input-image-dir '/media/syh/ssd2/data/keti_220715_cctv/images/train/keti_220715_cctv/img1' \
 # --output-root '/media/syh/hdd/data/dummy/jointree_220707_cctv_1_keti_plus_yolov5s_att_5ep_288_160_with_tests_epochs2_keti_vid_1'
 
-# 221001 syh jointree cctv 학습결과 quality check video-> jointree cctv
-python demo.py mot --load_model '/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/jointree_220707_cctv_1_keti_plus_yolov5s_att_5ep_288_160_with_tests/model_best_2.pth' \
---arch yolo --reid_dim 64 --conf_thres 0.25 --gpus 0 --image-width 288 --image-height 160 --input-format 'images' \
+## 221001 syh jointree cctv 학습결과 quality check video-> jointree cctv
+#python demo.py mot --load_model '/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/jointree_220707_cctv_1_keti_plus_yolov5s_att_5ep_288_160_with_tests/model_best_2.pth' \
+#--arch yolo --reid_dim 64 --conf_thres 0.25 --gpus 0 --image-width 288 --image-height 160 --input-format 'images' \
+#--input-image-dir '/media/syh/ssd2/data/jointree_220707_cctv_2/images/train/jointree_220707_cctv_2/img1' \
+#--output-root '/media/syh/hdd/data/dummy/jointree_220707_cctv_1_keti_plus_yolov5s_att_5ep_288_160_with_tests_epochs2_cctv_vid_1'
+
+# 221108 정량평가
+python demo.py mot \
+--load_model '/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/jointree_220707_cctv_1_keti_plus_yolov5s_att_5ep_288_160_with_tests/model_best_2.pth' \
+--arch yolo --reid_dim 16 --conf_thres 0.25 --gpus 0 --image-width 288 --image-height 160 --input-format 'images' \
 --input-image-dir '/media/syh/ssd2/data/jointree_220707_cctv_2/images/train/jointree_220707_cctv_2/img1' \
 --output-root '/media/syh/hdd/data/dummy/jointree_220707_cctv_1_keti_plus_yolov5s_att_5ep_288_160_with_tests_epochs2_cctv_vid_1'

@@ -109,7 +109,7 @@ def visualization(img_frame,gt_boxes, tar_boxes,out):
 
 def motMetricsEnhancedCalculator(gtSource, tSource):
   # load ground truth
-  gt = np.loadtxt(gtSource, delimiter=',')
+  gt = np.loadtxt(gtSource, delimiter=' ')
   # load tracking output
   t = np.loadtxt(tSource, delimiter=',')
   # Create an accumulator that will be updated during each frame
@@ -179,7 +179,7 @@ Run the function by pointing to the ground truth and your generated results as f
 ##/media/syh/hdd/data/infoworks_220725_cctv/output
 # motMetricsEnhancedCalculator('gt/groundtruth.txt', \
 #                              'to/trackeroutput.txt')
-
+#
 # motMetricsEnhancedCalculator('/media/syh/hdd/data/infoworks_220725_cctv/images/train/infoworks_220725_cctv/gt/gt.txt', \
 #                               '/media/syh/hdd/data/infoworks_220725_cctv/images/results/MUF_train_yolov5_288_160/infoworks_220725_cctv.txt')
 
@@ -189,9 +189,18 @@ Run the function by pointing to the ground truth and your generated results as f
 #     '/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/Edge Device Result/288_160_16_yolov5n_linear_31/conf_thres0.2/result.txt',
 #     'r')
 
-motMetricsEnhancedCalculator('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/gt.txt', \
-                              '/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/Edge Device Result/288_160_16_yolov5n_linear_31/conf_thres0.2/result.txt')
+# motMetricsEnhancedCalculator('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/gt.txt', \
+#                               '/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/Edge Device Result/288_160_16_yolov5n_linear_31/conf_thres0.1/result.txt')
+#
 
+# motMetricsEnhancedCalculator('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/20220715_keti/datas/cam-001/20220715130000_mp4/keti_220715_gt.txt', \
+#                               '/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/Edge_Device Result/result_mota.txt')
+
+motMetricsEnhancedCalculator('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/20220715_keti/datas/cam-001/20220715130000_mp4/keti_220715_gt.txt', \
+                              '/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/정량평가/result_mota.txt')
+
+# motMetricsEnhancedCalculator('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/20220707_jointree/datas/cam-001/20220707130000_mp4/jointree_220707_gt.txt', \
+#                               '/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/Edge_Device Result/result_mota_AREA_220707.txt')
 """
    num_frames  IDF1       IDP       IDR      Rcll      Prcn   GT  MT  PT  ML  FP  FN  IDsw  FM      MOTA      MOTP
 acc         150  0.75  0.857143  0.666667  0.743295  0.955665  261   0   2   0   9  67     1  12  0.704981  0.244387
