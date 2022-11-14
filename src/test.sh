@@ -195,6 +195,28 @@
 
 ## 2211114 트레이닝 결과 테스트
 #
+#WIDTH=288
+#HEIGHT=160
+### WARNING /home/syh/workspace/multi/FairMOT_YOLO_KETI/src/lib/models/yolo.py 참조하여 config 변경
+### yolo == yolov5s, yolov5n==yolov5n
+#BACKBONE=yolov5n
+#REID_DIM=16
+#ETC=_reiddim_${REID_DIM}
+##MUF_anonymous_only_accred_MOT_plus_yolov5n_288_160_reiddim_16_with_tests_retraining
+#LOAD_EXP=MUF_anonymous_only_accred_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_with_tests_retraining
+#EXP_NAME=MUF_anonymous_only_accred_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_retraining_test_only
+#
+#TEST_EPOCH=1
+#DATASET=./lib/cfg/MUF_demo_data_all_anonymous_four.json
+#
+#python -W ignore ./test_det.py mot --gpus 0 --exp_id ${EXP_NAME} \
+#--data_cfg ${DATASET} \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs 1000 --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+# --load_model /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${LOAD_EXP}/model_last.pth\
+# --det_thres 0.3
+
+## 221114 추가트레이닝 테스트
 WIDTH=288
 HEIGHT=160
 ## WARNING /home/syh/workspace/multi/FairMOT_YOLO_KETI/src/lib/models/yolo.py 참조하여 config 변경

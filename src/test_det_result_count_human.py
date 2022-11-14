@@ -25,6 +25,17 @@ from models.decode import mot_decode
 from utils.post_process import ctdet_post_process
 
 
+font                   = cv2.FONT_HERSHEY_SIMPLEX
+bottomLeftCornerOfText = (800,30)
+fontScale              = 1
+fontColor              = (255,255,255)
+thickness              = 2
+lineType               = 2
+
+
+
+
+
 def post_process(opt, dets, meta):
     dets = dets.detach().cpu().numpy()
     dets = dets.reshape(1, -1, dets.shape[2])
@@ -51,6 +62,10 @@ def merge_outputs(opt, detections):
             keep_inds = (results[j][:, 4] >= thresh)
             results[j] = results[j][keep_inds]
     return results
+
+path="/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/out"
+imgs=os.listdir(path)
+imgs.sort()
 
 
 def test_det(
@@ -90,6 +105,10 @@ def test_det(
     dets.close()
 
     detected_sum=0
+
+    path_ = "/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/out"
+    imgs = os.listdir(path_)
+    imgs.sort()
     for i in range(100):
         t = time.time()
         # id x y w h => cx cy w h
@@ -115,6 +134,8 @@ def test_det(
 
         # If no labels add number of detections as incorrect
         correct = []
+
+
         if labels.__len__() == 0:
             # correct.extend([0 for _ in range(len(detections))])
             mAPs.append(0), mR.append(0), mP.append(0)
@@ -131,38 +152,42 @@ def test_det(
             dets = xywh2xyxy(dets)
 
             # print("target_boxes : ",target_boxes)
-            # path = paths[si]
+            path=os.path.join(path_,imgs[i])
             # print("path : ",path.split('/')[-3])
-            # img0 = cv2.imread(path)
+            img0 = cv2.imread(path)
             # img1 = cv2.imread(path)
-            # for t in range(len(target_boxes)):
-            #     x1 = int(target_boxes[t, 0])
-            #     y1 = int(target_boxes[t, 1])
-            #     x2 = int(target_boxes[t, 2])
-            #     y2 = int(target_boxes[t, 3])
+            for t in range(len(target_boxes)):
+                x1 = int(target_boxes[t, 0])
+                y1 = int(target_boxes[t, 1])
+                x2 = int(target_boxes[t, 2])
+                y2 = int(target_boxes[t, 3])
+                cv2.rectangle(img0, (x1, y1), (x2, y2), (0, 0, 255), 4)
                 # cv2.rectangle(img0, (x1, y1), (x2, y2), (0, 255, 0), 4)
-                # cv2.rectangle(img0, (x1, y1), (x2, y2), (0, 255, 0), 4)
-            # if os.path.exists(os.path.join(opt.save_dir,'gt',path.split('/')[-3])):
-            #     pass
-            # else :
-            #     os.makedirs(os.path.join(opt.save_dir,'gt',path.split('/')[-3]))
-            # cv2.imwrite(os.path.join(opt.save_dir,'gt',path.split('/')[-3],path.split('/')[-1].split('.')[0]+'.jpg'), img0)
+            if os.path.exists(os.path.join(opt.save_dir,'gt',path.split('/')[-3])):
+                pass
+            else :
+                os.makedirs(os.path.join(opt.save_dir,'gt',path.split('/')[-3]))
+
             # for t in range(len(dets)):
             #     x1 = int(float(dets[t, 0]))
             #     y1 = int(float(dets[t, 1]))
             #     x2 = int(float(dets[t, 2]))
             #     y2 = int(float(dets[t, 3]))
-                # cv2.rectangle(img1, (x1, y1), (x2, y2), (0, 255, 0), 4)
+            #     # cv2.rectangle(img1, (x1, y1), (x2, y2), (0, 255, 0), 4)
+            #     cv2.rectangle(img0, (x1, y1), (x2, y2), (0, 0, 255), 4)
             # if os.path.exists(os.path.join(opt.save_dir, 'pred', path.split('/')[-3])):
             #     pass
             # else:
             #     os.makedirs(os.path.join(opt.save_dir, 'pred', path.split('/')[-3]))
             # # cv2.imwrite(os.path.join(opt.save_dir,'pred',path.split('/')[-3],path.split('/')[-1].split('.')[0]+'.jpg'), img1)
             # #abc = ace
+
             detected = []
 
             for *pred_bbox,conf in dets:
                 obj_pred = 0
+                # print("pred_bbox :",pred_bbox)
+                outs=pred_bbox
                 pred_bbox = torch.FloatTensor(pred_bbox).view(1, -1)
                 # Compute iou with target boxes
                 iou = bbox_iou(pred_bbox, torch.Tensor(target_boxes), x1y1x2y2=True)[0]
@@ -172,10 +197,38 @@ def test_det(
                 if iou[best_i] > iou_thres and obj_pred == 0 and best_i not in detected:
                     correct.append(1)
                     detected.append(best_i)
+                    x1 = int(float(outs[0]))
+                    y1 = int(float(outs[1]))
+                    x2 = int(float(outs[2]))
+                    y2 = int(float(outs[3]))
+                        # cv2.rectangle(img1, (x1, y1), (x2, y2), (0, 255, 0), 4)
+                    cv2.putText(img0, str(len(detected)),
+                                (x1,y1-5),
+                                font,
+                                fontScale,
+                                (0,255,0),
+                                thickness,
+                                lineType)
+                    cv2.rectangle(img0, (x1, y1), (x2, y2), (0, 255, 0), 4)
+
                 else:
                     correct.append(0)
+
             detected_sum+=len(detected)
-            print("detected : ",len(detected))
+            print("사람 인식 수 : ",len(detected))
+            cv2.rectangle(img0, (780,0), (1220,50), (0,0,0), cv2.FILLED)
+
+            cv2.putText(img0, "Detected Human : "+str(len(detected))+"/"+str(len(target_boxes)),
+                        bottomLeftCornerOfText,
+                        font,
+                        fontScale,
+                        fontColor,
+                        thickness,
+                        lineType)
+
+            cv2.imwrite(
+                os.path.join(opt.save_dir, 'gt', path.split('/')[-3],
+                             path.split('/')[-1].split('.')[0] + '.jpg'), img0)
         # # Compute Average Precision (AP) per class
         # AP, AP_class, R, P = ap_per_class(tp=correct,
         #                                   conf=dets[:, 4],
