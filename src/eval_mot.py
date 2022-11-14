@@ -29,8 +29,8 @@ import numpy as np
 
 def visualization(img_frame,gt_boxes, tar_boxes,out):
 
-    dirr= "/media/syh/hdd/data/infoworks_220725_cctv/images/train/infoworks_220725_cctv/img1"
-    img_src = os.path.join(dirr,'%06d.jpg'%img_frame)
+    dirr= "/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/20220715_keti/images"
+    img_src = os.path.join(dirr,'%d.jpg'%img_frame)
     img_origin = cv2.imread(img_src)
     img_eval= img_origin.copy()
     for dets in gt_boxes:

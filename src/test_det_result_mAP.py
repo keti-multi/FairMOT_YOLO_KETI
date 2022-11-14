@@ -89,9 +89,13 @@ def test_det(
         det_dict[str(f_num)].append([int(f_id), float(x), float(y), float(w), float(h[:-1]),float(conf)])
     dets.close()
 
-
+    path_ = "/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/out"
+    imgs = os.listdir(path_)
+    imgs.sort()
     for i in range(100):
         t = time.time()
+        path = os.path.join(path_, imgs[i])
+        img0 = cv2.imread(path)
         # id x y w h => cx cy w h
         targets_f=np.array(gt_dict[str(i+1)])
         # id x1 y1 w h conf
@@ -129,7 +133,10 @@ def test_det(
             target_boxes[:, 1] *= height
             target_boxes[:, 3] *= height
             dets = xywh2xyxy(dets)
-
+            if os.path.exists(os.path.join(opt.save_dir,'gt',path.split('/')[-3])):
+                pass
+            else :
+                os.makedirs(os.path.join(opt.save_dir,'gt',path.split('/')[-3]))
             # print("target_boxes : ",target_boxes)
             # path = paths[si]
             # print("path : ",path.split('/')[-3])
@@ -193,7 +200,9 @@ def test_det(
         mean_R = np.sum(mR) / (AP_accum_count + 1E-16)
         mean_P = np.sum(mP) / (AP_accum_count + 1E-16)
 
-
+        cv2.imwrite(
+            os.path.join(opt.save_dir, 'gt', path.split('/')[-3],
+                         path.split('/')[-1].split('.')[0] + '.jpg'), img0)
         print(('%11s%11s' + '%11.3g' * 4 + 's') %
               (seen, 100, mean_P, mean_R, mean_mAP, time.time() - t))
     # Print mAP per class

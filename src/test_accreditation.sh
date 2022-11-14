@@ -6,12 +6,13 @@
 # edge에서 run result 옮기고
 
 
-python test_det_result_count_human.py mot
+python test_det_result_count_human.py mot --save_dir /media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/accre_output
+
 
 # 2.
 
 # nms 처리된 결과
-python test_det_result_mAP.py mot
+python test_det_result_mAP.py mot --save_dir /media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/accre_output_mAP
 
 # 3.
 ## 1번과 함께
