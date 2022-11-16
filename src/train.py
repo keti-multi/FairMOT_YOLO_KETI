@@ -27,18 +27,16 @@ def main(opt):
     f = open(opt.data_cfg)
     data_config = json.load(f)
     trainset_paths = data_config['train']
-    trainset_root = data_config['root']
-    dataset_root = data_config['data']
+    dataset_root = data_config['root']
     f.close()
     transforms = T.Compose([T.ToTensor()])
-    dataset = Dataset(opt, dataset_root, trainset_paths, trainset_root, (opt.image_width, opt.image_height), augment=True, transforms=transforms)
+    dataset = Dataset(opt, dataset_root, trainset_paths, (opt.image_width, opt.image_height), augment=True, transforms=transforms)
     opt = opts().update_dataset_info_and_set_heads(opt, dataset)
     print(opt)
 
     logger = Logger(opt)
 
-    # os.environ['CUDA_VISIBLE_DEVICES'] = opt.gpus_str
-    os.environ['CUDA_VISIBLE_DEVICES'] = "0"
+    os.environ['CUDA_VISIBLE_DEVICES'] = opt.gpus_str
     opt.device = torch.device('cuda' if opt.gpus[0] >= 0 else 'cpu')
 
     print('Creating model...')
@@ -87,7 +85,7 @@ def main(opt):
             lr = opt.lr * (0.1 ** (opt.lr_step.index(epoch) + 1))
             print('Drop LR to', lr)
             for param_group in optimizer.param_groups:
-                param_group['lr'] = lr                                
+                param_group['lr'] = lr
         if epoch % 5 == 0 or epoch >= 25:
             save_model(os.path.join(opt.save_dir, 'model_{}.pth'.format(epoch)),
                        epoch, model, optimizer)

@@ -36,7 +36,7 @@ def _indices_to_matches(cost_matrix, indices, thresh):
     return matches, unmatched_a, unmatched_b
 
 
-def linear_assignment(cost_matrix, thresh): ##
+def linear_assignment(cost_matrix, thresh):
     if cost_matrix.size == 0:
         return np.empty((0, 2), dtype=int), tuple(range(cost_matrix.shape[0])), tuple(range(cost_matrix.shape[1]))
     matches, unmatched_a, unmatched_b = [], [], []
@@ -50,7 +50,7 @@ def linear_assignment(cost_matrix, thresh): ##
     return matches, unmatched_a, unmatched_b
 
 
-def ious(atlbrs, btlbrs): ##
+def ious(atlbrs, btlbrs):
     """
     Compute cost based on IoU
     :type atlbrs: list[tlbr] | np.ndarray
@@ -70,7 +70,7 @@ def ious(atlbrs, btlbrs): ##
     return ious
 
 
-def iou_distance(atracks, btracks): ##
+def iou_distance(atracks, btracks):
     """
     Compute cost based on IoU
     :type atracks: list[STrack]
@@ -90,7 +90,7 @@ def iou_distance(atracks, btracks): ##
 
     return cost_matrix
 
-def embedding_distance(tracks, detections, metric='cosine'): ##
+def embedding_distance(tracks, detections, metric='cosine'):
     """
     :param tracks: list[STrack]
     :param detections: list[BaseTrack]
@@ -122,7 +122,7 @@ def gate_cost_matrix(kf, cost_matrix, tracks, detections, only_position=False):
     return cost_matrix
 
 
-def fuse_motion(kf, cost_matrix, tracks, detections, only_position=False, lambda_=0.98): ##
+def fuse_motion(kf, cost_matrix, tracks, detections, only_position=False, lambda_=0.98):
     if cost_matrix.size == 0:
         return cost_matrix
     gating_dim = 2 if only_position else 4

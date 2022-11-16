@@ -11,9 +11,7 @@ def _nms(heat, kernel=3):
 
     hmax = nn.functional.max_pool2d(
         heat, (kernel, kernel), stride=1, padding=pad)
-
     keep = (hmax == heat).float()
-
     return heat * keep
 
 
@@ -32,26 +30,24 @@ def _topk(scores, K=40):
     batch, cat, height, width = scores.size()
     
     topk_scores, topk_inds = torch.topk(scores.view(batch, cat, -1), K)
-    topk_inds = topk_inds % (height * width)
 
+    topk_inds = topk_inds % (height * width)
     # topk_ys   = torch.true_divide(topk_inds, width).int().float()
     topk_ys   = torch.div(topk_inds, width).int().float()
     topk_xs   = (topk_inds % width).int().float()
       
     topk_score, topk_ind = torch.topk(topk_scores.view(batch, -1), K)
-
     # topk_clses = torch.true_divide(topk_ind, K).int()
     topk_clses = torch.div(topk_ind, K).int()
     topk_inds = _gather_feat(
         topk_inds.view(batch, -1, 1), topk_ind).view(batch, K)
-
     topk_ys = _gather_feat(topk_ys.view(batch, -1, 1), topk_ind).view(batch, K)
     topk_xs = _gather_feat(topk_xs.view(batch, -1, 1), topk_ind).view(batch, K)
 
     return topk_score, topk_inds, topk_clses, topk_ys, topk_xs
 
 
-def mot_decode(heat, wh, reg=None, ltrb=False, K=100): ##
+def mot_decode(heat, wh, reg=None, ltrb=False, K=100):
     batch, cat, height, width = heat.size()
 
     # heat = torch.sigmoid(heat)
@@ -68,15 +64,12 @@ def mot_decode(heat, wh, reg=None, ltrb=False, K=100): ##
         xs = xs.view(batch, K, 1) + 0.5
         ys = ys.view(batch, K, 1) + 0.5
     wh = _tranpose_and_gather_feat(wh, inds)
-
     if ltrb:
         wh = wh.view(batch, K, 4)
     else:
         wh = wh.view(batch, K, 2)
-
     clses = clses.view(batch, K, 1).float()
     scores = scores.view(batch, K, 1)
-
     if ltrb:
         bboxes = torch.cat([xs - wh[..., 0:1],
                             ys - wh[..., 1:2],
@@ -87,7 +80,6 @@ def mot_decode(heat, wh, reg=None, ltrb=False, K=100): ##
                             ys - wh[..., 1:2] / 2,
                             xs + wh[..., 0:1] / 2,
                             ys + wh[..., 1:2] / 2], dim=2)
-
     detections = torch.cat([bboxes, scores, clses], dim=2)
 
     return detections, inds

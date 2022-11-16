@@ -13,26 +13,19 @@ from torchvision.transforms import transforms as T
 from opts import opts
 from models.model import create_model, load_model, save_model
 from models.data_parallel import DataParallel
-
+from logger import Logger
+from datasets.dataset_factory import get_dataset
+from trains.train_factory import train_factory
 
 # for test
 #from datasets.dataset.jde_attribute import AttDetDataset, collate_fn
 
 from datasets.dataset.jde import DetDataset, collate_fn
-
-
-
 from models.decode import mot_decode
 from utils.post_process import ctdet_post_process
 from utils.utils import xywh2xyxy, ap_per_class, bbox_iou
 import numpy as np
 import time
-
-
-
-from logger import Logger
-from datasets.dataset_factory import get_dataset
-from trains.train_factory import train_factory
 
 
 def post_process(opt, dets, meta):
@@ -239,25 +232,20 @@ def main(opt):
     f = open(opt.data_cfg)
     data_config = json.load(f)
     trainset_paths = data_config['train']
-    trainset_root = data_config['root']
-    dataset_root = data_config['data']
+    dataset_root = data_config['root']
     f.close()
     transforms = T.Compose([T.ToTensor()])
-    ## if task==jde_attribute Dataset == JointDataset from jde_attribute.py
-    dataset = Dataset(opt, dataset_root, trainset_paths, trainset_root, (opt.image_width, opt.image_height), augment=True, transforms=transforms)
+    dataset = Dataset(opt, dataset_root, trainset_paths, (opt.image_width, opt.image_height), augment=True, transforms=transforms)
     opt = opts().update_dataset_info_and_set_heads(opt, dataset)
     print(opt)
 
     logger = Logger(opt)
 
-    # os.environ['CUDA_VISIBLE_DEVICES'] = opt.gpus_str
-    os.environ['CUDA_VISIBLE_DEVICES'] = "0"
+    os.environ['CUDA_VISIBLE_DEVICES'] = opt.gpus_str
     opt.device = torch.device('cuda' if opt.gpus[0] >= 0 else 'cpu')
 
     print('Creating model...')
-    print("")
     model = create_model(opt.arch, opt.heads, opt.head_conv)
-    # print(model)
     optimizer = torch.optim.Adam(model.parameters(), opt.lr)
     start_epoch = 0
 
@@ -271,7 +259,7 @@ def main(opt):
         pin_memory=True,
         drop_last=True
     )
-    ## 220723_testloader
+
     data_cfg_test = opt.data_cfg
     f_test = open(data_cfg_test)
     data_cfg_dict_test = json.load(f_test)
@@ -280,31 +268,14 @@ def main(opt):
     test_path = data_cfg_dict_test['test']
     dataset_root = data_cfg_dict_test['root']
     test_transforms = T.Compose([T.ToTensor()])
-    ## 220906 ToDo det dataset check
 
-    # dataset = AttDetDataset(dataset_root, test_path, img_size, augment=False, transforms=test_transforms)
-    # test_loader = torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False,
-    #                                          num_workers=8, drop_last=False, collate_fn=collate_fn)
     dataset = DetDataset(dataset_root, test_path, img_size, augment=False, transforms=test_transforms)
-    test_loader = torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False,
-                                             num_workers=8, drop_last=False, collate_fn=collate_fn)
-
-    # test_loader = torch.utils.data.DataLoader(
-    #     dataset,
-    #     batch_size=opt.batch_size,
-    #     shuffle=True,
-    #     num_workers=opt.num_workers,
-    #     pin_memory=True,
-    #     drop_last=True
-    # )
+    test_loader = torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False, num_workers=8, drop_last=False, collate_fn=collate_fn)
 
     print('Starting training...')
     Trainer = train_factory[opt.task]
     trainer = Trainer(opt, model, optimizer)
     trainer.set_device(opt.gpus, opt.chunk_sizes, opt.device)
-
-
-
 
     if opt.load_model != '':
         model, optimizer, start_epoch = load_model(
@@ -313,12 +284,7 @@ def main(opt):
     for epoch in range(start_epoch + 1, opt.num_epochs + 1):
         mark = epoch if opt.save_all else 'last'
         log_dict_train, _ = trainer.train(epoch, train_loader)
-
-        ## test code
-
         map,_,_=test_det(opt=opt,batch_size=1,model = model,img_size=img_size, dataloader=test_loader)
-        #print(map)
-        #raise(KeyboardInterrupt)
         logger.write('epoch: {} |'.format(epoch))
         logger.scalar_summary('test_mAP', map[0], epoch)
         logger.write('mAP {:8f} | '.format(map[0]))
@@ -345,14 +311,14 @@ def main(opt):
             lr = opt.lr * (0.1 ** (opt.lr_step.index(epoch) + 1))
             print('Drop LR to', lr)
             for param_group in optimizer.param_groups:
-                param_group['lr'] = lr                                
+                param_group['lr'] = lr
         if epoch % 5 == 0 or epoch >= 25:
             save_model(os.path.join(opt.save_dir, 'model_{}.pth'.format(epoch)),
                        epoch, model, optimizer)
     logger.close()
 
 os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+
 if __name__ == '__main__':
     opt = opts().parse()
     main(opt)

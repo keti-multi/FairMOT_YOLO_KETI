@@ -47,12 +47,9 @@ class STrack(BaseTrack):
         self.tracklet_len = 0
 
         self.smooth_feat = None
-        # print(temp_feat)
         self.update_features(temp_feat)
-
         self.features = deque([], maxlen=buffer_size)
         self.alpha = 0.9
-
 
     def update_features(self, feat):
         feat /= np.linalg.norm(feat)
@@ -61,7 +58,6 @@ class STrack(BaseTrack):
             self.smooth_feat = feat
         else:
             self.smooth_feat = self.alpha * self.smooth_feat + (1 - self.alpha) * feat
-
         self.features.append(feat)
         self.smooth_feat /= np.linalg.norm(self.smooth_feat)
 
@@ -72,7 +68,7 @@ class STrack(BaseTrack):
         self.mean, self.covariance = self.kalman_filter.predict(mean_state, self.covariance)
 
     @staticmethod
-    def multi_predict(stracks): ##
+    def multi_predict(stracks):
         if len(stracks) > 0:
             multi_mean = np.asarray([st.mean.copy() for st in stracks])
             multi_covariance = np.asarray([st.covariance for st in stracks])
@@ -84,7 +80,7 @@ class STrack(BaseTrack):
                 stracks[i].mean = mean
                 stracks[i].covariance = cov
 
-    def activate(self, kalman_filter, frame_id): ##
+    def activate(self, kalman_filter, frame_id):
         """Start a new tracklet"""
         self.kalman_filter = kalman_filter
         self.track_id = self.next_id()
@@ -98,7 +94,7 @@ class STrack(BaseTrack):
         self.frame_id = frame_id
         self.start_frame = frame_id
 
-    def re_activate(self, new_track, frame_id, new_id=False): ##
+    def re_activate(self, new_track, frame_id, new_id=False):
         self.mean, self.covariance = self.kalman_filter.update(
             self.mean, self.covariance, self.tlwh_to_xyah(new_track.tlwh)
         )
@@ -138,7 +134,8 @@ class STrack(BaseTrack):
         self.score = new_track.score
         if update_feature:
             self.update_features(new_track.curr_feat)
-    def update(self, new_track, frame_id, update_feature=True): ##
+
+    def update(self, new_track, frame_id, update_feature=True):
         """
         Update a matched track
         :type new_track: STrack
@@ -160,7 +157,7 @@ class STrack(BaseTrack):
             self.update_features(new_track.curr_feat)
 
     @property
-    def tlwh(self): ##
+    def tlwh(self):
         """Get current position in bounding box format `(top left x, top left y,
                 width, height)`.
         """
@@ -172,7 +169,7 @@ class STrack(BaseTrack):
         return ret
 
     @property
-    def tlbr(self): ##
+    def tlbr(self):
         """Convert bounding box to format `(min x, min y, max x, max y)`, i.e.,
         `(top left, bottom right)`.
         """
@@ -181,7 +178,7 @@ class STrack(BaseTrack):
         return ret
 
     @staticmethod
-    def tlwh_to_xyah(tlwh): ##
+    def tlwh_to_xyah(tlwh):
         """Convert bounding box to format `(center x, center y, aspect ratio,
         height)`, where the aspect ratio is `width / height`.
         """
@@ -194,7 +191,7 @@ class STrack(BaseTrack):
         return self.tlwh_to_xyah(self.tlwh)
 
     @staticmethod
-    def tlbr_to_tlwh(tlbr): ##
+    def tlbr_to_tlwh(tlbr):
         ret = np.asarray(tlbr).copy()
         ret[2:] -= ret[:2]
         return ret
@@ -417,17 +414,14 @@ class JDETracker(object):
 
         dets = dets.detach().cpu().numpy()
         dets = dets.reshape(1, -1, dets.shape[2])
-
         dets = ctdet_post_process(
             dets.copy(), [meta['c']], [meta['s']],
             meta['out_height'], meta['out_width'], self.opt.num_classes)
-
         for j in range(1, self.opt.num_classes + 1):
             dets[0][j] = np.array(dets[0][j], dtype=np.float32).reshape(-1, 5)
-
         return dets[0]
 
-    def merge_outputs(self, detections): ##
+    def merge_outputs(self, detections):
         results = {}
         for j in range(1, self.opt.num_classes + 1):
             results[j] = np.concatenate(
@@ -445,18 +439,6 @@ class JDETracker(object):
 
     def update(self, im_blob, img0):
         self.frame_id += 1
-
-        # print(self.model)
-        # from torchsummary import summary
-        # from pytorch_model_summary import summary
-        #
-        # # print(im_blob.shape)
-        # #
-        # summary(self.model, im_blob, batch_size=-1, show_input=False, show_hierarchical=False, print_summary=True,
-        #         max_depth=1, show_parent_layers=False)
-        # summary(,,input_size=(3,288,160))
-        # raise KeyboardInterrupt
-
         activated_starcks = []
         refind_stracks = []
         lost_stracks = []
@@ -643,7 +625,7 @@ class JDETracker(object):
             att5_feature = att5_feature[remain_inds]
             att6_feature = att6_feature[remain_inds]
 
-        # vis0
+        # vis
         '''
         for i in range(0, dets.shape[0]):
             bbox = dets[i][0:4]
@@ -654,7 +636,6 @@ class JDETracker(object):
         cv2.waitKey(0)
         id0 = id0-1
         '''
-
 
         if len(dets) > 0:
             '''Detections'''
@@ -768,7 +749,7 @@ class MUF_JDETracker(JDETracker):
     def __init__(self, opt, frame_rate=30):
         pass
 
-def joint_stracks(tlista, tlistb): ##
+def joint_stracks(tlista, tlistb):
     exists = {}
     res = []
     for t in tlista:
@@ -782,7 +763,7 @@ def joint_stracks(tlista, tlistb): ##
     return res
 
 
-def sub_stracks(tlista, tlistb): ##
+def sub_stracks(tlista, tlistb):
     stracks = {}
     for t in tlista:
         stracks[t.track_id] = t
@@ -793,7 +774,7 @@ def sub_stracks(tlista, tlistb): ##
     return list(stracks.values())
 
 
-def remove_duplicate_stracks(stracksa, stracksb): ##
+def remove_duplicate_stracks(stracksa, stracksb):
     pdist = matching.iou_distance(stracksa, stracksb)
     pairs = np.where(pdist < 0.15)
     dupa, dupb = list(), list()

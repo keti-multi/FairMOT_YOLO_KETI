@@ -60,35 +60,6 @@ class LoadImages:  # for inference
         img = np.ascontiguousarray(img, dtype=np.float32)
         img /= 255.0
 
-        if 0:
-            print("python value1 writing start\n")
-            fp = open('python_value_preprocessing_220602.txt', 'w')
-            for i in range(3):
-                for j in range(160):
-                    for k in range(288):
-                        # np.set_printoptions(threshold=sys.maxsize)
-                        fp.write(str(img[i][j][k]))
-                        fp.write("\n")
-            fp.close()
-
-        if 0:
-            print("cpp value test")
-            file_path = '/home/hjlee/old/FairMOT/cxx_value_preprocessing_220602.txt'
-            fp = open(file_path, 'r')
-            lines_org = fp.readlines()
-
-            lines = []
-
-            for line in lines_org:
-                line = float(line.strip())
-                lines.append(line)
-
-            for i in range(3):
-                for j in range(160):
-                    for k in range(288):
-                        img[i][j][k] = lines[i*160*288 + j*288 + k]
-
-
         # cv2.imwrite(img_path + '.letterbox.jpg', 255 * img.transpose((1, 2, 0))[:, :, ::-1])  # save letterbox image
         return img_path, img, img0
 
@@ -216,8 +187,6 @@ class LoadImagesAndLabels:  # for training
 
         # Load labels
         if os.path.isfile(label_path):
-            ## ToDo 220928 syh 데이터세트에 att 레이블 추가하여서 n*12 형태로 되어있음 수정 필요
-            #labels0 = np.loadtxt(label_path, dtype=np.float32).reshape(-1, 6)
             try:
                 labels0 = np.loadtxt(label_path, dtype=np.float32).reshape(-1, 12)
             except:
@@ -284,8 +253,7 @@ def letterbox(img, height=608, width=1088,
     dh = (height - new_shape[1]) / 2  # height padding
     top, bottom = round(dh - 0.1), round(dh + 0.1)
     left, right = round(dw - 0.1), round(dw + 0.1)
-    # img = cv2.resize(img, new_shape, interpolation=cv2.INTER_AREA)  # resized, no border
-    img = cv2.resize(img, new_shape, interpolation=cv2.INTER_LINEAR)  # resized, no border
+    img = cv2.resize(img, new_shape, interpolation=cv2.INTER_AREA)  # resized, no border
     img = cv2.copyMakeBorder(img, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)  # padded rectangular
     return img, ratio, dw, dh
 
@@ -378,12 +346,9 @@ def collate_fn(batch):
     filled_labels = torch.zeros(batch_size, max_box_len, 6)
     labels_len = torch.zeros(batch_size)
 
-
     for i in range(batch_size):
         isize = labels[i].shape[0]
         if len(labels[i]) > 0:
-            # print("isize : ",isize)
-            # print("labels[i]:",labels[i].shape)
             filled_labels[i, :isize, :] = labels[i]
         labels_len[i] = isize
 
@@ -391,19 +356,12 @@ def collate_fn(batch):
 
 
 class JointDataset(LoadImagesAndLabels):  # for training
-    # default_resolution = [1088, 608]
-    # default_resolution = [864, 480]
-    # default_resolution = [576, 320]
-    default_resolution = [480, 256]
-    # default_resolution = [416, 224]
-    # default_resolution = [288, 160]
-    # default_resolution = [256, 128]
-
+    default_resolution = [1088, 608]
     mean = None
     std = None
     num_classes = 1
 
-    def __init__(self, opt, data_root, paths, root, img_size=(1088, 608), augment=False, transforms=None):
+    def __init__(self, opt, root, paths, img_size=(1088, 608), augment=False, transforms=None):
         self.opt = opt
         dataset_names = paths.keys()
         self.img_files = OrderedDict()
@@ -415,7 +373,7 @@ class JointDataset(LoadImagesAndLabels):  # for training
         for ds, path in paths.items():
             with open(path, 'r') as file:
                 self.img_files[ds] = file.readlines()
-                self.img_files[ds] = [osp.join(data_root, x.strip()) for x in self.img_files[ds]]
+                self.img_files[ds] = [osp.join(root, x.strip()) for x in self.img_files[ds]]
                 self.img_files[ds] = list(filter(lambda x: len(x) > 0, self.img_files[ds]))
 
             self.label_files[ds] = [
@@ -442,9 +400,7 @@ class JointDataset(LoadImagesAndLabels):  # for training
             last_index += v
 
         self.nID = int(last_index + 1)
-        # self.nds = [len(x) for x in self.img_files.values()]
-
-        self.nds = [len(x) for x in self.label_files.values()]
+        self.nds = [len(x) for x in self.img_files.values()]
         self.cds = [sum(self.nds[:i]) for i in range(len(self.nds))]
         self.nF = sum(self.nds)
         self.width = img_size[0]
@@ -467,6 +423,7 @@ class JointDataset(LoadImagesAndLabels):  # for training
             if files_index >= c:
                 ds = list(self.label_files.keys())[i]
                 start_index = c
+
         img_path = self.img_files[ds][files_index - start_index]
         label_path = self.label_files[ds][files_index - start_index]
 
@@ -497,8 +454,6 @@ class JointDataset(LoadImagesAndLabels):  # for training
             cls_id = int(label[0])
             bbox[[0, 2]] = bbox[[0, 2]] * output_w
             bbox[[1, 3]] = bbox[[1, 3]] * output_h
-            # bbox == xywh
-            # bbox_amodal == ltrb
             bbox_amodal = copy.deepcopy(bbox)
             bbox_amodal[0] = bbox_amodal[0] - bbox_amodal[2] / 2.
             bbox_amodal[1] = bbox_amodal[1] - bbox_amodal[3] / 2.
@@ -524,12 +479,9 @@ class JointDataset(LoadImagesAndLabels):  # for training
                     [bbox[0], bbox[1]], dtype=np.float32)
                 ct_int = ct.astype(np.int32)
                 draw_gaussian(hm[cls_id], ct_int, radius)
-
-                # 220906 understanding wh == x-l, y-t, r-x, b-y
                 if self.opt.ltrb:
                     wh[k] = ct[0] - bbox_amodal[0], ct[1] - bbox_amodal[1], \
                             bbox_amodal[2] - ct[0], bbox_amodal[3] - ct[1]
-
                 else:
                     wh[k] = 1. * w, 1. * h
                 ind[k] = ct_int[1] * output_w + ct_int[0]
@@ -540,6 +492,7 @@ class JointDataset(LoadImagesAndLabels):  # for training
 
         ret = {'input': imgs, 'hm': hm, 'reg_mask': reg_mask, 'ind': ind, 'wh': wh, 'reg': reg, 'ids': ids, 'bbox': bbox_xys}
         return ret
+
 
 class DetDataset(LoadImagesAndLabels):  # for training
     def __init__(self, root, paths, img_size=(1088, 608), augment=False, transforms=None):
@@ -579,10 +532,7 @@ class DetDataset(LoadImagesAndLabels):  # for training
             last_index += v
 
         self.nID = int(last_index + 1)
-        #
-        # self.nds = [len(x) for x in self.img_files.values()]
-        self.nds = [len(x) for x in self.label_files.values()]
-
+        self.nds = [len(x) for x in self.img_files.values()]
         self.cds = [sum(self.nds[:i]) for i in range(len(self.nds))]
         self.nF = sum(self.nds)
         self.width = img_size[0]
@@ -604,10 +554,10 @@ class DetDataset(LoadImagesAndLabels):  # for training
             if files_index >= c:
                 ds = list(self.label_files.keys())[i]
                 start_index = c
+
         img_path = self.img_files[ds][files_index - start_index]
         label_path = self.label_files[ds][files_index - start_index]
         if os.path.isfile(label_path):
-            # labels0 = np.loadtxt(label_path, dtype=np.float32).reshape(-1, 6)
             try:
                 labels0 = np.loadtxt(label_path, dtype=np.float32).reshape(-1, 12)
             except:
@@ -621,7 +571,7 @@ class DetDataset(LoadImagesAndLabels):  # for training
 
         return imgs, labels0, img_path, (h, w)
 
-class DetEvalDataset(LoadImagesAndLabels):  # for training
+class DetEvalDataset(LoadImagesAndLabels):  # for acc
     def __init__(self, root, paths, img_size=(1088, 608), augment=False, transforms=None):
 
         dataset_names = paths.keys()

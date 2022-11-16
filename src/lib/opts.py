@@ -6,7 +6,6 @@ import argparse
 import os
 import sys
 
-
 class opts(object):
     def __init__(self):
         self.parser = argparse.ArgumentParser()
@@ -15,8 +14,8 @@ class opts(object):
         self.parser.add_argument('--dataset', default='jde', help='jde')
         self.parser.add_argument('--exp_id', default='default')
         self.parser.add_argument('--test', action='store_true')
-        # self.parser.add_argument('--load_model', default='../models/ctdet_coco_dla_2x.pth',
-        # help='path to pretrained model')
+        #self.parser.add_argument('--load_model', default='../models/ctdet_coco_dla_2x.pth',
+                             #help='path to pretrained model')
         self.parser.add_argument('--load_model', default='',
                                  help='path to pretrained model')
         self.parser.add_argument('--resume', action='store_true',
@@ -33,26 +32,25 @@ class opts(object):
         self.parser.add_argument('--make-hybrid1', default='')
         self.parser.add_argument('--make-hybrid2', default='')
         self.parser.add_argument('--run-rknn', default='')
-        # self.parser.add_argument('--run-rknn', default='')
 
         # system
-        self.parser.add_argument('--gpus', default='-1',
+        self.parser.add_argument('--gpus', default='2, 3',
                                  help='-1 for CPU, use comma for multiple gpus')
         self.parser.add_argument('--num_workers', type=int, default=8,
                                  help='dataloader threads. 0 for single-thread.')
         self.parser.add_argument('--not_cuda_benchmark', action='store_true',
                                  help='disable when the input size is not fixed.')
-        self.parser.add_argument('--seed', type=int, default=317,
+        self.parser.add_argument('--seed', type=int, default=317, 
                                  help='random seed')  # from CornerNet
 
         # log
-        self.parser.add_argument('--print_iter', type=int, default=0,
+        self.parser.add_argument('--print_iter', type=int, default=0, 
                                  help='disable progress bar and print to screen.')
         self.parser.add_argument('--hide_data_time', action='store_true',
                                  help='not display time during training.')
         self.parser.add_argument('--save_all', action='store_true',
                                  help='save model to disk every 5 epochs.')
-        self.parser.add_argument('--metric', default='loss',
+        self.parser.add_argument('--metric', default='loss', 
                                  help='main metric to save best model')
         self.parser.add_argument('--vis_thresh', type=float, default=0.5,
                                  help='visualization threshold.')
@@ -71,14 +69,14 @@ class opts(object):
                                  help='output stride. Currently only supports 4.')
 
         # input
-        self.parser.add_argument('--input_res', type=int, default=-1,
+        self.parser.add_argument('--input_res', type=int, default=-1, 
                                  help='input height and width. -1 for default from '
                                       'dataset. Will be overriden by input_h | input_w')
-        self.parser.add_argument('--input_h', type=int, default=-1,
+        self.parser.add_argument('--input_h', type=int, default=-1, 
                                  help='input height. -1 for default from dataset.')
-        self.parser.add_argument('--input_w', type=int, default=-1,
+        self.parser.add_argument('--input_w', type=int, default=-1, 
                                  help='input width. -1 for default from dataset.')
-
+    
         # train
         self.parser.add_argument('--lr', type=float, default=1e-4,
                                  help='learning rate for batch size 12.')
@@ -101,7 +99,7 @@ class opts(object):
 
         # test
         self.parser.add_argument('--K', type=int, default=500,
-                                 help='max number of output objects.')
+                             help='max number of output objects.') 
         self.parser.add_argument('--not_prefetch_test', action='store_true',
                                  help='not use parallal data pre-processing.')
         self.parser.add_argument('--fix_res', action='store_true',
@@ -128,25 +126,16 @@ class opts(object):
         self.parser.add_argument('--nms_thres', type=float, default=0.4, help='iou thresh for nms')
         self.parser.add_argument('--track_buffer', type=int, default=30, help='tracking buffer')
         self.parser.add_argument('--min-box-area', type=float, default=100, help='filter out tiny boxes')
-
-        # self.parser.add_argument('--input-format', type=str, default='images', help='path to the input video')
         self.parser.add_argument('--input-format', type=str, default='video', help='path to the input video')
-        # self.parser.add_argument('--input-video', type=str, default='../videos/MOT16-03.mp4', help='path to the input video')
-        self.parser.add_argument('--input-video', type=str, default='../videos/220622_gate_eo_2.mp4',
+        self.parser.add_argument('--input-video', type=str,
+                             default='../videos/MOT16-03.mp4',
                                  help='path to the input video')
-
-        self.parser.add_argument('--input-image-dir', type=str, default='/home/hjlee/old/FairMOT/demos/image',
-                                 help='path to the input video')
-        # self.parser.add_argument('--input-image-dir', type=str, default='/data/Dataset/Test', help='path to the input video')
-        # self.parser.add_argument('--input-image-dir', type=str, default='../videos/Test.mp4', help='path to the input video')
+        self.parser.add_argument('--input-image-dir', type=str, default='/home/hjlee/old/FairMOT/demos/image', help='path to the input video')
         self.parser.add_argument('--output-format', type=str, default='video', help='video or text')
-        self.parser.add_argument('--output-root', type=str, default='/home/hjlee/old/FairMOT/demos',
-                                 help='expected output root path')
-        # self.parser.add_argument('--output-root', type=str, default='/data/Dataset/Test288160', help='expected output root path')
-        # self.parser.add_argument('--output-root', type=str, default='../demos', help='expected output root path')
+        self.parser.add_argument('--output-root', type=str, default='../demos', help='expected output root path')
+
         self.parser.add_argument('--image-width', type=int, default=288, help='input image width')
         self.parser.add_argument('--image-height', type=int, default=160, help='input image height')
-
         self.parser.add_argument('--seqs', type=int, default=1, help='seq or seqs')
 
         # mot
@@ -154,7 +143,6 @@ class opts(object):
                                  default='../src/lib/cfg/data.json',
                                  help='load data from cfg')
         self.parser.add_argument('--data_dir', type=str, default='/data/Dataset')
-        self.parser.add_argument('--output_dir', type=str, default='/home/hjlee/FairMOT')
 
         # loss
         self.parser.add_argument('--mse_loss', action='store_true',
@@ -263,7 +251,7 @@ class opts(object):
             opt.save_dir = os.path.join(opt.exp_dir, opt.exp_id)
         opt.debug_dir = os.path.join(opt.save_dir, 'debug')
         print('The output will be saved to ', opt.save_dir)
-
+    
         if opt.resume and opt.load_model == '':
             model_path = opt.save_dir[:-4] if opt.save_dir.endswith('TEST') \
                 else opt.save_dir
@@ -292,13 +280,11 @@ class opts(object):
             if opt.reg_offset:
                 opt.heads.update({'reg': 2})
             opt.nID = dataset.nID
-            # opt.img_size = (1088, 608)
+            opt.img_size = (1088, 608)
+            #opt.img_size = (864, 480)
+            #opt.img_size = (576, 320)
             opt.img_size = (opt.image_width, opt.image_height)
-            # opt.img_size = (1088, 608)
-            # opt.img_size = (864, 480)
-            # opt.img_size = (576, 320)
-            # opt.img_size = (288, 160)
-            # opt.img_size = (256, 128)
+
         elif opt.task == 'mot_att':
 
             opt.heads = {'hm': opt.num_classes,
@@ -318,7 +304,6 @@ class opts(object):
         else:
             assert 0, 'task not defined!'
         print('heads', opt.heads)
-        #raise KeyboardInterrupt
         return opt
 
     def init(self, args=''):
@@ -330,12 +315,10 @@ class opts(object):
                     'mean': [0.408, 0.447, 0.470], 'std': [0.289, 0.274, 0.278],
                     'dataset': 'jde', 'nID': 14455},
         }
-
         class Struct:
             def __init__(self, entries):
                 for k, v in entries.items():
                     self.__setattr__(k, v)
-
         opt = self.parse(args)
         dataset = Struct(default_dataset_info[opt.task])
         opt.dataset = dataset.dataset

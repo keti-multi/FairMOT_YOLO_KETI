@@ -16,7 +16,7 @@ import random
 def flip(img):
   return img[:, :, ::-1].copy()  
 
-def transform_preds(coords, center, scale, output_size): ##
+def transform_preds(coords, center, scale, output_size):
     target_coords = np.zeros(coords.shape)
     trans = get_affine_transform(center, scale, 0, output_size, inv=1)
     for p in range(coords.shape[0]):
@@ -24,7 +24,7 @@ def transform_preds(coords, center, scale, output_size): ##
     return target_coords
 
 
-def get_affine_transform(center, ##
+def get_affine_transform(center,
                          scale,
                          rot,
                          output_size,
@@ -60,13 +60,13 @@ def get_affine_transform(center, ##
     return trans
 
 
-def affine_transform(pt, t): ##
+def affine_transform(pt, t):
     new_pt = np.array([pt[0], pt[1], 1.], dtype=np.float32).T
     new_pt = np.dot(t, new_pt)
     return new_pt[:2]
 
 
-def get_3rd_point(a, b): ##
+def get_3rd_point(a, b):
     direct = a - b
     return b + np.array([-direct[1], direct[0]], dtype=np.float32)
 

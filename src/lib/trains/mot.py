@@ -76,16 +76,7 @@ class MotLoss(torch.nn.Module):
                                                       ) / id_output.size(0)
                 else:
                     id_loss += self.IDLoss(id_output, id_target)
-                    # if len(id_target)>0 and len(id_output)>0:
-                    #     id_loss += self.IDLoss(id_output, id_target)
-                    #     print("\nid_output.shape : ", id_output.shape )
-                    #     print("id_target : ", id_target.shape )
-                    #     print("\n\n\nself.IDLoss(id_output, id_target) : ", self.IDLoss(id_output, id_target))
-                    # else :
-                    #     print ("\n######\n\nself.IDLoss(id_output, id_target) : ",self.IDLoss(id_output, id_target))
-                    #     print("id_output : ", id_output.shape )
-                    #     print("id_target : ", id_target.shape )
-                    #     id_loss += torch.Tensor(0.0001).cuda()
+
         det_loss = opt.hm_weight * hm_loss + opt.wh_weight * wh_loss + opt.off_weight * off_loss
         if opt.multi_loss == 'uncertainty':
             loss = torch.exp(-self.s_det) * det_loss + torch.exp(-self.s_id) * id_loss + (self.s_det + self.s_id)
@@ -179,16 +170,6 @@ class MotAttLoss(torch.nn.Module):
                                                       ) / id_output.size(0)
                 else:
                     id_loss += self.IDLoss(id_output, id_target)
-                    # if len(id_target)>0 and len(id_output)>0:
-                    #     id_loss += self.IDLoss(id_output, id_target)
-                    #     print("\nid_output.shape : ", id_output.shape )
-                    #     print("id_target : ", id_target.shape )
-                    #     print("\n\n\nself.IDLoss(id_output, id_target) : ", self.IDLoss(id_output, id_target))
-                    # else :
-                    #     print ("\n######\n\nself.IDLoss(id_output, id_target) : ",self.IDLoss(id_output, id_target))
-                    #     print("id_output : ", id_output.shape )
-                    #     print("id_target : ", id_target.shape )
-                    #     id_loss += torch.Tensor(0.0001).cuda()
             if opt.att_weight > 0:
                 att_head = _tranpose_and_gather_feat(output['att'], batch['ind'])
 
@@ -206,16 +187,6 @@ class MotAttLoss(torch.nn.Module):
                                                       ) / id_output.size(0)
                 else:
                     id_loss += self.IDLoss(id_output, id_target)
-                    # if len(id_target)>0 and len(id_output)>0:
-                    #     id_loss += self.IDLoss(id_output, id_target)
-                    #     print("\nid_output.shape : ", id_output.shape )
-                    #     print("id_target : ", id_target.shape )
-                    #     print("\n\n\nself.IDLoss(id_output, id_target) : ", self.IDLoss(id_output, id_target))
-                    # else :
-                    #     print ("\n######\n\nself.IDLoss(id_output, id_target) : ",self.IDLoss(id_output, id_target))
-                    #     print("id_output : ", id_output.shape )
-                    #     print("id_target : ", id_target.shape )
-                    #     id_loss += torch.Tensor(0.0001).cuda()
 
         det_loss = opt.hm_weight * hm_loss + opt.wh_weight * wh_loss + opt.off_weight * off_loss
         if opt.multi_loss == 'uncertainty':
@@ -229,6 +200,7 @@ class MotAttLoss(torch.nn.Module):
         loss_stats = {'loss': loss, 'hm_loss': hm_loss,
                       'wh_loss': wh_loss, 'off_loss': off_loss, 'id_loss': id_loss}
         return loss, loss_stats
+
 
 class MotTrainer(BaseTrainer):
     def __init__(self, opt, model, optimizer=None):

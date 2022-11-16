@@ -7,7 +7,7 @@ Table for the 0.95 quantile of the chi-square distribution with N degrees of
 freedom (contains values for N=1, ..., 9). Taken from MATLAB/Octave's chi2inv
 function and used as Mahalanobis gating threshold.
 """
-chi2inv95 = { ##
+chi2inv95 = {
     1: 3.8415,
     2: 5.9915,
     3: 7.8147,
@@ -51,7 +51,7 @@ class KalmanFilter(object):
         self._std_weight_position = 1. / 20
         self._std_weight_velocity = 1. / 160
 
-    def initiate(self, measurement): ##
+    def initiate(self, measurement):
         """Create track from unassociated measurement.
 
         Parameters
@@ -122,7 +122,7 @@ class KalmanFilter(object):
 
         return mean, covariance
 
-    def project(self, mean, covariance): ##
+    def project(self, mean, covariance):
         """Project state distribution to measurement space.
 
         Parameters
@@ -151,7 +151,7 @@ class KalmanFilter(object):
             self._update_mat, covariance, self._update_mat.T))
         return mean, covariance + innovation_cov
 
-    def multi_predict(self, mean, covariance): ##
+    def multi_predict(self, mean, covariance):
         """Run Kalman filter prediction step (Vectorized version).
         Parameters
         ----------
@@ -190,7 +190,7 @@ class KalmanFilter(object):
 
         return mean, covariance
 
-    def update(self, mean, covariance, measurement): ##
+    def update(self, mean, covariance, measurement):
         """Run Kalman filter correction step.
 
         Parameters
@@ -224,7 +224,7 @@ class KalmanFilter(object):
             kalman_gain, projected_cov, kalman_gain.T))
         return new_mean, new_covariance
 
-    def gating_distance(self, mean, covariance, measurements, ##
+    def gating_distance(self, mean, covariance, measurements,
                         only_position=False, metric='maha'):
         """Compute gating distance between state distribution and measurements.
         A suitable distance threshold can be obtained from `chi2inv95`. If
@@ -260,7 +260,6 @@ class KalmanFilter(object):
             return np.sum(d * d, axis=1)
         elif metric == 'maha':
             cholesky_factor = np.linalg.cholesky(covariance)
-            
             z = scipy.linalg.solve_triangular(
                 cholesky_factor, d.T, lower=True, check_finite=False,
                 overwrite_b=True)

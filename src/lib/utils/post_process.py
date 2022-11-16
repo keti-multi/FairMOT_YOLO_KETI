@@ -6,7 +6,7 @@ import numpy as np
 from .image import transform_preds
 
 
-def ctdet_post_process(dets, c, s, h, w, num_classes): ##
+def ctdet_post_process(dets, c, s, h, w, num_classes):
   # dets: batch x max_dets x dim
   # return 1-based class det dict
   ret = []
