@@ -67,6 +67,12 @@ def write_results_score(filename, results, data_type):
                 f.write(line)
     logger.info('save results to {}'.format(filename))
 
+#  230103 syh save features from TransReID,
+def save_feats(feats,bbox_urls):
+    feats = torch.cat(feats, dim=0)
+    torch.save(feats, +"features_msmt.pt")
+    #np.savetxt("id_list.out",self.pids,fmt='%d')
+    np.savetxt("img_path.out",bbox_urls,fmt="%s")
 
 def eval_seq(opt, x, dataloader, data_type, result_filename, save_dir=None, show_image=True, frame_rate=30, use_cuda=True):
     if save_dir:
@@ -75,6 +81,9 @@ def eval_seq(opt, x, dataloader, data_type, result_filename, save_dir=None, show
     timer = Timer()
     results = []
     frame_id = 0
+    # 230103 syh TSNE checker
+    feats = []
+    bbox_list = []
     #for path, img, img0 in dataloader:
     for i, (path, img, img0) in enumerate(dataloader):
         if opt.oneshot is True:
@@ -107,12 +116,48 @@ def eval_seq(opt, x, dataloader, data_type, result_filename, save_dir=None, show
         online_scores = []
         for t in online_targets:
             tlwh = t.tlwh
+            tlbr = t.tlbr
+            tlbr = np.array(tlbr)
+            tlbr = np.clip(tlbr,0,9999)
             tid = t.track_id
             vertical = tlwh[2] / tlwh[3] > 1.6
             if tlwh[2] * tlwh[3] > opt.min_box_area and not vertical:
                 online_tlwhs.append(tlwh)
                 online_ids.append(tid)
                 online_scores.append(t.score)
+                # syh 230102 track current bbox, id, check
+                # print("####t:",t.tlbr)
+                # print("img0: ",img0.shape)
+                cropped = img0[int(tlbr[1]):int(tlbr[3]), int(tlbr[0]):int(tlbr[2])]
+                # cv2.imshow('test',cropped)
+                # cv2.waitKey(0)
+                # print("####tid:", tid)
+                # print("####t.featrues:", t.curr_feat)
+                # if len(t.features)>0:
+                #     print("####t.featrues:", t.curr_feat.shape)
+                feats.append(torch.Tensor(t.curr_feat))
+                # print("save_dir : ",save_dir)
+                bbox_save_dir=os.path.join('/',*save_dir.split('/')[:-1],'bbox')
+                # print(path.split('/')[5])
+                save_bbox_url = os.path.join(bbox_save_dir,'%04d_%s_%05d.jpg'%(tid,path.split('/')[5],frame_id))
+                bbox_list.append(save_bbox_url)
+                if not os.path.exists(bbox_save_dir):
+                    os.makedirs(bbox_save_dir)
+                try:
+                    cv2.imwrite(save_bbox_url,cropped)
+
+                except Exception as e:
+                    print(e)
+                    print("tlbr : ",tlbr)
+
+                    print("####tid:", tid)
+                    print("####t.featrues:", t.curr_feat)
+                    # cv2.imshow('test',cropped)
+                    # cv2.waitKey(0)
+                #  230102 syh online strack out with feature
+                # t.tlbr -> unnormalized tlbr loc ####t: [     989.07      200.96      1219.3       802.5]
+                #
+
         time2 = time.time()
         timer.toc()
 
@@ -127,6 +172,7 @@ def eval_seq(opt, x, dataloader, data_type, result_filename, save_dir=None, show
         if save_dir is not None:
             cv2.imwrite(os.path.join(save_dir, '{:05d}.jpg'.format(frame_id)), online_im)
         frame_id += 1
+    save_feats(feats, bbox_list)
     # save results
     # write_results(result_filename, results, data_type)
     write_results_score(result_filename, results, data_type)
@@ -141,7 +187,6 @@ def main(opt, data_root='/data/MOT16/train', det_root=None, seqs=('MOT16-05',), 
         result_root1 = os.path.join(data_root, '..', 'results', exp_name)  # exp_name -> seqs
         mkdir_if_missing(result_root1)
         data_type = 'mot'
-
         # run tracking
         accs = []
         n_frame = 0

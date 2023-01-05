@@ -191,6 +191,12 @@ class opts(object):
                                  help='feature dim for reid')
 
 
+        self.parser.add_argument('--bbox_save', type=bool, default=False,
+                                 help='feature dim for reid')
+        self.parser.add_argument('--bbfeat_save', type=bool, default=False,
+                                 help='feature dim for reid')
+
+
         self.parser.add_argument('--att_weight', type=float, default=1,
                                  help='loss weight for id')
 

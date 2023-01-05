@@ -268,8 +268,29 @@
 #--output-root '/media/syh/hdd/data/dummy/jointree_220707_cctv_1_keti_plus_yolov5s_att_5ep_288_160_with_tests_epochs2_cctv_vid_1'
 
 # 221108 정량평가
-python demo.py mot \
---load_model '/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/jointree_220707_cctv_1_keti_plus_yolov5s_att_5ep_288_160_with_tests/model_best_2.pth' \
---arch yolo --reid_dim 16 --conf_thres 0.25 --gpus 0 --image-width 288 --image-height 160 --input-format 'images' \
---input-image-dir '/media/syh/ssd2/data/jointree_220707_cctv_2/images/train/jointree_220707_cctv_2/img1' \
---output-root '/media/syh/hdd/data/dummy/jointree_220707_cctv_1_keti_plus_yolov5s_att_5ep_288_160_with_tests_epochs2_cctv_vid_1'
+#python demo.py mot \
+#--load_model '/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/jointree_220707_cctv_1_keti_plus_yolov5s_att_5ep_288_160_with_tests/model_best_2.pth' \
+#--arch yolo --reid_dim 16 --conf_thres 0.25 --gpus 0 --image-width 288 --image-height 160 --input-format 'images' \
+#--input-image-dir '/media/syh/ssd2/data/jointree_220707_cctv_2/images/train/jointree_220707_cctv_2/img1' \
+#--output-root '/media/syh/hdd/data/dummy/jointree_220707_cctv_1_keti_plus_yolov5s_att_5ep_288_160_with_tests_epochs2_cctv_vid_1'
+
+# 230102 fairmot reid dimension 평가
+MODEL=FairMOT_YOLO_KETI
+WIDTH=576
+HEIGHT=320
+BACKBONE=yolov5n
+EPOCH=1000
+REID_DIM=16
+ETC=_reiddim_${REID_DIM}
+LOAD_EXP=MUF_demo_data_all_for_keti_demo_without_error_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_with_tests
+EXP_NAME=230102_MUF_demo_data_all_for_keti_demo_without_error_feature_check_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_test_only
+OUTPUT_ROOT=/media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME}
+CONF_THRES=0.3
+GPUS=0
+
+
+python -W ignore demo.py mot \
+--arch ${BACKBONE}  --reid_dim ${REID_DIM} --conf_thres ${CONF_THRES} --gpus ${GPUS} --image-width ${WIDTH} --image-height ${HEIGHT} --input-format 'images' \
+--input-image-dir /media/syh/ssd2/data/jointree_220707_cctv_2/images/train/jointree_220707_cctv_2/img1 \
+--load_model /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${LOAD_EXP}/model_last.pth \
+--output-root ${OUTPUT_ROOT}

@@ -164,28 +164,51 @@ def test_det(
                 # print("path : ",path.split('/')[-3])
                 img0 = cv2.imread(path)
                 img1 = cv2.imread(path)
+
                 for t in range(len(target_boxes)):
                     x1 = int(target_boxes[t, 0].cpu().data)
                     y1 = int(target_boxes[t, 1].cpu().data)
                     x2 = int(target_boxes[t, 2].cpu().data)
                     y2 = int(target_boxes[t, 3].cpu().data)
                     # cv2.rectangle(img0, (x1, y1), (x2, y2), (0, 255, 0), 4)
-                    cv2.rectangle(img0, (x1, y1), (x2, y2), (0, 255, 0), 4)
+                    # cv2.imshow("test",img0[y1:y2+1,x1:x2+1])
+                    # cv2.waitKey(0)
+                    # raise KeyboardInterrupt
                 if os.path.exists(os.path.join(opt.save_dir,'gt',path.split('/')[-3])):
                     pass
                 else :
                     os.makedirs(os.path.join(opt.save_dir,'gt',path.split('/')[-3]))
+                # if os.path.exists(os.path.join(opt.save_dir, 'gt_bbox', path.split('/')[-3])):
+                #     pass
+                # else :
+                #     os.makedirs(os.path.join(opt.save_dir, 'gt_bbox', path.split('/')[-3]))
+
+                # cv2.imwrite(os.path.join(opt.save_dir, 'gt_bbox', path.split('/')[-3],
+                #                              path.split('/')[-1].split('.')[0] + '_' + str(t) + '.jpg'),img0[y1:y2 + 1, x1:x2 + 1])
+                cv2.rectangle(img0, (x1, y1), (x2, y2), (0, 255, 0), 4)
                 cv2.imwrite(os.path.join(opt.save_dir,'gt',path.split('/')[-3],path.split('/')[-1].split('.')[0]+'.jpg'), img0)
+
+
                 for t in range(len(dets)):
                     x1 = int(float(dets[t, 0]))
                     y1 = int(float(dets[t, 1]))
                     x2 = int(float(dets[t, 2]))
                     y2 = int(float(dets[t, 3]))
-                    cv2.rectangle(img1, (x1, y1), (x2, y2), (0, 255, 0), 4)
+
                 if os.path.exists(os.path.join(opt.save_dir, 'pred', path.split('/')[-3])):
                     pass
                 else:
                     os.makedirs(os.path.join(opt.save_dir, 'pred', path.split('/')[-3]))
+
+                # if os.path.exists(os.path.join(opt.save_dir, 'pred_bbox', path.split('/')[-3])):
+                #     pass
+                # else :
+                #     os.makedirs(os.path.join(opt.save_dir, 'pred_bbox', path.split('/')[-3]))
+                #
+                # cv2.imwrite(os.path.join(opt.save_dir, 'pred_bbox', path.split('/')[-3],
+                #                          path.split('/')[-1].split('.')[0] + '_' + str(t) + '.jpg'),
+                #             img1[y1:y2 + 1, x1:x2 + 1])
+                cv2.rectangle(img1, (x1, y1), (x2, y2), (0, 255, 0), 4)
                 cv2.imwrite(os.path.join(opt.save_dir,'pred',path.split('/')[-3],path.split('/')[-1].split('.')[0]+'.jpg'), img1)
                 #abc = ace
 
@@ -204,6 +227,8 @@ def test_det(
                         detected.append(best_i)
                     else:
                         correct.append(0)
+
+
 
             # Compute Average Precision (AP) per class
             AP, AP_class, R, P = ap_per_class(tp=correct,
