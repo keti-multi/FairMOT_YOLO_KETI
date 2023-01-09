@@ -69,8 +69,8 @@ def write_results_score(filename, results, data_type):
 
 #  230103 syh save features from TransReID,
 def save_feats(feats,bbox_urls):
-    feats = torch.cat(feats, dim=0)
-    torch.save(feats, "features_msmt.pt")
+    # feats = torch.cat(feats, dim=0)
+    torch.save(feats, "study/features_msmt.pt")
     #np.savetxt("id_list.out",self.pids,fmt='%d')
     np.savetxt("img_path.out",bbox_urls,fmt="%s")
 

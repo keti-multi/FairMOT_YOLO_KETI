@@ -12,8 +12,7 @@ from matplotlib.transforms import Bbox
 from matplotlib.image import BboxImage
 from matplotlib.legend_handler import HandlerBase
 from matplotlib._png import read_png
-cmap_lst = [plt.cm.rainbow, plt.cm.Blues, plt.cm.autumn, plt.cm.RdYlGn]
-cmap = plt.cm.get_cmap('rainbow',15)
+
 class ImageHandler(HandlerBase):
     def create_artists(self, legend, orig_handle,
                        xdescent, ydescent, width, height, fontsize,
@@ -39,6 +38,9 @@ class ImageHandler(HandlerBase):
         return self.label
     def set_image(self, image_path,label, image_stretch=(0, 0)):
         if not os.path.exists(image_path):
+            print("There is no image")
+            print(" image_path :",image_path)
+            raise KeyboardInterrupt
             sample = get_sample_data("grace_hopper.png", asfileobj=False)
             self.image_data = read_png(sample)
         else:
@@ -55,31 +57,32 @@ plot_bbox=False
 img_list = np.loadtxt("img_path.out",dtype=str)
 img_path_base = "/media/syh/ssd2/data/ReID_MUF_all/all"
 
-sampling_num=5
+sampling_num=1
 feats=torch.load("features_msmt.pt")
 # feats=torch.load("../features_msmt.pt")
+
+feats = np.array(list(map(lambda o: o.data.cpu().numpy(),feats)))
+
+print(feats.shape)
 feats=feats[::sampling_num]
 
-# Todo 230105 syh, id list는 fairmot의 경우 bbox 파일명에서 slicing
-# img file name == img_list[i].split('/')[-1]
-# 위에서 id 추출
 
-lists = np.loadtxt("id_list.out")
-
-
-
-lists= lists.astype(int)
+lists = [int(i.split('/')[-1][:4]) for i in img_list]
 lists=lists[::sampling_num]
+id_set = set(lists)
+id_max = max(list(id_set))
+print("max : ", max(list(id_set)))
+# raise KeyboardInterrupt
 img_list = img_list[::sampling_num]
 
-
+cmap_lst = [plt.cm.rainbow, plt.cm.Blues, plt.cm.autumn, plt.cm.RdYlGn]
+cmap = plt.cm.get_cmap('rainbow',id_max)
 import cv2
 from PIL import Image
 def getImage(path, zoom=1,label=''):
     path=os.path.join(img_path_base,path[:4],path)
-    # img = Image.open(path)
     img =cv2.imread(path)
-    color = label
+    # color = label
     border_width = img.shape[0]//20
     top, bottom, left, right = [border_width] * 4
     # h,w=img.size
@@ -113,18 +116,20 @@ tsne = TSNE(n_components=2, random_state=0,verbose=1)
 
 
 # change batch_size
-
 pred_tsne = tsne.fit_transform(feats)
 cluster = np.array(pred_tsne)
 print(cluster.shape)
-labels = [str(i) for i in range(15)]
+labels = [str(i) for i in range(id_max)]
 handles = []
 fig, ax = plt.subplots()
 
 
 
 handler_dict={}
-for i, label in zip(range(15), labels):
+
+for i, label in zip(range(id_max), labels):
+    lists=np.array(lists)
+    # print("list :",lists)
     idx = np.where(lists == i)
     custom_handler = ImageHandler()
     if len(img_list[idx])==0:
@@ -132,7 +137,7 @@ for i, label in zip(range(15), labels):
                                  image_stretch=(0, 20))
     else:
         path = img_list[idx][0]
-        custom_handler.set_image(os.path.join(img_path_base,path[:4],path),label=label,
+        custom_handler.set_image(os.path.join(path),label=label,
                                  image_stretch=(0, 20))
     handler_dict[label]=custom_handler
     # handles.append(custom_handler)
@@ -146,7 +151,7 @@ for scat, path in zip(cluster,img_list):
     ax.add_artist(ab)
     ind+=1
 
-for i, label in zip(range(15), labels):
+for i, label in zip(range(id_max), labels):
     idx = np.where(lists == i)
     collections_list.append(ax.scatter(cluster[idx, 0], cluster[idx, 1], marker='s', label=label,cmap=cmap,alpha=1))
 
