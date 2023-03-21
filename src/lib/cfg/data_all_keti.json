@@ -1,0 +1,23 @@
+{
+    "root":"/data/Dataset/MOT",
+    "train":
+    {
+        "20211111_keti":"./data/20211111_keti.train",
+        "20211118_keti":"./data/20211118_keti.train",
+        "20220118_keti":"./data/20220118_keti.train",
+        "20220729_infoworks":"./data/20220729_infoworks.train",
+        "20220808_infoworks":"./data/20220808_infoworks.train",
+        "20220811_infoworks":"./data/20220811_infoworks.train",
+        "20220817_infoworks":"./data/20220817_infoworks.train",
+        "20220830_keti":"./data/20220830_keti.train",
+        "20221004_jointree":"./data/20221004_jointree.train"
+    },
+    "test_emb":
+    {
+        "mot17":"./data/mot17.val"
+    },
+    "test":
+    {
+        "mot17":"./data/mot17.val"
+    }
+}

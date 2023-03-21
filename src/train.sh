@@ -705,3 +705,145 @@
 #--num_att6 17 \
 #--num_att 6
 
+#20221121-1 train 시작
+# WIDTH=544
+# HEIGHT=320
+# BACKBONE=yolov5n
+# EPOCH=200
+# REID_DIM=16
+# ETC=_reiddim_${REID_DIM}
+# DATA_CFG='./lib/cfg/data_all_with_keti.json'
+# EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_retrain
+# LOAD_EXP=fairmot_yolov5n_544_320_reiddim_16
+
+# python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+# --image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+# --load_model /home/hylee/Project/FairMOT_YOLO_KETI/exp/mot/${LOAD_EXP}/model_last.pth \
+# --dataset jde \
+# --num_att1 32 \
+# --num_att2 17 \
+# --num_att3 7 \
+# --num_att4 17 \
+# --num_att5 7 \
+# --num_att6 17 \
+# --num_att 6
+
+#20221121-2 train 시작
+# WIDTH=544
+# HEIGHT=320
+# BACKBONE=yolov5n
+# EPOCH=200
+# REID_DIM=32
+# ETC=_reiddim_${REID_DIM}
+# DATA_CFG='./lib/cfg/data_all_with_keti.json'
+# EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}
+
+# python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+# --image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+# --dataset jde \
+# --num_att1 32 \
+# --num_att2 17 \
+# --num_att3 7 \
+# --num_att4 17 \
+# --num_att5 7 \
+# --num_att6 17 \
+# --num_att 6
+
+#20221121-3 train 시작
+# WIDTH=288
+# HEIGHT=160
+# BACKBONE=yolov5n
+# EPOCH=200
+# REID_DIM=32
+# ETC=_reiddim_${REID_DIM}
+# DATA_CFG='./lib/cfg/data_all_with_keti.json'
+# EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}
+
+# python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+# --image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+# --dataset jde \
+# --num_att1 32 \
+# --num_att2 17 \
+# --num_att3 7 \
+# --num_att4 17 \
+# --num_att5 7 \
+# --num_att6 17 \
+# --num_att 6
+
+#20230228 train 시작
+# EPOCH=300
+# #DATA_CFG='./lib/cfg/data_all_with_keti.json'
+# DATA_CFG='./lib/cfg/data_all_keti.json'
+# python ./train.py mot --exp_id yolov5s_1088_608 --load_model ../models/fairmot_yolov5s.pth --gpus 0 --data_cfg ${DATA_CFG} --num_epochs ${EPOCH} --lr 5e-4 --batch_size 16 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64
+
+
+#20221121-3 train 시작
+# WIDTH=1088
+# HEIGHT=608
+# BACKBONE=yolo
+# EPOCH=200
+# REID_DIM=64
+# ETC=_reiddim_${REID_DIM}
+# DATA_CFG='./lib/cfg/data_all_keti.json'
+# EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}
+
+# python -W ignore ./train_test.py mot --load_model ../models/fairmot_yolov5s.pth --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+# --image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+# --dataset jde \
+# --num_att1 32 \
+# --num_att2 17 \
+# --num_att3 7 \
+# --num_att4 17 \
+# --num_att5 7 \
+# --num_att6 17 \
+# --num_att 6
+
+#20230228 train 시작
+# EPOCH=300
+# #DATA_CFG='./lib/cfg/data_all_with_keti.json'
+# DATA_CFG='./lib/cfg/data_all_keti.json'
+# python ./train.py mot --exp_id yolov5s_1088_608 --load_model ../models/fairmot_yolov5s.pth --gpus 0 --data_cfg ${DATA_CFG} --num_epochs ${EPOCH} --lr 5e-4 --batch_size 16 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64
+
+
+#WIDTH=1088
+#HEIGHT=608
+#BACKBONE=yolo
+#EPOCH=200
+#REID_DIM=64
+#ETC=_reiddim_${REID_DIM}
+#DATA_CFG='./lib/cfg/data_all_with_keti.json'
+##DATA_CFG='./lib/cfg/data_all_keti.json'
+#EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_all
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+#--dataset jde \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+# 230323 syh train_test 코드 점검
+WIDTH=544
+HEIGHT=320
+BACKBONE=yolo
+EPOCH=200
+REID_DIM=64
+ETC=_reiddim_${REID_DIM}
+DATA_CFG='./lib/cfg/data_all_with_keti.json'
+#DATA_CFG='./lib/cfg/data_all_keti.json'
+EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_all
+
+python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+--dataset jde \
+--num_att1 32 \
+--num_att2 17 \
+--num_att3 7 \
+--num_att4 17 \
+--num_att5 7 \
+--num_att6 17 \
+--num_att 6

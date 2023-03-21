@@ -6,5 +6,6 @@
     </content>
     <orderEntry type="jdk" jdkName="multi" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="20230321_FairMOT_YOLO_KETI" />
   </component>
 </module>

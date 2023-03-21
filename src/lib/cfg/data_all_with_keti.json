@@ -1,0 +1,32 @@
+{
+    "root":"/media/syh/ssd2/data/MOT/",
+    "train":
+    {
+        "mot16":"./data/mot16.train",        
+        "mot17":"./data/mot17.train",
+        "caltech":"./data/caltech.train",
+        "citypersons":"./data/citypersons.train",
+        "cuhksysu":"./data/cuhksysu.train",
+        "prw":"./data/prw.train",
+        "eth":"./data/eth.train",
+        "crowdhuman_train":"./data/crowdhuman.train",
+        "crowdhuman_val":"./data/crowdhuman.val",
+        "20211111_keti":"./data/20211111_keti.train",
+        "20211118_keti":"./data/20211118_keti.train",
+        "20220118_keti":"./data/20220118_keti.train",
+        "20220729_infoworks":"./data/20220729_infoworks.train",
+        "20220808_infoworks":"./data/20220808_infoworks.train",
+        "20220811_infoworks":"./data/20220811_infoworks.train",
+        "20220817_infoworks":"./data/20220817_infoworks.train",
+        "20220830_keti":"./data/20220830_keti.train",
+        "20221004_jointree":"./data/20221004_jointree.train"
+    },
+    "test_emb":
+    {
+        "mot17":"./data/mot17.val"
+    },
+    "test":
+    {
+        "mot17":"./data/mot17.val"
+    }
+}
