@@ -57,7 +57,7 @@ plot_bbox=False
 img_list = np.loadtxt("img_path.out",dtype=str)
 img_path_base = "/media/syh/ssd2/data/ReID_MUF_all/all"
 
-sampling_num=1
+sampling_num=5
 feats=torch.load("features_msmt.pt")
 # feats=torch.load("../features_msmt.pt")
 
