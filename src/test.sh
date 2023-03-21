@@ -238,6 +238,27 @@
 
 #230102 feature 추출
 
+#WIDTH=576
+#HEIGHT=320
+#BACKBONE=yolov5n
+#EPOCH=1000
+#REID_DIM=16
+#ETC=_reiddim_${REID_DIM}
+#LOAD_EXP=MUF_demo_data_all_for_keti_demo_without_error_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_with_tests
+#EXP_NAME=230102_MUF_demo_data_all_for_keti_demo_without_error_feature_check_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_test_only
+#
+#TEST_EPOCH=15
+#DATASET=./lib/cfg/MUF_demo_data_all_for_keti_demo_without_error_just_test_jointree.json
+#
+#python -W ignore ./test_det.py mot --gpus 0 --exp_id ${EXP_NAME} \
+#--data_cfg ${DATASET} \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs 1000 --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+# --load_model /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${LOAD_EXP}/model_last.pth\
+# --det_thres 0.3
+
+#230321 기존 학습된 모델 점검 및 수정부분 도출
+
 WIDTH=576
 HEIGHT=320
 BACKBONE=yolov5n
