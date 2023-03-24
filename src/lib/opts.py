@@ -290,7 +290,15 @@ class opts(object):
             #opt.img_size = (864, 480)
             #opt.img_size = (576, 320)
             opt.img_size = (opt.image_width, opt.image_height)
+        elif opt.task == 'mod':
 
+            opt.heads = {'hm': opt.num_classes,
+                         'wh': 2 if not opt.ltrb else 4}
+            if opt.reg_offset:
+                opt.heads.update({'reg': 2})
+            opt.nID = dataset.nID
+            # opt.img_size = (1088, 608)
+            opt.img_size = (opt.image_width, opt.image_height)
         elif opt.task == 'mot_att':
 
             opt.heads = {'hm': opt.num_classes,

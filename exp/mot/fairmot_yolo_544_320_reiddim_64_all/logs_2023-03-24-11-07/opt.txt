@@ -1,0 +1,113 @@
+==> torch version: 1.11.0+cu115
+==> cudnn version: 8302
+==> Cmd:
+['./train_test.py', 'mot', '--gpus', '0', '--exp_id', 'fairmot_yolo_544_320_reiddim_64_all', '--data_cfg', './lib/cfg/data_all_with_keti.json', '--image-width', '544', '--image-height', '320', '--lr', '5e-4', '--batch_size', '16', '--num_epochs', '200', '--wh_weight', '0.5', '--multi_loss', 'fix', '--arch', 'yolo', '--reid_dim', '64', '--dataset', 'jde', '--num_att1', '32', '--num_att2', '17', '--num_att3', '7', '--num_att4', '17', '--num_att5', '7', '--num_att6', '17', '--num_att', '6']
+==> Opt:
+  K: 500
+  arch: yolo
+  att_weight: 1
+  batch_size: 16
+  bbfeat_save: False
+  bbox_save: False
+  cat_spec_wh: False
+  chunk_sizes: [16]
+  conf_thres: 0.4
+  data_cfg: ./lib/cfg/data_all_with_keti.json
+  data_dir: /data/Dataset
+  dataset: jde
+  debug_dir: /home/syh/workspace/multi/FairMOT_YOLO_KETI/src/lib/../../exp/mot/fairmot_yolo_544_320_reiddim_64_all/debug
+  dense_wh: False
+  det_thres: 0.3
+  down_ratio: 4
+  exp_dir: /home/syh/workspace/multi/FairMOT_YOLO_KETI/src/lib/../../exp/mot
+  exp_id: fairmot_yolo_544_320_reiddim_64_all
+  fix_res: True
+  gpus: [0]
+  gpus_str: 0
+  head_conv: 256
+  heads: {'hm': 1, 'wh': 4, 'id': 64, 'reg': 2}
+  hide_data_time: False
+  hm_weight: 1
+  id_loss: ce
+  id_weight: 1
+  image_height: 320
+  image_width: 544
+  img_size: (544, 320)
+  input_format: video
+  input_h: 1088
+  input_image_dir: /home/hjlee/old/FairMOT/demos/image
+  input_res: 1088
+  input_video: ../videos/MOT16-03.mp4
+  input_w: 608
+  keep_res: False
+  load_model: 
+  lr: 0.0005
+  lr_step: [20]
+  ltrb: True
+  make_hybrid1: 
+  make_hybrid2: 
+  make_onnx: 
+  make_rknn: 
+  master_batch_size: 16
+  mean: None
+  metric: loss
+  min_box_area: 100
+  mse_loss: False
+  multi_loss: fix
+  nID: 16041
+  nms_thres: 0.4
+  norm_wh: False
+  not_cuda_benchmark: False
+  not_prefetch_test: False
+  not_reg_offset: False
+  num_att: 6
+  num_att1: 32
+  num_att2: 17
+  num_att3: 7
+  num_att4: 17
+  num_att5: 7
+  num_att6: 17
+  num_classes: 1
+  num_epochs: 200
+  num_iters: -1
+  num_stacks: 1
+  num_workers: 8
+  off_weight: 1
+  oneshot: False
+  output_format: video
+  output_h: 272
+  output_res: 272
+  output_root: ../demos
+  output_w: 152
+  pad: 31
+  print_iter: 0
+  reg_loss: l1
+  reg_offset: True
+  reid_dim: 64
+  resume: False
+  root_dir: /home/syh/workspace/multi/FairMOT_YOLO_KETI/src/lib/../..
+  run_onnx: 
+  run_rknn: 
+  save_all: False
+  save_dir: /home/syh/workspace/multi/FairMOT_YOLO_KETI/src/lib/../../exp/mot/fairmot_yolo_544_320_reiddim_64_all
+  seed: 317
+  seqs: 1
+  std: None
+  task: mot
+  test: False
+  test_hie: False
+  test_mot15: False
+  test_mot16: False
+  test_mot17: False
+  test_mot20: False
+  test_muf: False
+  track_buffer: 30
+  trainval: False
+  val_hie: False
+  val_intervals: 5
+  val_mot15: False
+  val_mot16: False
+  val_mot17: False
+  val_mot20: False
+  vis_thresh: 0.5
+  wh_weight: 0.5

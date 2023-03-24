@@ -9,6 +9,8 @@ from .dataset.jde_attribute import AttJointDataset as AttJointDataset
 def get_dataset(dataset, task):
   if task == 'mot':
     return JointDataset
+  if task == 'mod':
+    return JointDataset
   if task == 'mot_att':
     return AttJointDataset
   else:
