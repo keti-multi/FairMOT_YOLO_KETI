@@ -1,0 +1,15 @@
+{
+    "root":"/media/syh/ssd2/data/MOT/",
+    "train":
+    {
+        "mot16":"./data/mot16.train"
+    },
+    "test_emb":
+    {
+        "mot17":"./data/mot17.val"
+    },
+    "test":
+    {
+        "mot17":"./data/mot17.val"
+    }
+}

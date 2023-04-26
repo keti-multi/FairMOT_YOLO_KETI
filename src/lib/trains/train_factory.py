@@ -4,8 +4,10 @@ from __future__ import print_function
 
 from .mot import MotTrainer
 from .mot_att import MotAttTrainer
+from .mot import ModTrainer
 
 train_factory = {
   'mot': MotTrainer,
+  'mod': ModTrainer,
   'mot_att': MotAttTrainer
 }

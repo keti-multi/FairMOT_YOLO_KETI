@@ -79,15 +79,15 @@ def load_model(model, model_path, optimizer=None, resume=False,
       for step in lr_step:
         if start_epoch >= step:
           start_lr *= 0.1
-      for step in lr_step1:
-        if start_epoch >= step:
-          start_lr *= 0.5
-      for step in lr_step2:
-        if start_epoch >= step:
-          start_lr *= 0.5
-      for step in lr_step3:
-        if start_epoch >= step:
-          start_lr *= 0.5                              
+      # for step in lr_step1:
+      #   if start_epoch >= step:
+      #     start_lr *= 0.5
+      # for step in lr_step2:
+      #   if start_epoch >= step:
+      #     start_lr *= 0.5
+      # for step in lr_step3:
+      #   if start_epoch >= step:
+      #     start_lr *= 0.5
       for param_group in optimizer.param_groups:
         param_group['lr'] = start_lr
       print('Resumed optimizer with start lr', start_lr)

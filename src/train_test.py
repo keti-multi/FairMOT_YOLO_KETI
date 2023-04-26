@@ -65,30 +65,20 @@ def test_det(
         model=None,
         dataloader=None
 ):
-    #data_cfg = opt.data_cfg
-    #f = open(data_cfg)
-    #data_cfg_dict = json.load(f)
-    #f.close()
-    # nC = 50
+
     nC = 1
-    #test_path = data_cfg_dict['test']
-    #dataset_root = data_cfg_dict['root']
+
     if opt.gpus[0] >= 0:
         opt.device = torch.device('cuda')
     else:
         opt.device = torch.device('cpu')
     print('Creating model...')
-    #model = create_model(opt.arch, opt.heads, opt.head_conv)
-    #model = load_model(model, opt.load_model)
-    #model = torch.nn.DataParallel(model)
+
     model = model.to(opt.device)
     model.eval()
 
     # Get dataloader
-    #transforms = T.Compose([T.ToTensor()])
-    #dataset = DetDataset(dataset_root, test_path, img_size, augment=False, transforms=transforms)
-    #dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=False,
-    #                                         num_workers=8, drop_last=False, collate_fn=collate_fn)
+
     mean_mAP, mean_R, mean_P, seen = 0.0, 0.0, 0.0, 0
     print('%11s' * 5 % ('Image', 'Total', 'P', 'R', 'mAP'))
     outputs, mAPs, mR, mP, TP, confidence, pred_class, target_class, jdict = \
@@ -118,17 +108,13 @@ def test_det(
         # Compute average precision for each sample
         targets = [targets[i][:int(l)] for i, l in enumerate(targets_len)]
         for si, labels in enumerate(targets):
-            # print("labels : ",labels)
             seen += 1
-            #path = paths[si]
-            #img0 = cv2.imread(path)
+
             dets = detections[si]
             dets = dets.unsqueeze(0)
             dets = post_process(opt, dets, meta)
             dets = merge_outputs(opt, [dets])[1]
 
-            #remain_inds = dets[:, 4] > opt.det_thres
-            #dets = dets[remain_inds]
             if dets is None:
                 # If there are labels but no detections mark as zero AP
                 if labels.size(0) != 0:
@@ -152,6 +138,7 @@ def test_det(
                 target_boxes[:, 3] *= height
 
                 '''
+                결과이미지 저장 활용
                 path = paths[si]
                 img0 = cv2.imread(path)
                 img1 = cv2.imread(path)

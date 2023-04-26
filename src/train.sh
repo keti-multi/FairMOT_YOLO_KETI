@@ -827,21 +827,27 @@
 #--num_att 6
 
 # 230324 syh train_test 코드 점검
-# 학습되는거 확인
-WIDTH=544
-HEIGHT=320
-BACKBONE=yolo
-EPOCH=200
-REID_DIM=64
-ETC=_reiddim_${REID_DIM}
-DATA_CFG='./lib/cfg/data_all_with_keti.json'
-#DATA_CFG='./lib/cfg/data_all_keti.json'
-EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_all
+# 230328 -2 syh resume
+# 230329 -1 syh resume
+# 230329 -4 syh resume
+# 230405 -1 syh resume until epoch 1000
 
+# 학습되는거 확인
+#WIDTH=544
+#HEIGHT=320
+#BACKBONE=yolo
+#EPOCH=1000
+#REID_DIM=64
+#ETC=_reiddim_${REID_DIM}
+#DATA_CFG='./lib/cfg/data_all_with_keti.json'
+##DATA_CFG='./lib/cfg/data_all_keti.json'
+#EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_all
+#
 #
 #python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
 #--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
 #--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--resume \
 #--dataset jde \
 #--num_att1 32 \
 #--num_att2 17 \
@@ -850,3 +856,67 @@ EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_all
 #--num_att5 7 \
 #--num_att6 17 \
 #--num_att 6
+
+
+# 230324 -2  syh train_test 코드 점검
+# 230328 -1 syh resume
+# 230329 -2 syh resume
+# 230329 -3 syh resume
+# 230405 -2 syh resume until epoch 1000
+# 230410 -1 syh resume
+
+
+# without reid dim task mod
+#WIDTH=544
+#HEIGHT=320
+#BACKBONE=yolo
+#EPOCH=1000
+#REID_DIM=0
+#ETC=_reiddim_${REID_DIM}
+#DATA_CFG='./lib/cfg/data_all_with_keti.json'
+##DATA_CFG='./lib/cfg/data_all_keti.json'
+#EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_all
+#
+#
+#python -W ignore ./train_test.py mod --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--resume \
+#--dataset jde \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+
+# 230420 -1 syh raise width height
+# 230426 -2 syh resume
+
+
+# without reid dim task mod
+#WIDTH=1088
+#HEIGHT=608
+#BACKBONE=yolo
+#EPOCH=1000
+#REID_DIM=0
+#ETC=_reiddim_${REID_DIM}
+#DATA_CFG='./lib/cfg/data_all_with_keti.json'
+##DATA_CFG='./lib/cfg/data_all_keti.json'
+#EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_all
+#
+#
+#python -W ignore ./train_test.py mod --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--resume \
+#--dataset jde \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+##--num_att 6
