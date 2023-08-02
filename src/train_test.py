@@ -215,7 +215,7 @@ def main(opt):
 
     print('Setting up data...')
     print(" Task : ",opt.task)
-    Dataset = get_dataset(opt.dataset, opt.task)
+    Dataset = get_dataset(opt.c, opt.task)
     f = open(opt.data_cfg)
     data_config = json.load(f)
     trainset_paths = data_config['train']

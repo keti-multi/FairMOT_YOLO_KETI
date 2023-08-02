@@ -2,6 +2,7 @@
     "root":"/media/syh/ssd2/data/MOT/",
     "train":
     {
+        "20230629":"./data/20230629.train",
         "mot16":"./data/mot16.train",
         "mot17":"./data/mot17.train",
         "caltech":"./data/caltech.train",

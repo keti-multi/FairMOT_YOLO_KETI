@@ -194,12 +194,782 @@
 # --num_att 6
 
 
-EXP_NAME=jointree_221004_gate_1_keti_plus_yolov5s_att_5ep_288_160_with_tests
-python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/jointree_221004_gate_keti_plus.json' \
---image-width 288 --image-height 160 --lr 5e-4 --batch_size 16 --num_epochs 1000 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64 \
+#EXP_NAME=jointree_221004_gate_1_keti_plus_yolov5s_att_5ep_288_160_with_tests
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/jointree_221004_gate_keti_plus.json' \
+#--image-width 288 --image-height 160 --lr 5e-4 --batch_size 16 --num_epochs 1000 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--load_model /media/syh/ssd2/SynologyDrive/03_FairMOT/FairMOT-master/exp/mot/all_yolov5s_MOT16_288160_bs16_ep500/model_5.pth \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+# 221020 size-wise
+# 221024 train done
+#WIDTH=576
+#HEIGHT=320
+### WARNING /home/syh/workspace/multi/FairMOT_YOLO_KETI/src/lib/models/yolo.py 참조하여 config 변경
+### yolo == yolov5s, yolov5n==yolov5n
+#BACKBONE=yolov5n
+#EXP_NAME=MUF_cctv_all_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_with_tests
+#EPOCH=100
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 64 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+#  File "/home/syh/workspace/multi/FairMOT_YOLO_KETI/src/lib/models/common.py", line 283, in forward
+#    return torch.cat(x, self.d)
+# RuntimeError: Sizes of tensors must match except in dimension 2. Got 25 and 26 (The offending index is 0)
+# model squeeze
+## 221024 train FAIL
+#WIDTH=720
+#HEIGHT=400
+### WARNING /home/syh/workspace/multi/FairMOT_YOLO_KETI/src/lib/models/yolo.py 참조하여 config 변경
+### yolo == yolov5s, yolov5n==yolov5n
+#BACKBONE=yolov5n
+#EXP_NAME=MUF_cctv_all_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_with_tests
+#EPOCH=100
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 64 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+## 221024 train FAIL
+#WIDTH=430
+#HEIGHT=240
+### WARNING /home/syh/workspace/multi/FairMOT_YOLO_KETI/src/lib/models/yolo.py 참조하여 config 변경
+### yolo == yolov5s, yolov5n==yolov5n
+#BACKBONE=yolov5n
+#EXP_NAME=MUF_cctv_all_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_with_tests
+#EPOCH=100
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 64 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+
+# 221024 train done
+#WIDTH=576
+#HEIGHT=320
+#EXP_NAME=MUF_cctv_all_MOT_plus_yolov5s_5ep_${WIDTH}_${HEIGHT}_with_tests
+#EPOCH=100
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--load_model /media/syh/ssd2/SynologyDrive/03_FairMOT/FairMOT-master/exp/mot/all_yolov5s_MOT16_288160_bs16_ep500/model_5.pth \
+#--dataset jde \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+## 221024 train FAIL
+#WIDTH=720
+#HEIGHT=400
+#EXP_NAME=MUF_cctv_all_MOT_plus_yolov5s_5ep_${WIDTH}_${HEIGHT}_with_tests
+#EPOCH=100
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--load_model /media/syh/ssd2/SynologyDrive/03_FairMOT/FairMOT-master/exp/mot/all_yolov5s_MOT16_288160_bs16_ep500/model_5.pth \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+### 221024 train FAIL
+#WIDTH=430
+#HEIGHT=240
+#EXP_NAME=MUF_cctv_all_MOT_plus_yolov5s_5ep_${WIDTH}_${HEIGHT}_with_tests
+#EPOCH=100
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--load_model /media/syh/ssd2/SynologyDrive/03_FairMOT/FairMOT-master/exp/mot/all_yolov5s_MOT16_288160_bs16_ep500/model_5.pth \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+# 221024 retrain edited
+## don't need edge spec
+#WIDTH=864
+#HEIGHT=480
+#BACKBONE=yolov5n
+#EXP_NAME=MUF_cctv_all_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_with_tests
+#EPOCH=100
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 64 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+
+# 221024 retrain edited
+# layer depth 비교군 학습
+#WIDTH=288
+#HEIGHT=160
+#BACKBONE=yolov5n
+#EXP_NAME=MUF_cctv_all_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_with_tests
+#EPOCH=100
+#
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 64 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+## reid dimension to 32
+## done
+#WIDTH=288
+#HEIGHT=160
+#BACKBONE=yolov5n
+#EXP_NAME=MUF_cctv_all_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_reiddim_32_with_tests
+#EPOCH=100
+#
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 32 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+# reid dimension to 16
+# done
+#WIDTH=288
+#HEIGHT=160
+#BACKBONE=yolov5n
+#EXP_NAME=MUF_cctv_all_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_reiddim_16_with_tests
+#EPOCH=100
+#
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 16 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+# reiddim 16 w576 h320
+#WIDTH=576
+#HEIGHT=320
+#BACKBONE=yolov5n
+#EXP_NAME=MUF_cctv_all_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_reiddim_16_with_tests
+#EPOCH=100
+#
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 16 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+# reiddim 32 w576 h320
+#WIDTH=576
+#HEIGHT=320
+#BACKBONE=yolov5n
+#EXP_NAME=MUF_cctv_all_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_reiddim_32_with_tests
+#EPOCH=100
+#
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 32 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+## reiddim 32 w576 h320
+## reid dimension to 16
+#WIDTH=288
+#HEIGHT=160
+#BACKBONE=yolov5n
+#EXP_NAME=MUF_gate_all_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_reiddim_16_with_tests
+#EPOCH=100
+#
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all_gate.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 16 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+#
+
+### 221108 anonymous data fitting
+## reiddim 32 w576 h320
+## reid dimension to 16
+#WIDTH=288
+#HEIGHT=160
+#BACKBONE=yolov5n
+#EXP_NAME=MUF_anonymous_accred_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_reiddim_16_with_tests
+#EPOCH=100
+#
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all_anonymous_four.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 16 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+#
+### 221108 anonymous data fitting power fitting
+## reiddim 32 w576 h320
+## reid dimension to 16
+#WIDTH=288
+#HEIGHT=160
+#BACKBONE=yolov5n
+#EXP_NAME=MUF_anonymous_only_accred_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_reiddim_16_with_tests
+#EPOCH=100
+#
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all_anonymous_four_only.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 16 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde  \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+## 221108 anonymous data fitting power fitting
+# reiddim 32 w576 h320
+# reid dimension to 16
+#WIDTH=288
+#HEIGHT=160
+#BACKBONE=yolov5n
+#EXP_NAME=MUF_anonymous_only_accred_MOT_plus_${BACKBONE}_${WIDTH}_${HEIGHT}_reiddim_16_with_tests_retraining
+#EPOCH=100
+#ETC=_reiddim_${REID_DIM}
+#LOAD_EXP=MUF_cctv_all_MOT_plus_yolov5n_288_160_reiddim_16_with_tests
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all_anonymous_four_only_only.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 1 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim 16 \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--load_model /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${LOAD_EXP}/model_best_4.pth \
+#--dataset jde \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+
+# 221112 KETI 상에서 성능 안좋은 것 개선
+# KETI 영상에 fitting
+#WIDTH=288
+#HEIGHT=160
+#BACKBONE=yolov5n
+#EPOCH=1000
+#REID_DIM=16
+#ETC=_reiddim_${REID_DIM}
+#EXP_NAME=MUF_demo_data_all_for_keti_demo_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_with_tests
+#LOAD_EXP=MUF_cctv_all_MOT_plus_yolov5n_288_160_reiddim_16_with_tests
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all_for_keti_demo.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--load_model /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${LOAD_EXP}/model_best_4.pth \
+#--dataset jde \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+## 221112 576 320
+#WIDTH=576
+#HEIGHT=320
+#BACKBONE=yolov5n
+#EPOCH=1000
+#REID_DIM=16
+#ETC=_reiddim_${REID_DIM}
+#EXP_NAME=MUF_demo_data_all_for_keti_demo_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_with_tests
+##LOAD_EXP=MUF_cctv_all_MOT_plus_yolov5n_288_160_reiddim_16_with_tests
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all_for_keti_demo.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+# 1088 608
+### 221114-1
+#WIDTH=1088
+#HEIGHT=608
+#BACKBONE=yolov5n
+#EPOCH=1000
+#REID_DIM=16
+#ETC=_reiddim_${REID_DIM}
+#EXP_NAME=MUF_demo_data_all_for_keti_demo_without_error_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_with_tests
+##LOAD_EXP=MUF_cctv_all_MOT_plus_yolov5n_288_160_reiddim_16_with_tests
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all_for_keti_demo_without_error.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+##
+
+#221114-2
+#WIDTH=576
+#HEIGHT=320
+#BACKBONE=yolov5n
+#EPOCH=1000
+#REID_DIM=16
+#ETC=_reiddim_${REID_DIM}
+#EXP_NAME=MUF_demo_data_all_for_keti_demo_without_error_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_with_tests
+##LOAD_EXP=MUF_cctv_all_MOT_plus_yolov5n_288_160_reiddim_16_with_tests
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all_for_keti_demo_without_error.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+
+#221114-3
+#WIDTH=288
+#HEIGHT=160
+#BACKBONE=yolov5n
+#EPOCH=1000
+#REID_DIM=16
+#ETC=_reiddim_${REID_DIM}
+#EXP_NAME=MUF_demo_data_all_for_keti_demo_without_error_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_with_tests
+##LOAD_EXP=MUF_cctv_all_MOT_plus_yolov5n_288_160_reiddim_16_with_tests
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_data_all_for_keti_demo_without_error.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+#221114-4 robot_keti # gpu 용량 때문에 실행은 아직 못함
+#WIDTH=1088
+#HEIGHT=608
+#BACKBONE=yolov5n
+#EPOCH=1000
+#REID_DIM=16
+#ETC=_reiddim_${REID_DIM}
+#EXP_NAME=MUF_demo_keti_demo_robot_without_error_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_with_tests
+##LOAD_EXP=MUF_cctv_all_MOT_plus_yolov5n_288_160_reiddim_16_with_tests
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_keti_demo_robot_without_error.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+#221114-5 robot_keti 221114 train 시작
+#WIDTH=576
+#HEIGHT=320
+#BACKBONE=yolov5n
+#EPOCH=1000
+#REID_DIM=16
+#ETC=_reiddim_${REID_DIM}
+#EXP_NAME=MUF_demo_keti_demo_robot_without_error_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_with_tests
+##LOAD_EXP=MUF_cctv_all_MOT_plus_yolov5n_288_160_reiddim_16_with_tests
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  './lib/cfg/MUF_demo_keti_demo_robot_without_error.json' \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+#20221121-1 train 시작
+# WIDTH=544
+# HEIGHT=320
+# BACKBONE=yolov5n
+# EPOCH=200
+# REID_DIM=16
+# ETC=_reiddim_${REID_DIM}
+# DATA_CFG='./lib/cfg/data_all_with_keti.json'
+# EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_retrain
+# LOAD_EXP=fairmot_yolov5n_544_320_reiddim_16
+
+# python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+# --image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+# --load_model /home/hylee/Project/FairMOT_YOLO_KETI/exp/mot/${LOAD_EXP}/model_last.pth \
+# --dataset jde \
+# --num_att1 32 \
+# --num_att2 17 \
+# --num_att3 7 \
+# --num_att4 17 \
+# --num_att5 7 \
+# --num_att6 17 \
+# --num_att 6
+
+#20221121-2 train 시작
+# WIDTH=544
+# HEIGHT=320
+# BACKBONE=yolov5n
+# EPOCH=200
+# REID_DIM=32
+# ETC=_reiddim_${REID_DIM}
+# DATA_CFG='./lib/cfg/data_all_with_keti.json'
+# EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}
+
+# python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+# --image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+# --dataset jde \
+# --num_att1 32 \
+# --num_att2 17 \
+# --num_att3 7 \
+# --num_att4 17 \
+# --num_att5 7 \
+# --num_att6 17 \
+# --num_att 6
+
+#20221121-3 train 시작
+# WIDTH=288
+# HEIGHT=160
+# BACKBONE=yolov5n
+# EPOCH=200
+# REID_DIM=32
+# ETC=_reiddim_${REID_DIM}
+# DATA_CFG='./lib/cfg/data_all_with_keti.json'
+# EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}
+
+# python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+# --image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+# --dataset jde \
+# --num_att1 32 \
+# --num_att2 17 \
+# --num_att3 7 \
+# --num_att4 17 \
+# --num_att5 7 \
+# --num_att6 17 \
+# --num_att 6
+
+#20230228 train 시작
+# EPOCH=300
+# #DATA_CFG='./lib/cfg/data_all_with_keti.json'
+# DATA_CFG='./lib/cfg/data_all_keti.json'
+# python ./train.py mot --exp_id yolov5s_1088_608 --load_model ../models/fairmot_yolov5s.pth --gpus 0 --data_cfg ${DATA_CFG} --num_epochs ${EPOCH} --lr 5e-4 --batch_size 16 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64
+
+
+#20221121-3 train 시작
+# WIDTH=1088
+# HEIGHT=608
+# BACKBONE=yolo
+# EPOCH=200
+# REID_DIM=64
+# ETC=_reiddim_${REID_DIM}
+# DATA_CFG='./lib/cfg/data_all_keti.json'
+# EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}
+
+# python -W ignore ./train_test.py mot --load_model ../models/fairmot_yolov5s.pth --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+# --image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+# --dataset jde \
+# --num_att1 32 \
+# --num_att2 17 \
+# --num_att3 7 \
+# --num_att4 17 \
+# --num_att5 7 \
+# --num_att6 17 \
+# --num_att 6
+
+#20230228 train 시작
+# EPOCH=300
+# #DATA_CFG='./lib/cfg/data_all_with_keti.json'
+# DATA_CFG='./lib/cfg/data_all_keti.json'
+# python ./train.py mot --exp_id yolov5s_1088_608 --load_model ../models/fairmot_yolov5s.pth --gpus 0 --data_cfg ${DATA_CFG} --num_epochs ${EPOCH} --lr 5e-4 --batch_size 16 --wh_weight 0.5 --multi_loss 'fix' --arch 'yolo' --reid_dim 64
+
+
+#WIDTH=1088
+#HEIGHT=608
+#BACKBONE=yolo
+#EPOCH=200
+#REID_DIM=64
+#ETC=_reiddim_${REID_DIM}
+#DATA_CFG='./lib/cfg/data_all_with_keti.json'
+##DATA_CFG='./lib/cfg/data_all_keti.json'
+#EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_all
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+#--dataset jde \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+# 230324 syh train_test 코드 점검
+# 230328 -2 syh resume
+# 230329 -1 syh resume
+# 230329 -4 syh resume
+# 230405 -1 syh resume until epoch 1000
+
+# 학습되는거 확인
+#WIDTH=544
+#HEIGHT=320
+#BACKBONE=yolo
+#EPOCH=1000
+#REID_DIM=64
+#ETC=_reiddim_${REID_DIM}
+#DATA_CFG='./lib/cfg/data_all_with_keti.json'
+##DATA_CFG='./lib/cfg/data_all_keti.json'
+#EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_all
+#
+#
+#python -W ignore ./train_test.py mot --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--resume \
+#--dataset jde \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+
+# 230324 -2  syh train_test 코드 점검
+# 230328 -1 syh resume
+# 230329 -2 syh resume
+# 230329 -3 syh resume
+# 230405 -2 syh resume until epoch 1000
+# 230410 -1 syh resume
+
+
+# without reid dim task mod
+#WIDTH=544
+#HEIGHT=320
+#BACKBONE=yolo
+#EPOCH=1000
+#REID_DIM=0
+#ETC=_reiddim_${REID_DIM}
+#DATA_CFG='./lib/cfg/data_all_with_keti.json'
+##DATA_CFG='./lib/cfg/data_all_keti.json'
+#EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_all
+#
+#
+#python -W ignore ./train_test.py mod --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--resume \
+#--dataset jde \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+
+# 230420 -1 syh raise width height
+# 230426 -2 syh resume
+
+
+# without reid dim task mod
+#WIDTH=1088
+#HEIGHT=608
+#BACKBONE=yolo
+#EPOCH=1000
+#REID_DIM=0
+#ETC=_reiddim_${REID_DIM}
+#DATA_CFG='./lib/cfg/data_all_with_keti.json'
+##DATA_CFG='./lib/cfg/data_all_keti.json'
+#EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_all
+#
+#
+#python -W ignore ./train_test.py mod --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--resume \
+#--dataset jde \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+
+
+# 230616 -1 syh train with yolo5n
+
+
+# without reid dim task mod
+#WIDTH=544
+#HEIGHT=320
+#BACKBONE=yolov5n
+#EPOCH=1000
+#REID_DIM=0
+#ETC=_reiddim_${REID_DIM}
+#DATA_CFG='./lib/cfg/data_all_with_keti.json'
+##DATA_CFG='./lib/cfg/data_all_keti.json'
+#EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_all
+#
+#
+#python -W ignore ./train_test.py mod --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+#
+
+
+# 230721 -1 syh train with yolo5n and add GJTP_GATE_dataset
+
+
+# without reid dim task mod
+WIDTH=544
+HEIGHT=320
+BACKBONE=yolov5n
+EPOCH=1000
+REID_DIM=0
+ETC=_reiddim_${REID_DIM}
+DATA_CFG='./lib/cfg/data_all_with_keti.json'
+#DATA_CFG='./lib/cfg/data_all_keti.json'
+EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_all_GJTP
+
+
+python -W ignore ./train_test.py mod --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
 --save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
---load_model /media/syh/ssd2/SynologyDrive/03_FairMOT/FairMOT-master/exp/mot/all_yolov5s_MOT16_288160_bs16_ep500/model_5.pth \
---dataset jde  \
+--dataset jde \
 --num_att1 32 \
 --num_att2 17 \
 --num_att3 7 \

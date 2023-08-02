@@ -919,4 +919,61 @@
 #--num_att4 17 \
 #--num_att5 7 \
 #--num_att6 17 \
-##--num_att 6
+#--num_att 6
+
+
+# 230616 -1 syh train with yolo5n
+
+
+# without reid dim task mod
+#WIDTH=544
+#HEIGHT=320
+#BACKBONE=yolov5n
+#EPOCH=1000
+#REID_DIM=0
+#ETC=_reiddim_${REID_DIM}
+#DATA_CFG='./lib/cfg/data_all_with_keti.json'
+##DATA_CFG='./lib/cfg/data_all_keti.json'
+#EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_all
+#
+#
+#python -W ignore ./train_test.py mod --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+#--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+#--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+#--dataset jde \
+#--num_att1 32 \
+#--num_att2 17 \
+#--num_att3 7 \
+#--num_att4 17 \
+#--num_att5 7 \
+#--num_att6 17 \
+#--num_att 6
+#
+
+
+# 230721 -1 syh train with yolo5n and add GJTP_GATE_dataset
+
+
+# without reid dim task mod
+WIDTH=544
+HEIGHT=320
+BACKBONE=yolov5n
+EPOCH=1000
+REID_DIM=0
+ETC=_reiddim_${REID_DIM}
+DATA_CFG='./lib/cfg/data_all_with_keti.json'
+#DATA_CFG='./lib/cfg/data_all_keti.json'
+EXP_NAME=fairmot_${BACKBONE}_${WIDTH}_${HEIGHT}${ETC}_all_GJTP
+
+
+python -W ignore ./train_test.py mod --gpus 0 --exp_id ${EXP_NAME} --data_cfg  ${DATA_CFG} \
+--image-width ${WIDTH} --image-height ${HEIGHT} --lr 5e-4 --batch_size 16 --num_epochs ${EPOCH} --wh_weight 0.5 --multi_loss 'fix' --arch ${BACKBONE} --reid_dim ${REID_DIM} \
+--save_dir /media/syh/hdd/checkpoints/FairMOT_YOLO_KETI/exp/mot/${EXP_NAME} \
+--dataset jde \
+--num_att1 32 \
+--num_att2 17 \
+--num_att3 7 \
+--num_att4 17 \
+--num_att5 7 \
+--num_att6 17 \
+--num_att 6
