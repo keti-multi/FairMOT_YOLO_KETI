@@ -65,9 +65,10 @@ def test_det(
     outputs, mAPs, mR, mP, TP, confidence, pred_class, target_class, jdict = \
         [], [], [], [], [], [], [], [], []
     AP_accum, AP_accum_count = np.zeros(nC), np.zeros(nC)
-
+    # TODO 20230914 SYH
     gts=open('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/gt.txt','r')
     # dets=open('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/Edge Device Result/288_160_16_yolov5n_linear_31/conf_thres0.4/result_0.4.txt','r')
+    # TODO 20230914 SYH
     dets=open('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/정량평가/result_detect.txt','r')
 
     gt_dict = {}
@@ -88,7 +89,7 @@ def test_det(
         f_num, f_id, x, y, w, h,conf,_,_,_,_ = line.split(",")
         det_dict[str(f_num)].append([int(f_id), float(x), float(y), float(w), float(h[:-1]),float(conf)])
     dets.close()
-
+    # TODO 20230914 SYH
     path_ = "/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/out"
     imgs = os.listdir(path_)
     imgs.sort()

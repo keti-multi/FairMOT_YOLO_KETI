@@ -28,7 +28,7 @@ lineType               = 2
 import numpy as np
 
 def visualization(img_frame,gt_boxes, tar_boxes,out):
-
+    # TODO 20230914 SYH
     dirr= "/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/20220715_keti/images"
     img_src = os.path.join(dirr,'%d.jpg'%img_frame)
     img_origin = cv2.imread(img_src)
@@ -195,7 +195,7 @@ Run the function by pointing to the ground truth and your generated results as f
 
 # motMetricsEnhancedCalculator('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/20220715_keti/datas/cam-001/20220715130000_mp4/keti_220715_gt.txt', \
 #                               '/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/Edge_Device Result/result_mota.txt')
-
+# TODO 20230914 SYH
 motMetricsEnhancedCalculator('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/20220715_keti/datas/cam-001/20220715130000_mp4/keti_220715_gt.txt', \
                               '/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/정량평가/result_mota.txt')
 
