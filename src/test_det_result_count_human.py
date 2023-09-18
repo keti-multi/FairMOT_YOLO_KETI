@@ -63,7 +63,9 @@ def merge_outputs(opt, detections):
             results[j] = results[j][keep_inds]
     return results
 
-path="/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/out"
+# original image path
+# path="/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/out"
+path="/home/edge/authentification_test/out"
 imgs=os.listdir(path)
 imgs.sort()
 
@@ -82,10 +84,12 @@ def test_det(
     AP_accum, AP_accum_count = np.zeros(nC), np.zeros(nC)
 
     # TODO 20230914 SYH
-    gts=open('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/gt.txt','r')
+    # gts=open('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/gt.txt','r')
+    gts=open('/home/edge/authentification_test/gt.txt','r')
     # dets=open('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/Edge Device Result/288_160_16_yolov5n_linear_31/conf_thres0.4/result_0.4.txt','r')
     # TODO 20230914 SYH
-    dets=open('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/정량평가/result_count.txt','r')
+    # dets=open('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/정량평가/result_count.txt','r')
+    dets=open('/home/edge/authentification_test/result/result_count.txt','r')
 
     gt_dict = {}
     det_dict = {}
@@ -97,6 +101,8 @@ def test_det(
         line = gts.readline()
         if not line: break
         f_num, f_id, x, y, w, h = line.split(" ")
+        # f_num = int(f_num) + 1
+        # f_num = str(f_num)
         gt_dict[str(f_num)].append([int(f_id), float(x), float(y), float(w), float(h[:-1])])
     gts.close()
     while True:
@@ -108,7 +114,8 @@ def test_det(
 
     detected_sum=0
     # TODO 20230914 SYH
-    path_ = "/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/out"
+    # path_ = "/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/out"
+    path_ = "/home/edge/authentification_test/out"
     imgs = os.listdir(path_)
     imgs.sort()
     for i in range(100):

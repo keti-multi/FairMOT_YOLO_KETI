@@ -66,10 +66,13 @@ def test_det(
         [], [], [], [], [], [], [], [], []
     AP_accum, AP_accum_count = np.zeros(nC), np.zeros(nC)
     # TODO 20230914 SYH
-    gts=open('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/gt.txt','r')
+    # gts=open('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/gt.txt','r')
+    gts=open('/home/edge/authentification_test/gt.txt','r')
+
     # dets=open('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/Edge Device Result/288_160_16_yolov5n_linear_31/conf_thres0.4/result_0.4.txt','r')
     # TODO 20230914 SYH
-    dets=open('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/정량평가/result_detect.txt','r')
+    # dets=open('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/정량평가/result_detect.txt','r')
+    dets=open('/home/edge/authentification_test/result/result_detect.txt','r')
 
     gt_dict = {}
     det_dict = {}
@@ -81,6 +84,8 @@ def test_det(
         line = gts.readline()
         if not line: break
         f_num, f_id, x, y, w, h = line.split(" ")
+        # f_num = int(f_num) + 1
+        # f_num = str(f_num)
         gt_dict[str(f_num)].append([int(f_id), float(x), float(y), float(w), float(h[:-1])])
     gts.close()
     while True:
@@ -90,7 +95,9 @@ def test_det(
         det_dict[str(f_num)].append([int(f_id), float(x), float(y), float(w), float(h[:-1]),float(conf)])
     dets.close()
     # TODO 20230914 SYH
-    path_ = "/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/out"
+    # path_ = "/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/out"
+    path_="/home/edge/authentification_test/out"
+
     imgs = os.listdir(path_)
     imgs.sort()
     for i in range(100):
@@ -100,7 +107,10 @@ def test_det(
         # id x y w h => cx cy w h
         targets_f=np.array(gt_dict[str(i+1)])
         # id x1 y1 w h conf
-        dets=np.array(det_dict[str(i+1)])[:,1:6]
+        if len(det_dict[str(i+1)]) == 0:
+            continue
+        else:
+            dets=np.array(det_dict[str(i+1)])[:,1:6]
         dets[:,0] += dets[:,2]/2
         dets[:,1] += dets[:,3]/2
         # Compute average precision for each sample

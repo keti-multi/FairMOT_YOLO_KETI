@@ -29,8 +29,10 @@ import numpy as np
 
 def visualization(img_frame,gt_boxes, tar_boxes,out):
     # TODO 20230914 SYH
-    dirr= "/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/20220715_keti/images"
+    # dirr= "/home/edge/authentification_test/result/image_230629"
+    dirr= "/home/edge/authentification_test/result/image_220715"
     img_src = os.path.join(dirr,'%d.jpg'%img_frame)
+    # img_src = os.path.join(dirr,'%06d.jpg'%img_frame)
     img_origin = cv2.imread(img_src)
     img_eval= img_origin.copy()
     for dets in gt_boxes:
@@ -196,8 +198,18 @@ Run the function by pointing to the ground truth and your generated results as f
 # motMetricsEnhancedCalculator('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/20220715_keti/datas/cam-001/20220715130000_mp4/keti_220715_gt.txt', \
 #                               '/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/Edge_Device Result/result_mota.txt')
 # TODO 20230914 SYH
-motMetricsEnhancedCalculator('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/20220715_keti/datas/cam-001/20220715130000_mp4/keti_220715_gt.txt', \
-                              '/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/정량평가/result_mota.txt')
+# motMetricsEnhancedCalculator('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/20220715_keti/datas/cam-001/20220715130000_mp4/keti_220715_gt.txt', \
+#                               '/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/정량평가/result_mota.txt')
+
+# TODO 20230915 LHJ
+# motMetricsEnhancedCalculator('/home/edge/authentification_test/result/jointree_220707_gt.txt', \
+#                               '/home/edge/authentification_test/result/result_mota_AREA_220707.txt')
+motMetricsEnhancedCalculator('/home/edge/authentification_test/result/keti_220715_gt.txt', \
+                              '/home/edge/authentification_test/result/result_mota_220715_544320_AREA.txt')
+# motMetricsEnhancedCalculator('/home/edge/authentification_test/result/gjtp_230629_gt.txt', \
+#                               '/home/edge/authentification_test/result/result_mota_230629.txt')
+# motMetricsEnhancedCalculator('/home/edge/authentification_test/result/gjtp_230727_gt.txt', \
+#                               '/home/edge/authentification_test/result/result_mota_230727.txt')
 
 # motMetricsEnhancedCalculator('/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/20220707_jointree/datas/cam-001/20220707130000_mp4/jointree_220707_gt.txt', \
 #                               '/media/syh/ssd2/SynologyDrive/DB/인증시험용_데이터/Edge_Device Result/result_mota_AREA_220707.txt')
